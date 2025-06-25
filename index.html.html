@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Transportes para Braga</title>
+  <link rel="stylesheet" href="https://cdn.lineicons.com/4.0/lineicons.css" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: "Segoe UI", sans-serif;
+      background: url('https://raw.githubusercontent.com/Bragatur/transportes/main/trasnportes.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(3px);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin: 10px 0;
+      text-shadow: 1px 1px 5px #000;
+    }
+
+    .lang-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .lang-buttons button {
+      background: none;
+      border: 2px solid transparent;
+      padding: 0;
+      cursor: pointer;
+      border-radius: 5px;
+      overflow: hidden;
+      width: 48px;
+      height: 32px;
+      transition: transform 0.2s ease, border-color 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lang-buttons button:hover {
+      transform: scale(1.1);
+    }
+
+    .lang-buttons button.active {
+      border-color: #ffffff;
+    }
+
+    .lang-buttons img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    p {
+      font-size: 1.1em;
+      margin: 10px 0 40px;
+      text-shadow: 1px 1px 3px #000;
+    }
+
+    .card-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .card {
+      border-radius: 16px;
+      padding: 20px;
+      width: 240px;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      transition: transform 0.2s;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      background-color: rgba(0,0,0,0.5);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card img.logo {
+      width: 80px;
+      height: auto;
+      margin-bottom: 10px;
+    }
+
+    .card-text {
+      font-size: 1em;
+      font-weight: bold;
+    }
+
+    .footer {
+      font-size: 0.9em;
+      color: #ccc;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 2em; }
+      .card { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <main>
+      <div class="lang-buttons" role="group" aria-label="Selecione seu idioma">
+        <button onclick="setLanguage('pt')" aria-label="Português"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/pt.svg" alt="Português"></button>
+        <button onclick="setLanguage('en')" aria-label="English"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/gb.svg" alt="English"></button>
+        <button onclick="setLanguage('fr')" aria-label="Français"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/fr.svg" alt="Français"></button>
+        <button onclick="setLanguage('es')" aria-label="Español"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/es.svg" alt="Español"></button>
+        <button onclick="setLanguage('it')" aria-label="Italiano"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/it.svg" alt="Italiano"></button>
+        <button onclick="setLanguage('de')" aria-label="Deutsch"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/de.svg" alt="Deutsch"></button>
+        <button onclick="setLanguage('nl')" aria-label="Nederlands"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/nl.svg" alt="Nederlands"></button>
+        <button onclick="setLanguage('zh')" aria-label="中文"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/cn.svg" alt="中文"></button>
+        <button onclick="setLanguage('ja')" aria-label="日本語"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/jp.svg" alt="日本語"></button>
+        <button onclick="setLanguage('ru')" aria-label="Русский"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/ru.svg" alt="Русский"></button>
+      </div>
+      <h1 id="title">Transportes para Braga</h1>
+      <p id="description">Consulte os horários de comboios e autocarros:</p>
+
+      <div class="card-grid">
+        <a id="cp-button" class="card" href="https://www.cp.pt/passageiros/pt" target="_blank">
+          <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/CP_-_Comboios_de_Portugal_logo.svg/2560px-CP_-_Comboios_de_Portugal_logo.svg.png" alt="CP logo">
+          <div class="card-text">CP - Comboios</div>
+        </a>
+        <a id="cctb-button" class="card" href="https://cctb.cm-braga.pt/" target="_blank">
+          <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/8/86/Bus_icon.svg" alt="Centro Coordenador">
+          <div class="card-text">Centro Coordenador</div>
+        </a>
+        <a id="expressos-button" class="card" href="https://rede-expressos.pt" target="_blank">
+          <img class="logo" src="https://rede-expressos.pt/assets/logo.png" alt="Rede Expressos logo">
+          <div class="card-text">Rede Expressos</div>
+        </a>
+        <a id="flixbus-button" class="card" href="https://www.flixbus.pt/" target="_blank">
+          <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/flixbus.webp" alt="FlixBus logo">
+          <div class="card-text">FlixBus</div>
+        </a>
+        <a id="getbus-button" class="card" href="https://www.getbus.eu/pt/" target="_blank">
+          <img class="logo" src="https://www.getbus.eu/assets/images/logo.png" alt="GetBus logo">
+          <div class="card-text">GetBus (Aeroporto)</div>
+        </a>
+      </div>
+
+      <div class="footer">© Município de Braga</div>
+    </main>
+  </div>
+
+  <script>
+    // JavaScript de troca de idioma será restaurado ou ajustado depois conforme necessário
+  </script>
+</body>
+</html>
