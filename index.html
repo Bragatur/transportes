@@ -50,13 +50,11 @@
     h1 {
       font-size: 2.5em;
       margin: 10px 0;
-      /* removida sombra */
     }
 
     h2 {
       font-size: 1.6em;
       margin: 30px 0 10px;
-      /* removida sombra */
       text-align: center;
       font-weight: 700;
       display: flex;
@@ -102,7 +100,6 @@
 
     .lang-buttons button.active {
       border-color: white;
-      /* removido box-shadow */
       transform: scale(1.15);
       transition: transform 0.3s ease, border-color 0.3s ease;
     }
@@ -110,7 +107,11 @@
     p {
       font-size: 1.1em;
       margin: 10px 0 40px;
-      /* removida sombra */
+    }
+
+    /* Aumenta o espaçamento após a grid dos comboios */
+    #train-heading + .card-grid {
+      margin-bottom: 50px; /* Ajuste o valor se quiser mais ou menos espaçamento */
     }
 
     .card-grid {
@@ -129,7 +130,6 @@
       text-align: center;
       text-decoration: none;
       transition: transform 0.2s;
-      /* removida sombra */
       background-color: rgba(255 255 255 / 0.15);
       backdrop-filter: saturate(180%) blur(8px);
       border: 1px solid rgba(255 255 255 / 0.3);
@@ -149,13 +149,11 @@
     .card-text {
       font-size: 1em;
       font-weight: bold;
-      /* removida sombra */
     }
 
     .footer {
       font-size: 0.9em;
       color: #ccc;
-      /* removida sombra */
       margin-top: 30px;
       text-align: center;
     }
