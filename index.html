@@ -15,7 +15,7 @@
       background-size: cover;
       color: white;
       overflow-x: hidden;
-      background-color: rgba(0,0,0,0.2); /* Fundo menos escuro */
+      background-color: rgba(0,0,0,0.2);
       background-blend-mode: lighten;
     }
 
@@ -81,8 +81,8 @@
       cursor: pointer;
       border-radius: 5px;
       overflow: hidden;
-      width: 36px;
-      height: 24px;
+      width: 54px;
+      height: 36px;
       transition: transform 0.2s ease, border-color 0.2s;
       display: flex;
       align-items: center;
@@ -98,6 +98,13 @@
       height: 100%;
       object-fit: cover;
       display: block;
+    }
+
+    .lang-buttons button.active {
+      border-color: white;
+      box-shadow: 0 0 8px 2px white;
+      transform: scale(1.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     }
 
     p {
@@ -154,7 +161,10 @@
     }
 
     @media (max-width: 600px) {
-      /* Mantém 1 cartão por linha com largura fixa */
+      .lang-buttons button {
+        width: 44px;
+        height: 29px;
+      }
       .card-grid {
         display: flex;
         flex-wrap: wrap;
@@ -362,12 +372,20 @@
       document.getElementById('label-get').textContent = t.get;
       document.getElementById('train-heading').innerHTML = t.trainHeading;
       document.getElementById('bus-heading').innerHTML = t.busHeading;
+
+      // Remove classe active de todos os botões
+      document.querySelectorAll('.lang-buttons button').forEach(btn => btn.classList.remove('active'));
+
+      // Adiciona classe active no botão do idioma atual
+      const btn = [...document.querySelectorAll('.lang-buttons button')]
+        .find(b => b.getAttribute('onclick').includes(`'${lang}'`));
+      if (btn) btn.classList.add('active');
     }
 
     window.onload = () => {
       const browserLang = navigator.language.slice(0, 2);
-      setLanguage(translations[browserLang] ? browserLang : 'en');
-    }
+      setLanguage(translations[browserLang] ? browserLang : 'pt');
+    };
   </script>
 </body>
 </html>
