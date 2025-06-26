@@ -18,7 +18,7 @@
     }
 
     .overlay {
-      background-color: rgba(0, 0, 0, 0.6);
+      background-color: rgba(0, 0, 0, 0.3);
       backdrop-filter: blur(3px);
       min-height: 100vh;
       display: flex;
@@ -52,11 +52,14 @@
     }
 
     h2 {
-      font-size: 1.7em;
-      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 1.5em;
       margin: 30px 0 10px;
       text-shadow: 1px 1px 3px #000;
-      text-align: center;
+      font-weight: 700;
     }
 
     .lang-buttons {
@@ -116,7 +119,7 @@
       text-decoration: none;
       transition: transform 0.2s;
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      background-color: rgba(0,0,0,0.5);
+      background-color: rgba(0,0,0,0.3);
     }
 
     .card:hover {
@@ -124,7 +127,7 @@
     }
 
     .card img.logo {
-      width: 80px;
+      width: 60px;
       height: auto;
       margin-bottom: 10px;
     }
@@ -132,6 +135,7 @@
     .card-text {
       font-size: 1em;
       font-weight: bold;
+      text-shadow: 1px 1px 3px #000;
     }
 
     .footer {
@@ -164,6 +168,11 @@
         <button onclick="setLanguage('en')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/gb.svg" alt="English"></button>
         <button onclick="setLanguage('fr')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/fr.svg" alt="Français"></button>
         <button onclick="setLanguage('es')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/es.svg" alt="Español"></button>
+        <button onclick="setLanguage('de')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/de.svg" alt="Deutsch"></button>
+        <button onclick="setLanguage('nl')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/nl.svg" alt="Nederlands"></button>
+        <button onclick="setLanguage('it')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/it.svg" alt="Italiano"></button>
+        <button onclick="setLanguage('ru')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/ru.svg" alt="Русский"></button>
+        <button onclick="setLanguage('pl')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/pl.svg" alt="Polski"></button>
       </div>
 
       <h1 id="title">Transportes para Braga</h1>
@@ -246,6 +255,61 @@
         get: "GetBus (Aeropuerto)",
         trainHeading: "<i class=\"lni lni-train\"></i> Trenes",
         busHeading: "<i class=\"lni lni-bus\"></i> Autobuses"
+      },
+      de: {
+        title: "Verkehrsmittel nach Braga",
+        description: "Fahrpläne für Züge und Busse ansehen:",
+        cp: "CP - Züge",
+        cctb: "Buszentrale",
+        re: "Rede Expressos",
+        flix: "FlixBus",
+        get: "GetBus (Flughafen)",
+        trainHeading: "<i class=\"lni lni-train\"></i> Züge",
+        busHeading: "<i class=\"lni lni-bus\"></i> Busse"
+      },
+      nl: {
+        title: "Vervoer naar Braga",
+        description: "Bekijk trein- en busdiensten:",
+        cp: "CP - Treinen",
+        cctb: "Busstation",
+        re: "Rede Expressos",
+        flix: "FlixBus",
+        get: "GetBus (Luchthaven)",
+        trainHeading: "<i class=\"lni lni-train\"></i> Treinen",
+        busHeading: "<i class=\"lni lni-bus\"></i> Bussen"
+      },
+      it: {
+        title: "Trasporti per Braga",
+        description: "Consulta gli orari di treni e autobus:",
+        cp: "CP - Treni",
+        cctb: "Stazione Autobus",
+        re: "Rede Expressos",
+        flix: "FlixBus",
+        get: "GetBus (Aeroporto)",
+        trainHeading: "<i class=\"lni lni-train\"></i> Treni",
+        busHeading: "<i class=\"lni lni-bus\"></i> Autobus"
+      },
+      ru: {
+        title: "Транспорт до Браги",
+        description: "Расписание поездов и автобусов:",
+        cp: "CP - Поезда",
+        cctb: "Автовокзал",
+        re: "Rede Expressos",
+        flix: "FlixBus",
+        get: "GetBus (Аэропорт)",
+        trainHeading: "<i class=\"lni lni-train\"></i> Поезда",
+        busHeading: "<i class=\"lni lni-bus\"></i> Автобусы"
+      },
+      pl: {
+        title: "Transport do Bragi",
+        description: "Sprawdź rozkłady jazdy pociągów i autobusów:",
+        cp: "CP - Pociągi",
+        cctb: "Dworzec autobusowy",
+        re: "Rede Expressos",
+        flix: "FlixBus",
+        get: "GetBus (Lotnisko)",
+        trainHeading: "<i class=\"lni lni-train\"></i> Pociągi",
+        busHeading: "<i class=\"lni lni-bus\"></i> Autobusy"
       }
     };
 
