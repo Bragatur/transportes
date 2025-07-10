@@ -40,11 +40,9 @@
       max-width: 900px;
       margin: 0 auto;
       padding: 40px 20px;
-      box-sizing: border-box;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
     }
 
     h1 {
@@ -55,12 +53,15 @@
     h2 {
       font-size: 1.6em;
       margin: 30px 0 10px;
-      text-align: center;
       font-weight: 700;
       display: flex;
-      justify-content: center;
       align-items: center;
       gap: 8px;
+    }
+
+    p {
+      font-size: 1.1em;
+      margin: 10px 0 40px;
     }
 
     .lang-buttons {
@@ -68,26 +69,21 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 6px;
-      margin-bottom: 6px;
+      margin-bottom: 16px;
     }
 
     .lang-buttons button {
-      background: none;
-      border: 2px solid transparent;
-      padding: 0;
+      all: unset;
       cursor: pointer;
-      border-radius: 5px;
-      overflow: hidden;
-      width: 54px;
-      height: 36px;
-      transition: transform 0.2s ease, border-color 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: 36px;
+      height: 24px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
     }
 
     .lang-buttons button:hover {
       transform: scale(1.1);
+      filter: brightness(1.15);
+      box-shadow: 0 0 4px rgba(255, 255, 255, 0.4);
     }
 
     .lang-buttons img {
@@ -95,17 +91,6 @@
       height: 100%;
       object-fit: cover;
       display: block;
-    }
-
-    .lang-buttons button.active {
-      border-color: white;
-      transform: scale(1.15);
-      transition: transform 0.3s ease, border-color 0.3s ease;
-    }
-
-    p {
-      font-size: 1.1em;
-      margin: 10px 0 40px;
     }
 
     .card-grid {
@@ -118,36 +103,37 @@
     }
 
     .card {
-      border-radius: 16px;
-      padding: 12px 16px;
-      width: 280px;
-      color: white;
-      text-align: left;
-      text-decoration: none;
-      transition: transform 0.2s;
-      background-color: rgba(255 255 255 / 0.15);
-      backdrop-filter: saturate(180%) blur(8px);
-      border: 1px solid rgba(255 255 255 / 0.3);
-      font-weight: 600;
       display: flex;
       align-items: center;
       gap: 12px;
+      padding: 14px 16px;
+      width: 280px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 10px;
+      background: transparent;
+      backdrop-filter: blur(6px);
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+      transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
     }
 
     .card:hover {
-      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.05);
+      border-color: white;
+      transform: translateY(-3px);
     }
 
     .card img.logo {
-      width: 50px;
+      width: 42px;
       height: auto;
       flex-shrink: 0;
+      border-radius: 4px;
     }
 
     .card-text {
       font-size: 1em;
-      font-weight: bold;
-      flex-grow: 1;
+      font-weight: 500;
     }
 
     .footer {
@@ -162,8 +148,8 @@
         width: 100%;
       }
       .lang-buttons button {
-        width: 44px;
-        height: 29px;
+        width: 32px;
+        height: 21px;
       }
     }
   </style>
@@ -171,18 +157,18 @@
 <body>
   <div class="overlay">
     <main>
-      <div class="lang-buttons" role="group" aria-label="Selecione seu idioma">
-        <button onclick="setLanguage('pt')" aria-label="Português"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/pt.svg" alt="Português"></button>
-        <button onclick="setLanguage('en')" aria-label="English"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/gb.svg" alt="English"></button>
-        <button onclick="setLanguage('fr')" aria-label="Français"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/fr.svg" alt="Français"></button>
-        <button onclick="setLanguage('es')" aria-label="Español"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/es.svg" alt="Español"></button>
-        <button onclick="setLanguage('it')" aria-label="Italiano"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/it.svg" alt="Italiano"></button>
-        <button onclick="setLanguage('de')" aria-label="Deutsch"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/de.svg" alt="Deutsch"></button>
-        <button onclick="setLanguage('nl')" aria-label="Nederlands"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/nl.svg" alt="Nederlands"></button>
-        <button onclick="setLanguage('zh')" aria-label="中文"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/cn.svg" alt="中文"></button>
-        <button onclick="setLanguage('ja')" aria-label="日本語"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/jp.svg" alt="日本語"></button>
-        <button onclick="setLanguage('ru')" aria-label="Русский"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/ru.svg" alt="Русский"></button>
-        <button onclick="setLanguage('pl')" aria-label="Polski"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/pl.svg" alt="Polski"></button>
+      <div class="lang-buttons">
+        <button onclick="setLanguage('pt')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/pt.svg" alt="pt"></button>
+        <button onclick="setLanguage('en')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/gb.svg" alt="en"></button>
+        <button onclick="setLanguage('fr')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/fr.svg" alt="fr"></button>
+        <button onclick="setLanguage('es')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/es.svg" alt="es"></button>
+        <button onclick="setLanguage('it')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/it.svg" alt="it"></button>
+        <button onclick="setLanguage('de')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/de.svg" alt="de"></button>
+        <button onclick="setLanguage('nl')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/nl.svg" alt="nl"></button>
+        <button onclick="setLanguage('zh')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/cn.svg" alt="zh"></button>
+        <button onclick="setLanguage('ja')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/jp.svg" alt="ja"></button>
+        <button onclick="setLanguage('ru')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/ru.svg" alt="ru"></button>
+        <button onclick="setLanguage('pl')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/pl.svg" alt="pl"></button>
       </div>
 
       <h1 id="title">Transportes para Braga</h1>
@@ -222,17 +208,17 @@
 
   <script>
     const translations = {
-      pt: { title: "Transportes para Braga", description: "Consulte os horários de comboios e autocarros:", cp: "CP - Comboios", cctb: "Centro Coordenador", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Aeroporto)", trainHeading: "<i class=\"lni lni-train\"></i> Comboios", busHeading: "<i class=\"lni lni-bus\"></i> Autocarros" },
-      en: { title: "Transport to Braga", description: "Check train and bus schedules:", cp: "CP - Trains", cctb: "Bus Central Station", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Airport)", trainHeading: "<i class=\"lni lni-train\"></i> Trains", busHeading: "<i class=\"lni lni-bus\"></i> Buses" },
-      fr: { title: "Transports vers Braga", description: "Consultez les horaires des trains et des bus :", cp: "CP - Trains", cctb: "Gare Routière", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Aéroport)", trainHeading: "<i class=\"lni lni-train\"></i> Trains", busHeading: "<i class=\"lni lni-bus\"></i> Autocars" },
-      es: { title: "Transportes a Braga", description: "Consulte horarios de trenes y autobuses:", cp: "CP - Trenes", cctb: "Estación Central", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Aeropuerto)", trainHeading: "<i class=\"lni lni-train\"></i> Trenes", busHeading: "<i class=\"lni lni-bus\"></i> Autobuses" },
-      it: { title: "Trasporti per Braga", description: "Consulta gli orari di treni e autobus:", cp: "CP - Treni", cctb: "Stazione Centrale", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Aeroporto)", trainHeading: "<i class=\"lni lni-train\"></i> Treni", busHeading: "<i class=\"lni lni-bus\"></i> Autobus" },
-      de: { title: "Verkehrsmittel nach Braga", description: "Fahrpläne für Zug und Bus ansehen:", cp: "CP - Züge", cctb: "Zentraler Busbahnhof", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Flughafen)", trainHeading: "<i class=\"lni lni-train\"></i> Züge", busHeading: "<i class=\"lni lni-bus\"></i> Busse" },
-      nl: { title: "Vervoer naar Braga", description: "Bekijk trein- en busdienstregelingen:", cp: "CP - Treinen", cctb: "Busstation Centraal", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Luchthaven)", trainHeading: "<i class=\"lni lni-train\"></i> Treinen", busHeading: "<i class=\"lni lni-bus\"></i> Bussen" },
-      zh: { title: "布拉加交通", description: "查询火车和公交时间表：", cp: "CP - 火车", cctb: "公交总站", re: "Rede Expressos", flix: "FlixBus", get: "GetBus（机场）", trainHeading: "<i class=\"lni lni-train\"></i> 火车", busHeading: "<i class=\"lni lni-bus\"></i> 公交车" },
-      ja: { title: "ブラガの交通", description: "列車とバスの時刻表をチェック：", cp: "CP - 列車", cctb: "バス中央駅", re: "Rede Expressos", flix: "FlixBus", get: "GetBus（空港）", trainHeading: "<i class=\"lni lni-train\"></i> 列車", busHeading: "<i class=\"lni lni-bus\"></i> バス" },
-      ru: { title: "Транспорт в Брагу", description: "Проверьте расписание поездов и автобусов:", cp: "CP - Поезда", cctb: "Центральная автобусная станция", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Аэропорт)", trainHeading: "<i class=\"lni lni-train\"></i> Поезда", busHeading: "<i class=\"lni lni-bus\"></i> Автобусы" },
-      pl: { title: "Transport do Bragi", description: "Sprawdź rozkład jazdy pociągów i autobusów:", cp: "CP - Pociągi", cctb: "Dworzec Autobusowy", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Lotnisko)", trainHeading: "<i class=\"lni lni-train\"></i> Pociągi", busHeading: "<i class=\"lni lni-bus\"></i> Autobusy" }
+      pt: { title: "Transportes para Braga", description: "Consulte os horários de comboios e autocarros:", cp: "CP - Comboios", cctb: "Centro Coordenador", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Aeroporto)", trainHeading: "<i class='lni lni-train'></i> Comboios", busHeading: "<i class='lni lni-bus'></i> Autocarros" },
+      en: { title: "Transport to Braga", description: "Check train and bus schedules:", cp: "CP - Trains", cctb: "Bus Central Station", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Airport)", trainHeading: "<i class='lni lni-train'></i> Trains", busHeading: "<i class='lni lni-bus'></i> Buses" },
+      fr: { title: "Transports vers Braga", description: "Consultez les horaires des trains et des bus :", cp: "CP - Trains", cctb: "Gare Routière", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Aéroport)", trainHeading: "<i class='lni lni-train'></i> Trains", busHeading: "<i class='lni lni-bus'></i> Autocars" },
+      es: { title: "Transportes a Braga", description: "Consulte horarios de trenes y autobuses:", cp: "CP - Trenes", cctb: "Estación Central", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Aeropuerto)", trainHeading: "<i class='lni lni-train'></i> Trenes", busHeading: "<i class='lni lni-bus'></i> Autobuses" },
+      it: { title: "Trasporti per Braga", description: "Consulta gli orari di treni e autobus:", cp: "CP - Treni", cctb: "Stazione Centrale", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Aeroporto)", trainHeading: "<i class='lni lni-train'></i> Treni", busHeading: "<i class='lni lni-bus'></i> Autobus" },
+      de: { title: "Verkehrsmittel nach Braga", description: "Fahrpläne für Zug und Bus ansehen:", cp: "CP - Züge", cctb: "Zentraler Busbahnhof", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Flughafen)", trainHeading: "<i class='lni lni-train'></i> Züge", busHeading: "<i class='lni lni-bus'></i> Busse" },
+      nl: { title: "Vervoer naar Braga", description: "Bekijk trein- en busdienstregelingen:", cp: "CP - Treinen", cctb: "Busstation Centraal", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Luchthaven)", trainHeading: "<i class='lni lni-train'></i> Treinen", busHeading: "<i class='lni lni-bus'></i> Bussen" },
+      zh: { title: "布拉加交通", description: "查询火车和公交时间表：", cp: "CP - 火车", cctb: "公交总站", re: "Rede Expressos", flix: "FlixBus", get: "GetBus（机场）", trainHeading: "<i class='lni lni-train'></i> 火车", busHeading: "<i class='lni lni-bus'></i> 公交车" },
+      ja: { title: "ブラガの交通", description: "列車とバスの時刻表をチェック：", cp: "CP - 列车", cctb: "バス中央駅", re: "Rede Expressos", flix: "FlixBus", get: "GetBus（空港）", trainHeading: "<i class='lni lni-train'></i> 列车", busHeading: "<i class='lni lni-bus'></i> バス" },
+      ru: { title: "Транспорт в Брагу", description: "Проверьте расписание поездов и автобусов:", cp: "CP - Поезда", cctb: "Центральная автобусная станция", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Аэропорт)", trainHeading: "<i class='lni lni-train'></i> Поезда", busHeading: "<i class='lni lni-bus'></i> Автобусы" },
+      pl: { title: "Transport do Bragi", description: "Sprawdź rozkład jazdy pociągów i autobusów:", cp: "CP - Pociągi", cctb: "Dworzec Autobusowy", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Lotnisko)", trainHeading: "<i class='lni lni-train'></i> Pociągi", busHeading: "<i class='lni lni-bus'></i> Autobusy" }
     };
 
     function setLanguage(lang) {
@@ -246,11 +232,6 @@
       document.getElementById('label-get').textContent = t.get;
       document.getElementById('train-heading').innerHTML = t.trainHeading;
       document.getElementById('bus-heading').innerHTML = t.busHeading;
-
-      document.querySelectorAll('.lang-buttons button').forEach(btn => btn.classList.remove('active'));
-      const btn = [...document.querySelectorAll('.lang-buttons button')]
-        .find(b => b.getAttribute('onclick').includes(`'${lang}'`));
-      if (btn) btn.classList.add('active');
     }
 
     window.onload = () => {
