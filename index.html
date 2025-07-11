@@ -47,12 +47,12 @@
 
     h1 {
       font-size: 2.5em;
-      margin: 10px 0;
+      margin: 10px 0 20px;
     }
 
     h2 {
       font-size: 1.6em;
-      margin: 30px 0 10px;
+      margin: 50px 0 20px;
       font-weight: 700;
       display: flex;
       align-items: center;
@@ -108,19 +108,19 @@
       gap: 12px;
       padding: 14px 16px;
       width: 280px;
-      border: 1px solid rgba(255, 255, 255, 0.25);
+      border: none;
       border-radius: 10px;
-      background: transparent;
-      backdrop-filter: blur(6px);
+      background-color: #0056b3;
+      background-image: linear-gradient(to right, #007bff, #0056b3);
       text-decoration: none;
       color: white;
       font-weight: 500;
-      transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+      transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
     }
 
     .card:hover {
-      background: rgba(255, 255, 255, 0.05);
-      border-color: white;
+      background-color: #007bff;
+      box-shadow: 0 0 12px rgba(0, 123, 255, 0.5);
       transform: translateY(-3px);
     }
 
@@ -205,39 +205,5 @@
       <div class="footer">© Município de Braga</div>
     </main>
   </div>
-
-  <script>
-    const translations = {
-      pt: { title: "Transportes para Braga", description: "Consulte os horários de comboios e autocarros:", cp: "CP - Comboios", cctb: "Centro Coordenador", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Aeroporto)", trainHeading: "<i class='lni lni-train'></i> Comboios", busHeading: "<i class='lni lni-bus'></i> Autocarros" },
-      en: { title: "Transport to Braga", description: "Check train and bus schedules:", cp: "CP - Trains", cctb: "Bus Central Station", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Airport)", trainHeading: "<i class='lni lni-train'></i> Trains", busHeading: "<i class='lni lni-bus'></i> Buses" },
-      fr: { title: "Transports vers Braga", description: "Consultez les horaires des trains et des bus :", cp: "CP - Trains", cctb: "Gare Routière", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Aéroport)", trainHeading: "<i class='lni lni-train'></i> Trains", busHeading: "<i class='lni lni-bus'></i> Autocars" },
-      es: { title: "Transportes a Braga", description: "Consulte horarios de trenes y autobuses:", cp: "CP - Trenes", cctb: "Estación Central", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Aeropuerto)", trainHeading: "<i class='lni lni-train'></i> Trenes", busHeading: "<i class='lni lni-bus'></i> Autobuses" },
-      it: { title: "Trasporti per Braga", description: "Consulta gli orari di treni e autobus:", cp: "CP - Treni", cctb: "Stazione Centrale", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Aeroporto)", trainHeading: "<i class='lni lni-train'></i> Treni", busHeading: "<i class='lni lni-bus'></i> Autobus" },
-      de: { title: "Verkehrsmittel nach Braga", description: "Fahrpläne für Zug und Bus ansehen:", cp: "CP - Züge", cctb: "Zentraler Busbahnhof", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Flughafen)", trainHeading: "<i class='lni lni-train'></i> Züge", busHeading: "<i class='lni lni-bus'></i> Busse" },
-      nl: { title: "Vervoer naar Braga", description: "Bekijk trein- en busdienstregelingen:", cp: "CP - Treinen", cctb: "Busstation Centraal", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Luchthaven)", trainHeading: "<i class='lni lni-train'></i> Treinen", busHeading: "<i class='lni lni-bus'></i> Bussen" },
-      zh: { title: "布拉加交通", description: "查询火车和公交时间表：", cp: "CP - 火车", cctb: "公交总站", re: "Rede Expressos", flix: "FlixBus", get: "GetBus（机场）", trainHeading: "<i class='lni lni-train'></i> 火车", busHeading: "<i class='lni lni-bus'></i> 公交车" },
-      ja: { title: "ブラガの交通", description: "列車とバスの時刻表をチェック：", cp: "CP - 列车", cctb: "バス中央駅", re: "Rede Expressos", flix: "FlixBus", get: "GetBus（空港）", trainHeading: "<i class='lni lni-train'></i> 列车", busHeading: "<i class='lni lni-bus'></i> バス" },
-      ru: { title: "Транспорт в Брагу", description: "Проверьте расписание поездов и автобусов:", cp: "CP - Поезда", cctb: "Центральная автобусная станция", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Аэропорт)", trainHeading: "<i class='lni lni-train'></i> Поезда", busHeading: "<i class='lni lni-bus'></i> Автобусы" },
-      pl: { title: "Transport do Bragi", description: "Sprawdź rozkład jazdy pociągów i autobusów:", cp: "CP - Pociągi", cctb: "Dworzec Autobusowy", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Lotnisko)", trainHeading: "<i class='lni lni-train'></i> Pociągi", busHeading: "<i class='lni lni-bus'></i> Autobusy" }
-    };
-
-    function setLanguage(lang) {
-      const t = translations[lang] || translations['pt'];
-      document.getElementById('title').textContent = t.title;
-      document.getElementById('description').textContent = t.description;
-      document.getElementById('label-cp').textContent = t.cp;
-      document.getElementById('label-cctb').textContent = t.cctb;
-      document.getElementById('label-re').textContent = t.re;
-      document.getElementById('label-flix').textContent = t.flix;
-      document.getElementById('label-get').textContent = t.get;
-      document.getElementById('train-heading').innerHTML = t.trainHeading;
-      document.getElementById('bus-heading').innerHTML = t.busHeading;
-    }
-
-    window.onload = () => {
-      const browserLang = navigator.language.slice(0, 2);
-      setLanguage(translations[browserLang] ? browserLang : 'pt');
-    };
-  </script>
 </body>
 </html>
