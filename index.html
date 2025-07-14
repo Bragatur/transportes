@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Transportes para Braga</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
     html, body {
       margin: 0;
@@ -60,7 +60,6 @@
     }
 
     h2 i {
-      color: white;
       font-size: 0.9em;
     }
 
@@ -149,13 +148,8 @@
     }
 
     @media (max-width: 600px) {
-      .card {
-        width: 100%;
-      }
-      .lang-buttons button {
-        width: 32px;
-        height: 21px;
-      }
+      .card { width: 100%; }
+      .lang-buttons button { width: 32px; height: 21px; }
     }
   </style>
 </head>
@@ -163,25 +157,26 @@
   <div class="overlay">
     <main>
       <div class="lang-buttons">
-        <button onclick="setLanguage('pt')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/pt.svg" alt="pt"></button>
-        <button onclick="setLanguage('en')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/gb.svg" alt="en"></button>
-        <button onclick="setLanguage('fr')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/fr.svg" alt="fr"></button>
-        <button onclick="setLanguage('es')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/es.svg" alt="es"></button>
-        <button onclick="setLanguage('it')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/it.svg" alt="it"></button>
-        <button onclick="setLanguage('de')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/de.svg" alt="de"></button>
-        <button onclick="setLanguage('nl')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/nl.svg" alt="nl"></button>
-        <button onclick="setLanguage('zh')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/cn.svg" alt="zh"></button>
-        <button onclick="setLanguage('ja')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/jp.svg" alt="ja"></button>
-        <button onclick="setLanguage('ru')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/ru.svg" alt="ru"></button>
-        <button onclick="setLanguage('pl')"><img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/flags/4x3/pl.svg" alt="pl"></button>
+        <button onclick="setLanguage('pt')"><img src="https://flagcdn.com/w40/pt.png" alt="pt"></button>
+        <button onclick="setLanguage('en')"><img src="https://flagcdn.com/w40/gb.png" alt="en"></button>
+        <button onclick="setLanguage('fr')"><img src="https://flagcdn.com/w40/fr.png" alt="fr"></button>
+        <button onclick="setLanguage('es')"><img src="https://flagcdn.com/w40/es.png" alt="es"></button>
+        <button onclick="setLanguage('it')"><img src="https://flagcdn.com/w40/it.png" alt="it"></button>
+        <button onclick="setLanguage('de')"><img src="https://flagcdn.com/w40/de.png" alt="de"></button>
+        <button onclick="setLanguage('nl')"><img src="https://flagcdn.com/w40/nl.png" alt="nl"></button>
+        <button onclick="setLanguage('zh')"><img src="https://flagcdn.com/w40/cn.png" alt="zh"></button>
+        <button onclick="setLanguage('ja')"><img src="https://flagcdn.com/w40/jp.png" alt="ja"></button>
+        <button onclick="setLanguage('ru')"><img src="https://flagcdn.com/w40/ru.png" alt="ru"></button>
+        <button onclick="setLanguage('pl')"><img src="https://flagcdn.com/w40/pl.png" alt="pl"></button>
       </div>
+
       <h1 id="title">Transportes para Braga</h1>
       <p id="description">Consulte os horários de comboios e autocarros:</p>
 
       <h2 id="train-heading"><i class="fas fa-train"></i> <span>Comboios</span></h2>
       <div class="card-grid">
         <a class="card" href="https://www.cp.pt/passageiros/pt" target="_blank">
-          <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/cp.webp" alt="CP logo">
+          <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/cp.webp" alt="CP">
           <div class="card-text" id="label-cp">CP - Comboios</div>
         </a>
       </div>
@@ -189,20 +184,28 @@
       <h2 id="bus-heading"><i class="fas fa-bus"></i> <span>Autocarros</span></h2>
       <div class="card-grid">
         <a class="card" href="https://cctb.cm-braga.pt/" target="_blank">
-          <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/cctb.webp" alt="Centro Coordenador">
+          <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/cctb.webp" alt="CCTB">
           <div class="card-text" id="label-cctb">Centro Coordenador</div>
         </a>
         <a class="card" href="https://rede-expressos.pt" target="_blank">
-          <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/redeexpressos.webp" alt="Rede Expressos logo">
+          <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/redeexpressos.webp" alt="Rede Expressos">
           <div class="card-text" id="label-re">Rede Expressos</div>
         </a>
         <a class="card" href="https://www.flixbus.pt/" target="_blank">
-          <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/flixbus.webp" alt="FlixBus logo">
+          <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/flixbus.webp" alt="FlixBus">
           <div class="card-text" id="label-flix">FlixBus</div>
         </a>
         <a class="card" href="https://www.getbus.eu/pt/" target="_blank">
-          <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/getbus.webp" alt="GetBus logo">
+          <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/getbus.webp" alt="GetBus">
           <div class="card-text" id="label-get">GetBus (Aeroporto)</div>
+        </a>
+        <a class="card" href="https://aitc.cimcavado.pt/horarios" target="_blank">
+          <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/cavado.jpg" alt="Cávado">
+          <div class="card-text" id="label-cavado">Cávado Mobilidade</div>
+        </a>
+        <a class="card" href="https://avemobilidade.pt/home" target="_blank">
+          <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/ave.jpg" alt="AVE">
+          <div class="card-text" id="label-ave">AVE Mobilidade</div>
         </a>
       </div>
 
@@ -212,17 +215,149 @@
 
   <script>
     const translations = {
-      pt: { title: "Transportes para Braga", description: "Consulte os horários de comboios e autocarros:", cp: "CP - Comboios", cctb: "Centro Coordenador", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Aeroporto)", trainHeading: "<i class='fas fa-train'></i> Comboios", busHeading: "<i class='fas fa-bus'></i> Autocarros" },
-      en: { title: "Transport to Braga", description: "Check train and bus schedules:", cp: "CP - Trains", cctb: "Bus Central Station", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Airport)", trainHeading: "<i class='fas fa-train'></i> Trains", busHeading: "<i class='fas fa-bus'></i> Buses" },
-      fr: { title: "Transports vers Braga", description: "Consultez les horaires des trains et des bus :", cp: "CP - Trains", cctb: "Gare Routière", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Aéroport)", trainHeading: "<i class='fas fa-train'></i> Trains", busHeading: "<i class='fas fa-bus'></i> Autocars" },
-      es: { title: "Transportes a Braga", description: "Consulte horarios de trenes y autobuses:", cp: "CP - Trenes", cctb: "Estación Central", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Aeropuerto)", trainHeading: "<i class='fas fa-train'></i> Trenes", busHeading: "<i class='fas fa-bus'></i> Autobuses" },
-      it: { title: "Trasporti per Braga", description: "Consulta gli orari di treni e autobus:", cp: "CP - Treni", cctb: "Stazione Centrale", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Aeroporto)", trainHeading: "<i class='fas fa-train'></i> Treni", busHeading: "<i class='fas fa-bus'></i> Autobus" },
-      de: { title: "Verkehrsmittel nach Braga", description: "Fahrpläne für Zug und Bus ansehen:", cp: "CP - Züge", cctb: "Zentraler Busbahnhof", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Flughafen)", trainHeading: "<i class='fas fa-train'></i> Züge", busHeading: "<i class='fas fa-bus'></i> Busse" },
-      nl: { title: "Vervoer naar Braga", description: "Bekijk trein- en busdienstregelingen:", cp: "CP - Treinen", cctb: "Busstation Centraal", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Luchthaven)", trainHeading: "<i class='fas fa-train'></i> Treinen", busHeading: "<i class='fas fa-bus'></i> Bussen" },
-      zh: { title: "布拉加交通", description: "查询火车和公交时间表：", cp: "CP - 火车", cctb: "公交总站", re: "Rede Expressos", flix: "FlixBus", get: "GetBus（机场）", trainHeading: "<i class='fas fa-train'></i> 火车", busHeading: "<i class='fas fa-bus'></i> 公交车" },
-      ja: { title: "ブラガの交通", description: "列車とバスの時刻表をチェック：", cp: "CP - 列車", cctb: "バス中央駅", re: "Rede Expressos", flix: "FlixBus", get: "GetBus（空港）", trainHeading: "<i class='fas fa-train'></i> 列車", busHeading: "<i class='fas fa-bus'></i> バス" },
-      ru: { title: "Транспорт в Брагу", description: "Проверьте расписание поездов и автобусов:", cp: "CP - Поезда", cctb: "Центральная автобусная станция", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Аэропорт)", trainHeading: "<i class='fas fa-train'></i> Поезда", busHeading: "<i class='fas fa-bus'></i> Автобусы" },
-      pl: { title: "Transport do Bragi", description: "Sprawdź rozkład jazdy pociągów i autobusów:", cp: "CP - Pociągi", cctb: "Dworzec Autobusowy", re: "Rede Expressos", flix: "FlixBus", get: "GetBus (Lotnisko)", trainHeading: "<i class='fas fa-train'></i> Pociągi", busHeading: "<i class='fas fa-bus'></i> Autobusy" }
+      pt: { 
+        title: "Transportes para Braga", 
+        description: "Consulte os horários de comboios e autocarros:", 
+        cp: "CP - Comboios", 
+        cctb: "Centro Coordenador", 
+        re: "Rede Expressos", 
+        flix: "FlixBus", 
+        get: "GetBus (Aeroporto)", 
+        cavado: "Cávado Mobilidade", 
+        ave: "AVE Mobilidade", 
+        trainHeading: "<i class='fas fa-train'></i> Comboios", 
+        busHeading: "<i class='fas fa-bus'></i> Autocarros" 
+      },
+      en: { 
+        title: "Transport to Braga", 
+        description: "Check train and bus schedules:", 
+        cp: "CP - Trains", 
+        cctb: "Bus Terminal", 
+        re: "Rede Expressos", 
+        flix: "FlixBus", 
+        get: "GetBus (Airport)", 
+        cavado: "Cávado Mobilidade", 
+        ave: "AVE Mobilidade", 
+        trainHeading: "<i class='fas fa-train'></i> Trains", 
+        busHeading: "<i class='fas fa-bus'></i> Buses" 
+      },
+      fr: { 
+        title: "Transports vers Braga", 
+        description: "Consultez les horaires de trains et d’autocars :", 
+        cp: "CP - Trains", 
+        cctb: "Gare Routière", 
+        re: "Rede Expressos", 
+        flix: "FlixBus", 
+        get: "GetBus (Aéroport)", 
+        cavado: "Cávado Mobilidade", 
+        ave: "AVE Mobilidade", 
+        trainHeading: "<i class='fas fa-train'></i> Trains", 
+        busHeading: "<i class='fas fa-bus'></i> Autocars" 
+      },
+      es: {
+        title: "Transportes a Braga",
+        description: "Consulte horarios de trenes y autobuses:",
+        cp: "CP - Trenes",
+        cctb: "Estación Central",
+        re: "Rede Expressos",
+        flix: "FlixBus",
+        get: "GetBus (Aeropuerto)",
+        cavado: "Cávado Mobilidade",
+        ave: "AVE Mobilidade",
+        trainHeading: "<i class='fas fa-train'></i> Trenes",
+        busHeading: "<i class='fas fa-bus'></i> Autobuses"
+      },
+      it: {
+        title: "Trasporti per Braga",
+        description: "Consulta gli orari di treni e autobus:",
+        cp: "CP - Treni",
+        cctb: "Stazione Centrale",
+        re: "Rede Expressos",
+        flix: "FlixBus",
+        get: "GetBus (Aeroporto)",
+        cavado: "Cávado Mobilidade",
+        ave: "AVE Mobilidade",
+        trainHeading: "<i class='fas fa-train'></i> Treni",
+        busHeading: "<i class='fas fa-bus'></i> Autobus"
+      },
+      de: {
+        title: "Verkehrsmittel nach Braga",
+        description: "Fahrpläne für Zug und Bus ansehen:",
+        cp: "CP - Züge",
+        cctb: "Zentraler Busbahnhof",
+        re: "Rede Expressos",
+        flix: "FlixBus",
+        get: "GetBus (Flughafen)",
+        cavado: "Cávado Mobilidade",
+        ave: "AVE Mobilidade",
+        trainHeading: "<i class='fas fa-train'></i> Züge",
+        busHeading: "<i class='fas fa-bus'></i> Busse"
+      },
+      nl: {
+        title: "Vervoer naar Braga",
+        description: "Bekijk trein- en busdienstregelingen:",
+        cp: "CP - Treinen",
+        cctb: "Busstation Centraal",
+        re: "Rede Expressos",
+        flix: "FlixBus",
+        get: "GetBus (Luchthaven)",
+        cavado: "Cávado Mobilidade",
+        ave: "AVE Mobilidade",
+        trainHeading: "<i class='fas fa-train'></i> Treinen",
+        busHeading: "<i class='fas fa-bus'></i> Bussen"
+      },
+      zh: {
+        title: "布拉加交通",
+        description: "查询火车和公交时间表：",
+        cp: "CP - 火车",
+        cctb: "公交总站",
+        re: "Rede Expressos",
+        flix: "FlixBus",
+        get: "GetBus（机场）",
+        cavado: "Cávado Mobilidade",
+        ave: "AVE Mobilidade",
+        trainHeading: "<i class='fas fa-train'></i> 火车",
+        busHeading: "<i class='fas fa-bus'></i> 公交车"
+      },
+      ja: {
+        title: "ブラガの交通",
+        description: "列車とバスの時刻表をチェック：",
+        cp: "CP - 列车",
+        cctb: "バス中央駅",
+        re: "Rede Expressos",
+        flix: "FlixBus",
+        get: "GetBus（空港）",
+        cavado: "Cávado Mobilidade",
+        ave: "AVE Mobilidade",
+        trainHeading: "<i class='fas fa-train'></i> 列車",
+        busHeading: "<i class='fas fa-bus'></i> バス"
+      },
+      ru: {
+        title: "Транспорт в Брагу",
+        description: "Проверьте расписание поездов и автобусов:",
+        cp: "CP - Поезда",
+        cctb: "Центральная автобусная станция",
+        re: "Rede Expressos",
+        flix: "FlixBus",
+        get: "GetBus (Аэропорт)",
+        cavado: "Cávado Mobilidade",
+        ave: "AVE Mobilidade",
+        trainHeading: "<i class='fas fa-train'></i> Поезда",
+        busHeading: "<i class='fas fa-bus'></i> Автобусы"
+      },
+      pl: {
+        title: "Transport do Bragi",
+        description: "Sprawdź rozkład jazdy pociągów i autobusów:",
+        cp: "CP - Pociągi",
+        cctb: "Dworzec Autobusowy",
+        re: "Rede Expressos",
+        flix: "FlixBus",
+        get: "GetBus (Lotnisko)",
+        cavado: "Cávado Mobilidade",
+        ave: "AVE Mobilidade",
+        trainHeading: "<i class='fas fa-train'></i> Pociągi",
+        busHeading: "<i class='fas fa-bus'></i> Autobusy"
+      }
     };
 
     function setLanguage(lang) {
@@ -234,13 +369,15 @@
       document.getElementById('label-re').textContent = t.re;
       document.getElementById('label-flix').textContent = t.flix;
       document.getElementById('label-get').textContent = t.get;
+      document.getElementById('label-cavado').textContent = t.cavado;
+      document.getElementById('label-ave').textContent = t.ave;
       document.getElementById('train-heading').innerHTML = t.trainHeading;
       document.getElementById('bus-heading').innerHTML = t.busHeading;
     }
 
     window.onload = () => {
-      const browserLang = navigator.language.slice(0, 2);
-      setLanguage(translations[browserLang] ? browserLang : 'pt');
+      const userLang = navigator.language.slice(0, 2);
+      setLanguage(translations[userLang] ? userLang : 'pt');
     };
   </script>
 </body>
