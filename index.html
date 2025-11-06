@@ -342,7 +342,7 @@
       document.getElementById("lang-label").textContent = t.label;
       document.getElementById("current-lang").textContent = flags[effectiveLang];
       document.documentElement.lang = effectiveLang;
-      updateLangOptions(lang);
+      updateLangOptions(effectiveLang);
     }
 
     document.getElementById("current-lang").addEventListener("click", () => {
