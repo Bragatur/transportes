@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Transportes para Braga</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
   <style>
     html, body {
       margin: 0;
@@ -68,35 +68,6 @@
       margin: 10px 0 40px;
     }
 
-    .lang-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 6px;
-      margin-bottom: 16px;
-    }
-
-    .lang-buttons button {
-      all: unset;
-      cursor: pointer;
-      width: 36px;
-      height: 24px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
-    }
-
-    .lang-buttons button:hover {
-      transform: scale(1.1);
-      filter: brightness(1.15);
-      box-shadow: 0 0 4px rgba(255, 255, 255, 0.4);
-    }
-
-    .lang-buttons img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
     .card-grid {
       display: flex;
       flex-wrap: wrap;
@@ -147,33 +118,81 @@
       text-align: center;
     }
 
+    /* Botão flutuante de idiomas */
+    .lang-dropdown {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: floatIn 1s ease 0.3s forwards;
+    }
+
+    @keyframes floatIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .lang-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background-color: #2575fc;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.9rem;
+      cursor: pointer;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .lang-icon:hover {
+      transform: scale(1.1);
+      background-color: #1a5bbf;
+    }
+
+    .lang-options {
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .lang-options.show {
+      display: flex;
+    }
+
+    .lang-label {
+      background-color: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      font-size: 0.8rem;
+      padding: 6px 12px;
+      border-radius: 12px;
+      margin-top: 8px;
+      user-select: none;
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+
     @media (max-width: 600px) {
       .card { width: 100%; }
-      .lang-buttons button { width: 32px; height: 21px; }
     }
   </style>
 </head>
 <body>
   <div class="overlay">
     <main>
-      <div class="lang-buttons">
-        <button onclick="setLanguage('pt')"><img src="https://flagcdn.com/w40/pt.png" alt="pt"></button>
-        <button onclick="setLanguage('en')"><img src="https://flagcdn.com/w40/gb.png" alt="en"></button>
-        <button onclick="setLanguage('fr')"><img src="https://flagcdn.com/w40/fr.png" alt="fr"></button>
-        <button onclick="setLanguage('es')"><img src="https://flagcdn.com/w40/es.png" alt="es"></button>
-        <button onclick="setLanguage('it')"><img src="https://flagcdn.com/w40/it.png" alt="it"></button>
-        <button onclick="setLanguage('de')"><img src="https://flagcdn.com/w40/de.png" alt="de"></button>
-        <button onclick="setLanguage('nl')"><img src="https://flagcdn.com/w40/nl.png" alt="nl"></button>
-        <button onclick="setLanguage('zh')"><img src="https://flagcdn.com/w40/cn.png" alt="zh"></button>
-        <button onclick="setLanguage('ja')"><img src="https://flagcdn.com/w40/jp.png" alt="ja"></button>
-        <button onclick="setLanguage('ru')"><img src="https://flagcdn.com/w40/ru.png" alt="ru"></button>
-        <button onclick="setLanguage('pl')"><img src="https://flagcdn.com/w40/pl.png" alt="pl"></button>
-      </div>
-
       <h1 id="title">Transportes para Braga</h1>
       <p id="description">Consulte os horários de comboios e autocarros:</p>
 
-      <h2 id="train-heading"><i class="fas fa-train"></i> <span>Comboios</span></h2>
+      <h2 id="train-heading"><i class="fas fa-train"></i> Comboios</h2>
       <div class="card-grid">
         <a class="card" href="https://www.cp.pt/passageiros/pt" target="_blank">
           <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/cp.webp" alt="CP">
@@ -181,7 +200,7 @@
         </a>
       </div>
 
-      <h2 id="bus-heading"><i class="fas fa-bus"></i> <span>Autocarros</span></h2>
+      <h2 id="bus-heading"><i class="fas fa-bus"></i> Autocarros</h2>
       <div class="card-grid">
         <a class="card" href="https://cctb.cm-braga.pt/" target="_blank">
           <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/cctb.webp" alt="CCTB">
@@ -209,8 +228,15 @@
         </a>
       </div>
 
-      <div class="footer">© Município de Braga. Dados públicos das entidades de transporte</div>
+      <div class="footer" id="footer">© Município de Braga. Dados públicos das entidades de transporte</div>
     </main>
+  </div>
+
+  <!-- Botão de idiomas -->
+  <div class="lang-dropdown">
+    <div id="current-lang" class="lang-icon">PT</div>
+    <div class="lang-options" id="lang-options"></div>
+    <span class="lang-label" id="lang-label">Alterar idioma</span>
   </div>
 
   <script>
@@ -226,7 +252,9 @@
         cavado: "Cávado Mobilidade", 
         ave: "AVE Mobilidade", 
         trainHeading: "<i class='fas fa-train'></i> Comboios", 
-        busHeading: "<i class='fas fa-bus'></i> Autocarros" 
+        busHeading: "<i class='fas fa-bus'></i> Autocarros", 
+        label: "Alterar idioma",
+        footer: "© Município de Braga. Dados públicos das entidades de transporte"
       },
       en: { 
         title: "Transport to Braga", 
@@ -239,20 +267,9 @@
         cavado: "Cávado Mobilidade", 
         ave: "AVE Mobilidade", 
         trainHeading: "<i class='fas fa-train'></i> Trains", 
-        busHeading: "<i class='fas fa-bus'></i> Buses" 
-      },
-      fr: { 
-        title: "Transports vers Braga", 
-        description: "Consultez les horaires de trains et d’autocars :", 
-        cp: "CP - Trains", 
-        cctb: "Gare Routière", 
-        re: "Rede Expressos", 
-        flix: "FlixBus", 
-        get: "GetBus (Aéroport)", 
-        cavado: "Cávado Mobilidade", 
-        ave: "AVE Mobilidade", 
-        trainHeading: "<i class='fas fa-train'></i> Trains", 
-        busHeading: "<i class='fas fa-bus'></i> Autocars" 
+        busHeading: "<i class='fas fa-bus'></i> Buses",
+        label: "Change language",
+        footer: "© City of Braga. Public data from transport entities"
       },
       es: {
         title: "Transportes a Braga",
@@ -265,120 +282,77 @@
         cavado: "Cávado Mobilidade",
         ave: "AVE Mobilidade",
         trainHeading: "<i class='fas fa-train'></i> Trenes",
-        busHeading: "<i class='fas fa-bus'></i> Autobuses"
+        busHeading: "<i class='fas fa-bus'></i> Autobuses",
+        label: "Cambiar idioma",
+        footer: "© Ayuntamiento de Braga. Datos públicos de entidades de transporte"
       },
-      it: {
-        title: "Trasporti per Braga",
-        description: "Consulta gli orari di treni e autobus:",
-        cp: "CP - Treni",
-        cctb: "Stazione Centrale",
-        re: "Rede Expressos",
-        flix: "FlixBus",
-        get: "GetBus (Aeroporto)",
-        cavado: "Cávado Mobilidade",
-        ave: "AVE Mobilidade",
-        trainHeading: "<i class='fas fa-train'></i> Treni",
-        busHeading: "<i class='fas fa-bus'></i> Autobus"
-      },
-      de: {
-        title: "Verkehrsmittel nach Braga",
-        description: "Fahrpläne für Zug und Bus ansehen:",
-        cp: "CP - Züge",
-        cctb: "Zentraler Busbahnhof",
-        re: "Rede Expressos",
-        flix: "FlixBus",
-        get: "GetBus (Flughafen)",
-        cavado: "Cávado Mobilidade",
-        ave: "AVE Mobilidade",
-        trainHeading: "<i class='fas fa-train'></i> Züge",
-        busHeading: "<i class='fas fa-bus'></i> Busse"
-      },
-      nl: {
-        title: "Vervoer naar Braga",
-        description: "Bekijk trein- en busdienstregelingen:",
-        cp: "CP - Treinen",
-        cctb: "Busstation Centraal",
-        re: "Rede Expressos",
-        flix: "FlixBus",
-        get: "GetBus (Luchthaven)",
-        cavado: "Cávado Mobilidade",
-        ave: "AVE Mobilidade",
-        trainHeading: "<i class='fas fa-train'></i> Treinen",
-        busHeading: "<i class='fas fa-bus'></i> Bussen"
-      },
-      zh: {
-        title: "布拉加交通",
-        description: "查询火车和公交时间表：",
-        cp: "CP - 火车",
-        cctb: "公交总站",
-        re: "Rede Expressos",
-        flix: "FlixBus",
-        get: "GetBus（机场）",
-        cavado: "Cávado Mobilidade",
-        ave: "AVE Mobilidade",
-        trainHeading: "<i class='fas fa-train'></i> 火车",
-        busHeading: "<i class='fas fa-bus'></i> 公交车"
-      },
-      ja: {
-        title: "ブラガの交通",
-        description: "列車とバスの時刻表をチェック：",
-        cp: "CP - 列车",
-        cctb: "バス中央駅",
-        re: "Rede Expressos",
-        flix: "FlixBus",
-        get: "GetBus（空港）",
-        cavado: "Cávado Mobilidade",
-        ave: "AVE Mobilidade",
-        trainHeading: "<i class='fas fa-train'></i> 列車",
-        busHeading: "<i class='fas fa-bus'></i> バス"
-      },
-      ru: {
-        title: "Транспорт в Брагу",
-        description: "Проверьте расписание поездов и автобусов:",
-        cp: "CP - Поезда",
-        cctb: "Центральная автобусная станция",
-        re: "Rede Expressos",
-        flix: "FlixBus",
-        get: "GetBus (Аэропорт)",
-        cavado: "Cávado Mobilidade",
-        ave: "AVE Mobilidade",
-        trainHeading: "<i class='fas fa-train'></i> Поезда",
-        busHeading: "<i class='fas fa-bus'></i> Автобусы"
-      },
-      pl: {
-        title: "Transport do Bragi",
-        description: "Sprawdź rozkład jazdy pociągów i autobusów:",
-        cp: "CP - Pociągi",
-        cctb: "Dworzec Autobusowy",
-        re: "Rede Expressos",
-        flix: "FlixBus",
-        get: "GetBus (Lotnisko)",
-        cavado: "Cávado Mobilidade",
-        ave: "AVE Mobilidade",
-        trainHeading: "<i class='fas fa-train'></i> Pociągi",
-        busHeading: "<i class='fas fa-bus'></i> Autobusy"
+      fr: { 
+        title: "Transports vers Braga", 
+        description: "Consultez les horaires de trains et d’autocars :", 
+        cp: "CP - Trains", 
+        cctb: "Gare Routière", 
+        re: "Rede Expressos", 
+        flix: "FlixBus", 
+        get: "GetBus (Aéroport)", 
+        cavado: "Cávado Mobilidade", 
+        ave: "AVE Mobilidade", 
+        trainHeading: "<i class='fas fa-train'></i> Trains", 
+        busHeading: "<i class='fas fa-bus'></i> Autocars", 
+        label: "Changer de langue",
+        footer: "© Ville de Braga. Données publiques des entités de transport"
       }
     };
 
-    function setLanguage(lang) {
-      const t = translations[lang] || translations['pt'];
-      document.getElementById('title').textContent = t.title;
-      document.getElementById('description').textContent = t.description;
-      document.getElementById('label-cp').textContent = t.cp;
-      document.getElementById('label-cctb').textContent = t.cctb;
-      document.getElementById('label-re').textContent = t.re;
-      document.getElementById('label-flix').textContent = t.flix;
-      document.getElementById('label-get').textContent = t.get;
-      document.getElementById('label-cavado').textContent = t.cavado;
-      document.getElementById('label-ave').textContent = t.ave;
-      document.getElementById('train-heading').innerHTML = t.trainHeading;
-      document.getElementById('bus-heading').innerHTML = t.busHeading;
+    const flags = { pt: "PT", en: "EN", es: "ES", fr: "FR" };
+
+    function updateLangOptions(currentLang) {
+      const optionsDiv = document.getElementById("lang-options");
+      optionsDiv.innerHTML = '';
+      for (const l in flags) {
+        if (l !== currentLang) {
+          const div = document.createElement("div");
+          div.className = "lang-icon";
+          div.textContent = flags[l];
+          div.addEventListener('click', () => {
+            setLanguage(l);
+            optionsDiv.classList.remove("show");
+          });
+          optionsDiv.appendChild(div);
+        }
+      }
     }
 
-    window.onload = () => {
-      const userLang = navigator.language.slice(0, 2);
-      setLanguage(translations[userLang] ? userLang : 'pt');
-    };
+    function setLanguage(lang) {
+      const supported = Object.keys(translations);
+      const effectiveLang = supported.includes(lang) ? lang : "pt";
+      const t = translations[effectiveLang];
+
+      document.getElementById("title").textContent = t.title;
+      document.getElementById("description").textContent = t.description;
+      document.getElementById("label-cp").textContent = t.cp;
+      document.getElementById("label-cctb").textContent = t.cctb;
+      document.getElementById("label-re").textContent = t.re;
+      document.getElementById("label-flix").textContent = t.flix;
+      document.getElementById("label-get").textContent = t.get;
+      document.getElementById("label-cavado").textContent = t.cavado;
+      document.getElementById("label-ave").textContent = t.ave;
+      document.getElementById("train-heading").innerHTML = t.trainHeading;
+      document.getElementById("bus-heading").innerHTML = t.busHeading;
+      document.getElementById("footer").textContent = t.footer;
+      document.getElementById("lang-label").textContent = t.label;
+      document.getElementById("current-lang").textContent = flags[effectiveLang];
+      document.documentElement.lang = effectiveLang;
+      updateLangOptions(lang);
+    }
+
+    document.getElementById("current-lang").addEventListener("click", () => {
+      document.getElementById("lang-options").classList.toggle("show");
+    });
+
+    const userLang = navigator.language.slice(0, 2);
+    const supported = Object.keys(translations);
+    const lang = supported.includes(userLang) ? userLang : "pt";
+    setLanguage(lang);
   </script>
 </body>
 </html>
