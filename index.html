@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Transportes para Braga</title>
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --bg-glass: rgba(255, 255, 255, 0.07);
+      --border-glass: rgba(255, 255, 255, 0.15);
+      --text-main: #ffffff;
+      --text-muted: #cbd5e1;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.85)), 
+                  url('https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/travel2.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Selector de Idiomas no Topo */
+    .lang-container {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      z-index: 100;
+    }
+
+    .lang-dropdown {
+      position: relative;
+    }
+
+    .lang-btn {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-glass);
+      color: var(--text-main);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .lang-btn:hover {
+      background: rgba(255, 255, 255, 0.22);
+      transform: translateY(-1px);
+    }
+
+    .lang-options {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-glass);
+      border-radius: 12px;
+      overflow: hidden;
+      display: none;
+      flex-direction: column;
+      min-width: 130px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      animation: dropdownFade 0.2s ease;
+    }
+
+    .lang-options.show {
+      display: flex;
+    }
+
+    @keyframes dropdownFade {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .lang-option {
+      padding: 10px 16px;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .lang-option:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-main);
+    }
+
+    /* Main Container */
+    main {
+      width: 100%;
+      max-width: 960px;
+      padding: 80px 20px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    h1 {
+      font-size: 2.75rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      margin-bottom: 12px;
+      background: linear-gradient(180deg, #FFFFFF 0%, #E2E8F0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    header p {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .section-title {
+      font-size: 1.35rem;
+      font-weight: 600;
+      margin: 20px 0 20px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #f8fafc;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 10px;
+    }
+
+    .section-title i {
+      color: #60a5fa;
+    }
+
+    /* Cards Grid */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      width: 100%;
+      margin-bottom: 40px;
+    }
+
+    .card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      background: var(--bg-glass);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-glass);
+      border-radius: 14px;
+      text-decoration: none;
+      color: var(--text-main);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .card-content {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo-wrapper {
+      width: 44px;
+      height: 44px;
+      background: #ffffff;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .card img.logo {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 4px;
+    }
+
+    .card-text {
+      font-size: 0.98rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .arrow-icon {
+      font-size: 0.85rem;
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: all 0.3s ease;
+      color: #60a5fa;
+    }
+
+    .card:hover {
+      background: rgba(255, 255, 255, 0.14);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    .card:hover .arrow-icon {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Footer */
+    footer {
+      padding: 24px 20px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-align: center;
+      width: 100%;
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(8px);
+      border-top: 1px solid var(--border-glass);
+    }
+
+    /* Responsividade */
+    @media (max-width: 640px) {
+      h1 { font-size: 2rem; }
+      header p { font-size: 1rem; }
+      main { padding-top: 70px; }
+      .card-grid { grid-template-columns: 1fr; }
+      .lang-container { top: 16px; right: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Selector de idiomas no topo -->
+  <div class="lang-container">
+    <div class="lang-dropdown">
+      <button class="lang-btn" id="lang-btn">
+        <i class="fas fa-globe"></i>
+        <span id="current-lang">PT</span>
+        <i class="fas fa-chevron-down" style="font-size: 0.7em; opacity: 0.7;"></i>
+      </button>
+      <div class="lang-options" id="lang-options"></div>
+    </div>
+  </div>
+
+  <main>
+    <header>
+      <h1 id="title">Transportes para Braga</h1>
+      <p id="description">Consulte os horários de comboios e autocarros:</p>
+    </header>
+
+    <h2 class="section-title" id="train-heading"><i class="fas fa-train"></i> Comboios</h2>
+    <div class="card-grid">
+      <a class="card" href="https://www.cp.pt/passageiros/pt" target="_blank">
+        <div class="card-content">
+          <div class="logo-wrapper">
+            <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/cp.webp" alt="CP">
+          </div>
+          <span class="card-text" id="label-cp">CP - Comboios</span>
+        </div>
+        <i class="fas fa-arrow-right arrow-icon"></i>
+      </a>
+    </div>
+
+    <h2 class="section-title" id="bus-heading"><i class="fas fa-bus"></i> Autocarros</h2>
+    <div class="card-grid">
+      <a class="card" href="https://cctb.cm-braga.pt/" target="_blank">
+        <div class="card-content">
+          <div class="logo-wrapper">
+            <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/cctb.webp" alt="CCTB">
+          </div>
+          <span class="card-text" id="label-cctb">Centro Coordenador</span>
+        </div>
+        <i class="fas fa-arrow-right arrow-icon"></i>
+      </a>
+
+      <a class="card" href="https://rede-expressos.pt" target="_blank">
+        <div class="card-content">
+          <div class="logo-wrapper">
+            <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/redeexpressos.webp" alt="Rede Expressos">
+          </div>
+          <span class="card-text" id="label-re">Rede Expressos</span>
+        </div>
+        <i class="fas fa-arrow-right arrow-icon"></i>
+      </a>
+
+      <a class="card" href="https://www.flixbus.pt/" target="_blank">
+        <div class="card-content">
+          <div class="logo-wrapper">
+            <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/flixbus.webp" alt="FlixBus">
+          </div>
+          <span class="card-text" id="label-flix">FlixBus</span>
+        </div>
+        <i class="fas fa-arrow-right arrow-icon"></i>
+      </a>
+
+      <a class="card" href="https://www.getbus.eu/pt/" target="_blank">
+        <div class="card-content">
+          <div class="logo-wrapper">
+            <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/getbus.webp" alt="GetBus">
+          </div>
+          <span class="card-text" id="label-get">GetBus (Aeroporto)</span>
+        </div>
+        <i class="fas fa-arrow-right arrow-icon"></i>
+      </a>
+
+      <a class="card" href="https://aitc.cimcavado.pt/horarios" target="_blank">
+        <div class="card-content">
+          <div class="logo-wrapper">
+            <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/cavado.jpg" alt="Cávado">
+          </div>
+          <span class="card-text" id="label-cavado">Cávado Mobilidade</span>
+        </div>
+        <i class="fas fa-arrow-right arrow-icon"></i>
+      </a>
+
+      <a class="card" href="https://avemobilidade.pt/home" target="_blank">
+        <div class="card-content">
+          <div class="logo-wrapper">
+            <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/ave.jpg" alt="AVE">
+          </div>
+          <span class="card-text" id="label-ave">AVE Mobilidade</span>
+        </div>
+        <i class="fas fa-arrow-right arrow-icon"></i>
+      </a>
+    </div>
+  </main>
+
+  <footer id="footer">
+    © Município de Braga. Dados públicos das entidades de transporte
+  </footer>
+
+  <script>
+    const translations = {
+      pt: { 
+        title: "Transportes para Braga", 
+        description: "Consulte os horários de comboios e autocarros:", 
+        cp: "CP - Comboios", 
+        cctb: "Centro Coordenador", 
+        re: "Rede Expressos", 
+        flix: "FlixBus", 
+        get: "GetBus (Aeroporto)", 
+        cavado: "Cávado Mobilidade", 
+        ave: "AVE Mobilidade", 
+        trainHeading: "<i class='fas fa-train'></i> Comboios", 
+        busHeading: "<i class='fas fa-bus'></i> Autocarros", 
+        footer: "© Município de Braga. Dados públicos das entidades de transporte"
+      },
+      en: { 
+        title: "Transport to Braga", 
+        description: "Check train and bus schedules:", 
+        cp: "CP - Trains", 
+        cctb: "Bus Terminal", 
+        re: "Rede Expressos", 
+        flix: "FlixBus", 
+        get: "GetBus (Airport)", 
+        cavado: "Cávado Mobilidade", 
+        ave: "AVE Mobilidade", 
+        trainHeading: "<i class='fas fa-train'></i> Trains", 
+        busHeading: "<i class='fas fa-bus'></i> Buses", 
+        footer: "© City of Braga. Public data from transport entities"
+      },
+      es: {
+        title: "Transportes a Braga",
+        description: "Consulte horarios de trenes y autobuses:",
+        cp: "CP - Trenes",
+        cctb: "Estación Central",
+        re: "Rede Expressos",
+        flix: "FlixBus",
+        get: "GetBus (Aeropuerto)",
+        cavado: "Cávado Mobilidade",
+        ave: "AVE Mobilidade",
+        trainHeading: "<i class='fas fa-train'></i> Trenes",
+        busHeading: "<i class='fas fa-bus'></i> Autobuses",
+        footer: "© Ayuntamiento de Braga. Datos públicos de entidades de transporte"
+      },
+      fr: { 
+        title: "Transports vers Braga", 
+        description: "Consultez les horaires de trains et d’autocars :", 
+        cp: "CP - Trains", 
+        cctb: "Gare Routière", 
+        re: "Rede Expressos", 
+        flix: "FlixBus", 
+        get: "GetBus (Aéroport)", 
+        cavado: "Cávado Mobilidade", 
+        ave: "AVE Mobilidade", 
+        trainHeading: "<i class='fas fa-train'></i> Trains", 
+        busHeading: "<i class='fas fa-bus'></i> Autocars", 
+        footer: "© Ville de Braga. Données publiques des entités de transport"
+      }
+    };
+
+    const flags = { pt: "Português", en: "English", es: "Español", fr: "Français" };
+    const shortFlags = { pt: "PT", en: "EN", es: "ES", fr: "FR" };
+
+    function updateLangOptions(currentLang) {
+      const optionsDiv = document.getElementById("lang-options");
+      optionsDiv.innerHTML = '';
+      for (const l in flags) {
+        if (l !== currentLang) {
+          const div = document.createElement("div");
+          div.className = "lang-option";
+          div.textContent = flags[l];
+          div.addEventListener('click', (e) => {
+            e.stopPropagation();
+            setLanguage(l);
+            optionsDiv.classList.remove("show");
+          });
+          optionsDiv.appendChild(div);
+        }
+      }
+    }
+
+    function setLanguage(lang) {
+      const supported = Object.keys(translations);
+      const effectiveLang = supported.includes(lang) ? lang : "pt";
+      const t = translations[effectiveLang];
+
+      document.getElementById("title").textContent = t.title;
+      document.getElementById("description").textContent = t.description;
+      document.getElementById("label-cp").textContent = t.cp;
+      document.getElementById("label-cctb").textContent = t.cctb;
+      document.getElementById("label-re").textContent = t.re;
+      document.getElementById("label-flix").textContent = t.flix;
+      document.getElementById("label-get").textContent = t.get;
+      document.getElementById("label-cavado").textContent = t.cavado;
+      document.getElementById("label-ave").textContent = t.ave;
+      document.getElementById("train-heading").innerHTML = t.trainHeading;
+      document.getElementById("bus-heading").innerHTML = t.busHeading;
+      document.getElementById("footer").textContent = t.footer;
+      document.getElementById("current-lang").textContent = shortFlags[effectiveLang];
+      document.documentElement.lang = effectiveLang;
+      updateLangOptions(effectiveLang);
+    }
+
+    // Toggle Dropdown
+    const langBtn = document.getElementById("lang-btn");
+    const langOptions = document.getElementById("lang-options");
+
+    langBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      langOptions.classList.toggle("show");
+    });
+
+    document.addEventListener("click", () => {
+      langOptions.classList.remove("show");
+    });
+
+    // Detectar idioma inicial
+    const userLang = navigator.language.slice(0, 2);
+    const supported = Object.keys(translations);
+    const lang = supported.includes(userLang) ? userLang : "pt";
+    setLanguage(lang);
+  </script>
+</body>
+</html>
