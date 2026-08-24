@@ -330,18 +330,30 @@
     }
 
     .group-title {
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       font-weight: 700;
-      color: #ffffff;
-      margin: 40px 0 20px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: rgba(255, 255, 255, 0.85);
+      margin: 40px 0 24px;
       text-align: center;
       width: 100%;
       background: transparent;
-      padding: 8px 0;
+      padding: 0;
       border-radius: 0;
       border: none;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+    
+    .group-title::before,
+    .group-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
     }
 
     .section-title {
@@ -448,6 +460,28 @@
       transition: all 0.3s ease;
     }
 
+    .accordion-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      width: 100%;
+    }
+
+    .accordion-group > details.service-accordion {
+      flex: 1 1 calc(50% - 16px);
+      margin-bottom: 0;
+    }
+
+    .accordion-group > details.service-accordion[open] {
+      flex: 1 1 100%;
+    }
+
+    @media (max-width: 768px) {
+      .accordion-group > details.service-accordion {
+        flex: 1 1 100%;
+      }
+    }
+
     details.service-accordion[open] {
       background: rgba(255, 255, 255, 0.04);
       border-color: rgba(255, 255, 255, 0.15);
@@ -535,7 +569,7 @@
       .main-wrapper { padding: 24px 0; }
       main { padding: 32px 20px; border-radius: 20px; }
       h1 { font-size: 1.6rem; }
-      .group-title { font-size: 1.3rem; margin: 32px 0 16px; }
+      .group-title { font-size: 1.1rem; margin: 32px 0 16px; }
       .lang-container { bottom: 16px; right: 16px; }
       
       .site-footer { flex-direction: column; align-items: flex-start; gap: 32px; padding-bottom: 80px; }
@@ -717,6 +751,7 @@
           <!-- GRUPO 1: Como Chegar -->
           <div id="section-arrive" style="display: none; width: 100%;">
             <h2 class="group-title" id="group-arrive">Como Chegar</h2>
+            <div class="accordion-group">
 
           <details class="service-accordion" open>
             <summary class="section-title"><div class="summary-left" id="train-heading"><i class="fas fa-train"></i> Comboios</div></summary>
@@ -854,11 +889,13 @@
               </div>
             </div>
           </details>
+            </div>
           </div> <!-- Fim de section-arrive -->
 
           <!-- GRUPO 2: Na Cidade -->
           <div id="section-around" style="display: none; width: 100%;">
             <h2 class="group-title" id="group-around">Na Cidade</h2>
+            <div class="accordion-group">
 
           <details class="service-accordion" open>
             <summary class="section-title"><div class="summary-left" id="urban-heading"><i class="fas fa-city"></i> Transportes Públicos</div></summary>
@@ -1001,6 +1038,7 @@
               </div>
             </div>
           </details>
+            </div>
           </div> <!-- Fim de section-around -->
         </main>
       </div>
