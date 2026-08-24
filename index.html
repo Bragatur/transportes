@@ -31,21 +31,111 @@
 
     body {
       font-family: 'Inter', sans-serif;
-      min-height: 100vh;
-      background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.85)), 
-                  url('https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/travel2.jpg') no-repeat center center fixed;
-      background-size: cover;
+      background: #0f1115;
       color: var(--text-main);
+      overflow-x: hidden;
+    }
+
+    /* --- FUNDO E OVERLAY --- */
+    .bg-image {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: url('/public/landing_page.webp') no-repeat center center;
+      background-size: cover;
+      z-index: 0;
+      /* Animação subtil "Ken Burns" */
+      animation: kenBurns 30s infinite alternate ease-in-out;
+    }
+
+    @keyframes kenBurns {
+      0% { transform: scale(1) translateZ(0); }
+      100% { transform: scale(1.08) translateZ(0); }
+    }
+
+    .overlay {
+      position: relative;
+      z-index: 1;
+      background: linear-gradient(to bottom, rgba(15,17,21,0.3) 0%, rgba(15,17,21,0.85) 100%);
+      min-height: 100vh;
+      width: 100vw;
+    }
+
+    .overlay-inner {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
+      min-height: 100vh;
+      width: 100%;
+      padding: 0 24px;
     }
+
+    .main-wrapper {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 40px 0;
+    }
+
+    /* --- LOADER --- */
+    #loader-wrapper {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: #0f1115;
+      z-index: 99999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s;
+    }
+
+    #loader-wrapper.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .loader-logo { width: 180px; margin-bottom: 30px; animation: pulseLogo 2s infinite ease-in-out; }
+    .loader-spinner {
+      width: 40px; height: 40px;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      border-top-color: #3b82f6;
+      animation: loaderSpin 1s ease-in-out infinite;
+    }
+
+    @keyframes pulseLogo { 0%, 100% { opacity: 0.7; transform: scale(0.98); } 50% { opacity: 1; transform: scale(1); } }
+    @keyframes loaderSpin { to { transform: rotate(360deg); } }
+
+    /* --- ANIMAÇÕES DE ENTRADA (Mecânica "body.show") --- */
+    @keyframes containerPop {
+      0% { opacity: 0; transform: scale(0.96) translateY(20px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    @keyframes slideUpFade {
+      0% { opacity: 0; transform: translateY(15px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Preparação invisível dos elementos */
+    main { opacity: 0; transform: scale(0.96) translateY(20px); }
+    #title, .site-footer { opacity: 0; transform: translateY(15px); }
+
+    /* Disparo das animações ao adicionar a classe "show" ao body via Javascript */
+    body.show main { animation: containerPop 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    body.show #title { animation: slideUpFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.25s; }
+    body.show .site-footer { animation: slideUpFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.95s; }
 
     /* Selector de Idiomas no Topo */
     .lang-container {
-      position: absolute;
-      top: 24px;
+      position: fixed;
+      bottom: 24px;
       right: 24px;
       z-index: 100;
     }
@@ -55,59 +145,61 @@
     }
 
     .lang-btn {
-      background: rgba(255, 255, 255, 0.12);
+      background: rgba(30, 30, 30, 0.7);
       backdrop-filter: blur(12px);
       border: 1px solid var(--border-glass);
       color: var(--text-main);
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 0.9rem;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 8px;
+      justify-content: center;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
 
     .lang-btn:hover {
-      background: rgba(255, 255, 255, 0.22);
-      transform: translateY(-1px);
+      background: rgba(60, 60, 60, 0.8);
+      transform: translateY(-2px);
     }
 
     .lang-options {
       position: absolute;
-      top: calc(100% + 8px);
+      bottom: calc(100% + 12px);
       right: 0;
-      background: rgba(15, 23, 42, 0.9);
+      background: rgba(20, 25, 35, 0.95);
       backdrop-filter: blur(16px);
       border: 1px solid var(--border-glass);
       border-radius: 12px;
       overflow: hidden;
       display: none;
       flex-direction: column;
-      min-width: 130px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-      animation: dropdownFade 0.2s ease;
+      min-width: 120px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      animation: dropdownFadeUp 0.2s ease;
     }
 
     .lang-options.show {
       display: flex;
     }
 
-    @keyframes dropdownFade {
-      from { opacity: 0; transform: translateY(-8px); }
+    @keyframes dropdownFadeUp {
+      from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     .lang-option {
-      padding: 10px 16px;
+      padding: 12px 16px;
       color: var(--text-muted);
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       font-weight: 500;
       cursor: pointer;
       transition: all 0.2s ease;
+      text-align: right;
     }
 
     .lang-option:hover {
@@ -118,51 +210,57 @@
     /* Main Container */
     main {
       width: 100%;
-      max-width: 960px;
-      padding: 80px 20px 40px;
+      max-width: 860px;
+      padding: 48px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(15px); }
-      to { opacity: 1; transform: translateY(0); }
+      background: rgba(45, 45, 45, 0.4);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 24px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.3);
     }
 
     header {
       text-align: center;
-      margin-bottom: 40px;
+      margin-bottom: 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .main-visit-logo {
+      height: 36px;
+      margin-bottom: 24px;
     }
 
     h1 {
-      font-size: 2.75rem;
+      font-size: 2.2rem;
       font-weight: 700;
-      letter-spacing: -0.025em;
+      letter-spacing: -0.02em;
       margin-bottom: 12px;
-      background: linear-gradient(180deg, #FFFFFF 0%, #E2E8F0 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: #ffffff;
     }
 
     header p {
-      font-size: 1.15rem;
+      font-size: 1.05rem;
       color: var(--text-muted);
       font-weight: 400;
     }
 
     .section-title {
-      font-size: 1.35rem;
+      font-size: 1.15rem;
       font-weight: 600;
-      margin: 20px 0 20px;
+      margin: 16px 0 16px;
       width: 100%;
       display: flex;
       align-items: center;
       gap: 12px;
       color: #f8fafc;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      padding-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .section-title i {
@@ -175,197 +273,393 @@
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 16px;
       width: 100%;
-      margin-bottom: 40px;
+      margin-bottom: 24px;
     }
 
     .card {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 14px 18px;
-      background: var(--bg-glass);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--border-glass);
-      border-radius: 14px;
+      justify-content: flex-start;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
       text-decoration: none;
       color: var(--text-main);
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .card-content {
-      display: flex;
-      align-items: center;
       gap: 14px;
     }
 
     .logo-wrapper {
-      width: 44px;
-      height: 44px;
-      background: #ffffff;
-      border-radius: 10px;
+      width: 36px;
+      height: 36px;
+      background: transparent;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
       flex-shrink: 0;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     }
 
     .card img.logo {
       width: 100%;
       height: 100%;
-      object-fit: contain;
-      padding: 4px;
+      object-fit: cover;
+      padding: 0;
     }
 
     .card-text {
-      font-size: 0.98rem;
+      font-size: 0.95rem;
       font-weight: 600;
       letter-spacing: -0.01em;
     }
 
-    .arrow-icon {
-      font-size: 0.85rem;
-      opacity: 0;
-      transform: translateX(-6px);
-      transition: all 0.3s ease;
-      color: #60a5fa;
-    }
-
     .card:hover {
-      background: rgba(255, 255, 255, 0.14);
-      border-color: rgba(255, 255, 255, 0.3);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
     }
 
-    .card:hover .arrow-icon {
-      opacity: 1;
-      transform: translateX(0);
+    /* --- ESTILOS DO FOOTER --- */
+    .site-footer {
+      width: 100%; max-width: 960px;
+      margin: 0 auto 24px auto;
+      display: flex; justify-content: space-between; align-items: flex-end;
+      text-align: left;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 24px;
+      color: #94a3b8;
+    }
+    .footer-left { display: flex; flex-direction: column; gap: 8px; }
+    .footer-logo { height: 64px; max-width: 220px; margin-bottom: 4px; object-fit: contain; object-position: left; }
+    .footer-copyright { font-size: 0.8rem; }
+    
+    .footer-right { display: flex; flex-direction: column; gap: 8px; text-align: right; align-items: flex-end; }
+    .footer-contactos-title { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; color: #fff; margin-bottom: 4px; }
+    
+    .footer-contact-row {
+      display: flex; gap: 16px; align-items: center; flex-wrap: wrap; justify-content: flex-end;
+    }
+    
+    .footer-contact-item { 
+      display: flex; align-items: center; gap: 8px; 
+      color: #cbd5e1; text-decoration: none; transition: color 0.2s ease; font-size: 0.85rem;
+    }
+    .footer-contact-item:hover { color: #fff; }
+    
+    .footer-privacy { color: #64748b; text-decoration: none; font-size: 0.8rem; margin-top: 4px; transition: color 0.2s; }
+    .footer-privacy:hover { color: #fff; text-decoration: underline; }
+
+    /* Mobile CSS */
+    @media (max-width: 680px) {
+      .main-wrapper { padding: 24px 0; }
+      main { padding: 32px 20px; border-radius: 20px; }
+      h1 { font-size: 1.8rem; }
+      .lang-container { bottom: 16px; right: 16px; }
+      
+      .site-footer { flex-direction: column; align-items: flex-start; gap: 32px; padding-bottom: 80px; }
+      .footer-right { align-items: flex-start; text-align: left; }
+      .footer-contact-row { justify-content: flex-start; flex-direction: column; align-items: flex-start; gap: 12px; }
+      .footer-logo { object-position: left; }
     }
 
-    /* Footer */
-    footer {
-      padding: 24px 20px;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      text-align: center;
-      width: 100%;
-      background: rgba(15, 23, 42, 0.4);
+    /* Modal de Privacidade */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.75);
       backdrop-filter: blur(8px);
-      border-top: 1px solid var(--border-glass);
+      z-index: 100000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
     }
 
-    /* Responsividade */
-    @media (max-width: 640px) {
-      h1 { font-size: 2rem; }
-      header p { font-size: 1rem; }
-      main { padding-top: 70px; }
-      .card-grid { grid-template-columns: 1fr; }
-      .lang-container { top: 16px; right: 16px; }
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content {
+      background: #111827;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      width: 90%;
+      max-width: 800px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      transform: translateY(20px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      padding: 24px 32px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    .modal-header h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .modal-body {
+      padding: 32px;
+      overflow-y: auto;
+      color: #94a3b8;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    
+    /* Scrollbar styling for modal body */
+    .modal-body::-webkit-scrollbar { width: 8px; }
+    .modal-body::-webkit-scrollbar-track { background: transparent; }
+    .modal-body::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 4px; }
+    .modal-body::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.3); }
+
+    .modal-body h3 {
+      font-size: 1.05rem;
+      color: #fff;
+      margin: 24px 0 12px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .modal-body h3:first-child {
+      margin-top: 0;
+    }
+
+    .modal-body p {
+      margin-bottom: 16px;
+    }
+
+    .modal-body ul {
+      margin-bottom: 16px;
+      padding-left: 24px;
+      list-style-type: disc;
+    }
+    
+    .modal-body li {
+      margin-bottom: 8px;
+    }
+    
+    .modal-body li strong {
+      color: #cbd5e1;
+    }
+
+    .modal-footer {
+      padding: 20px 32px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: flex-end;
+      background: rgba(17, 24, 39, 0.95);
+      border-bottom-left-radius: 16px;
+      border-bottom-right-radius: 16px;
+    }
+
+    .btn-primary {
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .btn-primary:hover {
+      background: #1d4ed8;
+    }
+    
+    @media (max-width: 680px) {
+      .modal-content { width: 95%; max-height: 90vh; }
+      .modal-header { padding: 20px; }
+      .modal-body { padding: 20px; }
+      .modal-footer { padding: 16px 20px; }
     }
   </style>
 </head>
 <body>
+  <!-- 1. Ecrã de Carregamento (Loader) -->
+  <div id="loader-wrapper">
+    <img src="/public/MarcaVisitBraga_white.svg" alt="Logo" class="loader-logo" />
+    <div class="loader-spinner"></div>
+  </div>
 
-  <!-- Selector de idiomas no topo -->
+  <!-- 2. Imagem de Fundo (Animada) -->
+  <div class="bg-image" id="bgImage"></div>
+  
+  <!-- 3. Conteúdo Principal e Rodapé (Escurecidos por cima do fundo) -->
+  <div class="overlay">
+    <div class="overlay-inner">
+      
+      <div class="main-wrapper">
+        <main>
+          <header>
+            <img src="/public/MarcaVisitBraga_white.svg" alt="Visit Braga" class="main-visit-logo" />
+            <h1 id="title">Transportes para Braga</h1>
+            <p id="description">Consulte os horários de comboios e autocarros:</p>
+          </header>
+
+          <h2 class="section-title" id="train-heading"><i class="fas fa-train"></i> Comboios</h2>
+          <div class="card-grid">
+            <a class="card" href="https://www.cp.pt/passageiros/pt" target="_blank">
+              <div class="logo-wrapper">
+                <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/cp.webp" alt="CP">
+              </div>
+              <span class="card-text" id="label-cp">CP - Comboios</span>
+            </a>
+          </div>
+
+          <h2 class="section-title" id="bus-heading"><i class="fas fa-bus"></i> Autocarros</h2>
+          <div class="card-grid">
+            <a class="card" href="https://cctb.cm-braga.pt/" target="_blank">
+              <div class="logo-wrapper">
+                <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/cctb.webp" alt="CCTB">
+              </div>
+              <span class="card-text" id="label-cctb">Centro Coordenador</span>
+            </a>
+
+            <a class="card" href="https://rede-expressos.pt" target="_blank">
+              <div class="logo-wrapper">
+                <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/redeexpressos.webp" alt="Rede Expressos">
+              </div>
+              <span class="card-text" id="label-re">Rede Expressos</span>
+            </a>
+
+            <a class="card" href="https://www.flixbus.pt/" target="_blank">
+              <div class="logo-wrapper">
+                <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/flixbus.webp" alt="FlixBus">
+              </div>
+              <span class="card-text" id="label-flix">FlixBus</span>
+            </a>
+
+            <a class="card" href="https://www.getbus.eu/pt/" target="_blank">
+              <div class="logo-wrapper">
+                <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/getbus.webp" alt="GetBus">
+              </div>
+              <span class="card-text" id="label-get">GetBus (Aeroporto)</span>
+            </a>
+
+            <a class="card" href="https://aitc.cimcavado.pt/horarios" target="_blank">
+              <div class="logo-wrapper">
+                <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/cavado.jpg" alt="Cávado">
+              </div>
+              <span class="card-text" id="label-cavado">Cávado Mobilidade</span>
+            </a>
+
+            <a class="card" href="https://avemobilidade.pt/home" target="_blank">
+              <div class="logo-wrapper">
+                <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/ave.jpg" alt="AVE">
+              </div>
+              <span class="card-text" id="label-ave">AVE Mobilidade</span>
+            </a>
+          </div>
+        </main>
+      </div>
+
+      <!-- 4. O Rodapé -->
+      <footer class="site-footer">
+        <div class="footer-left">
+          <img id="footer-logo" src="/public/braga-brand-pt.svg" alt="Logo" class="footer-logo" />
+          <span class="footer-copyright" id="footer-copyright">© 2026 Posto de Turismo - DAET | CM Braga</span>
+        </div>
+        <div class="footer-right">
+          <div class="footer-contactos-title" id="footer-contacts">CONTACTOS</div>
+          <div class="footer-contact-item">
+            <i class="fa-solid fa-location-dot"></i>
+            <span>Posto de Turismo de Braga | Avenida da Liberdade, nº 1 - 4710-305 Braga</span>
+          </div>
+          <div class="footer-contact-row">
+            <a href="tel:+351253262550" class="footer-contact-item">
+              <i class="fa-solid fa-phone"></i>
+              <span>+351 253 262 550</span>
+            </a>
+            <a href="mailto:turismo@cm-braga.pt" class="footer-contact-item">
+              <i class="fa-solid fa-envelope"></i>
+              <span>turismo@cm-braga.pt</span>
+            </a>
+          </div>
+          <a href="#" class="footer-privacy" id="footer-privacy">Política de Privacidade</a>
+        </div>
+      </footer>
+
+    </div>
+  </div>
+
+  <!-- Selector de idiomas no fundo -->
   <div class="lang-container">
     <div class="lang-dropdown">
       <button class="lang-btn" id="lang-btn">
-        <i class="fas fa-globe"></i>
         <span id="current-lang">PT</span>
-        <i class="fas fa-chevron-down" style="font-size: 0.7em; opacity: 0.7;"></i>
       </button>
       <div class="lang-options" id="lang-options"></div>
     </div>
   </div>
 
-  <main>
-    <header>
-      <h1 id="title">Transportes para Braga</h1>
-      <p id="description">Consulte os horários de comboios e autocarros:</p>
-    </header>
+  <!-- Modal de Privacidade -->
+  <div id="privacy-modal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2><i class="fa-solid fa-circle-info" style="color: #60a5fa;"></i> <span id="modal-title">Avisos Legais e Política de Privacidade</span></h2>
+      </div>
+      <div class="modal-body">
+        <h3><i class="fa-solid fa-landmark" style="color: #60a5fa; font-size: 0.9em;"></i> 1. Titularidade e Identificação da Entidade</h3>
+        <p>Este portal digital de divulgação turística e mapas é disponibilizado e gerido pelo Município de Braga, pessoa coletiva de direito público com NIF 506 901 495 e sede na Praça do Município, 4700-435 Braga, através da Divisão de Turismo (DAET) com Posto de Turismo sito na Avenida da Liberdade, nº 1, 4710-305 Braga.</p>
+        
+        <h3><i class="fa-solid fa-copyright" style="color: #60a5fa; font-size: 0.9em;"></i> 2. Propriedade Intelectual e Direitos de Autor</h3>
+        <p>Todos os conteúdos disponibilizados nesta plataforma — incluindo textos, imagens, mapas, guias em PDF, marcas (“Visit Braga”), logótipos e elementos gráficos — encontram-se protegidos pela legislação de Direitos de Autor e Direitos Conexos e de Propriedade Industrial.</p>
+        <p>O download e visualização dos materiais são autorizados exclusivamente para fins pessoais, educativos ou turísticos não comerciais. É estritamente proibida qualquer reprodução total ou parcial, alteração, redistribuição ou exploração comercial sem prévia autorização escrita do Município de Braga.</p>
 
-    <h2 class="section-title" id="train-heading"><i class="fas fa-train"></i> Comboios</h2>
-    <div class="card-grid">
-      <a class="card" href="https://www.cp.pt/passageiros/pt" target="_blank">
-        <div class="card-content">
-          <div class="logo-wrapper">
-            <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/cp.webp" alt="CP">
-          </div>
-          <span class="card-text" id="label-cp">CP - Comboios</span>
-        </div>
-        <i class="fas fa-arrow-right arrow-icon"></i>
-      </a>
+        <h3><i class="fa-solid fa-user-shield" style="color: #60a5fa; font-size: 0.9em;"></i> 3. Tratamento de Dados Pessoais (RGPD)</h3>
+        <p>O Município de Braga assegura o rigoroso cumprimento do Regulamento Geral sobre a Proteção de Dados (Regulamento UE 2016/679) e da Lei n.º 58/2019, de 8 de agosto:</p>
+        <ul>
+          <li><strong>Finalidade e Minimização:</strong> O presente website tem cariz estritamente informativo e de promoção cultural/turística, não requerendo registo de utilizador nem recolhendo dados pessoais de identificação direta (como nome, telefone ou morada).</li>
+          <li><strong>Dados de Acesso Técnico:</strong> Os dados técnicos de navegação (endereço IP e registos de servidor) são tratados sob o fundamento do interesse legítimo na garantia da segurança e integridade do serviço.</li>
+          <li><strong>Segurança:</strong> Não partilhamos, vendemos ou cedemos dados a terceiros para efeitos de publicidade ou marketing.</li>
+        </ul>
+
+        <h3><i class="fa-solid fa-cookie-bite" style="color: #60a5fa; font-size: 0.9em;"></i> 4. Lei dos Cookies e Armazenamento Local</h3>
+        <p>Nos termos da Lei n.º 41/2004, com as alterações introduzidas pela Lei n.º 46/2012 (transposição da Diretiva de Privacidade Eletrónica da UE):</p>
+        <ul>
+          <li><strong>Cookies e Armazenamento Estritamente Necessários:</strong> Utilizamos apenas armazenamento local essencial no seu dispositivo (LocalStorage) para reter preferências de navegação imediatas, como a seleção do idioma de consulta.</li>
+          <li><strong>Sem Rastreio ou Cookies de Terceiros:</strong> Não utilizamos cookies analíticos invasivos, píxeis de conversão de redes sociais nem cookies de publicidade comportamental.</li>
+          <li><strong>Gestão de Preferências:</strong> Pode a qualquer momento bloquear ou eliminar dados de navegação armazenados através das definições do seu navegador.</li>
+        </ul>
+
+        <h3><i class="fa-solid fa-scale-balanced" style="color: #60a5fa; font-size: 0.9em;"></i> 5. Direitos dos Titulares dos Dados</h3>
+        <p>O titular dos dados tem o direito de solicitar o acesso, retificação, oposição, limitação e apagamento de dados, nos termos legais aplicáveis. Tem igualmente o direito de apresentar reclamação junto da autoridade de controlo nacional: CNPD – Comissão Nacional de Proteção de Dados (<a href="https://www.cnpd.pt" target="_blank" style="color: #60a5fa; text-decoration: underline;">www.cnpd.pt</a>).</p>
+
+        <h3><i class="fa-solid fa-address-card" style="color: #60a5fa; font-size: 0.9em;"></i> 6. Contactos Oficiais e Encarregado de Proteção de Dados</h3>
+        <p>Para dúvidas, esclarecimentos ou exercício dos seus direitos de privacidade:</p>
+        <ul>
+          <li><strong>Encarregado de Proteção de Dados (DPO):</strong> <a href="mailto:dpo@cm-braga.pt" style="color: #60a5fa; text-decoration: underline;">dpo@cm-braga.pt</a></li>
+          <li><strong>Posto de Turismo de Braga:</strong> Av. da Liberdade, nº 1, 4710-305 Braga | Tel: +351 253 262 550 | <a href="mailto:turismo@cm-braga.pt" style="color: #60a5fa; text-decoration: underline;">turismo@cm-braga.pt</a></li>
+          <li><strong>Câmara Municipal de Braga (Sede):</strong> Praça do Município, 4700-435 Braga | Tel: +351 253 616 060 | <a href="mailto:municipe@cm-braga.pt" style="color: #60a5fa; text-decoration: underline;">municipe@cm-braga.pt</a></li>
+        </ul>
+        <p>Consulte a versão integral dos avisos legais do Município em: <a href="https://cm-braga.pt/pt/0107/avisos-legais" target="_blank" style="color: #60a5fa; text-decoration: underline;">cm-braga.pt/pt/0107/avisos-legais</a></p>
+      </div>
+      <div class="modal-footer">
+        <button id="close-privacy-modal" class="btn-primary">Compreendi e Fechar</button>
+      </div>
     </div>
-
-    <h2 class="section-title" id="bus-heading"><i class="fas fa-bus"></i> Autocarros</h2>
-    <div class="card-grid">
-      <a class="card" href="https://cctb.cm-braga.pt/" target="_blank">
-        <div class="card-content">
-          <div class="logo-wrapper">
-            <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/cctb.webp" alt="CCTB">
-          </div>
-          <span class="card-text" id="label-cctb">Centro Coordenador</span>
-        </div>
-        <i class="fas fa-arrow-right arrow-icon"></i>
-      </a>
-
-      <a class="card" href="https://rede-expressos.pt" target="_blank">
-        <div class="card-content">
-          <div class="logo-wrapper">
-            <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/redeexpressos.webp" alt="Rede Expressos">
-          </div>
-          <span class="card-text" id="label-re">Rede Expressos</span>
-        </div>
-        <i class="fas fa-arrow-right arrow-icon"></i>
-      </a>
-
-      <a class="card" href="https://www.flixbus.pt/" target="_blank">
-        <div class="card-content">
-          <div class="logo-wrapper">
-            <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/flixbus.webp" alt="FlixBus">
-          </div>
-          <span class="card-text" id="label-flix">FlixBus</span>
-        </div>
-        <i class="fas fa-arrow-right arrow-icon"></i>
-      </a>
-
-      <a class="card" href="https://www.getbus.eu/pt/" target="_blank">
-        <div class="card-content">
-          <div class="logo-wrapper">
-            <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/getbus.webp" alt="GetBus">
-          </div>
-          <span class="card-text" id="label-get">GetBus (Aeroporto)</span>
-        </div>
-        <i class="fas fa-arrow-right arrow-icon"></i>
-      </a>
-
-      <a class="card" href="https://aitc.cimcavado.pt/horarios" target="_blank">
-        <div class="card-content">
-          <div class="logo-wrapper">
-            <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/cavado.jpg" alt="Cávado">
-          </div>
-          <span class="card-text" id="label-cavado">Cávado Mobilidade</span>
-        </div>
-        <i class="fas fa-arrow-right arrow-icon"></i>
-      </a>
-
-      <a class="card" href="https://avemobilidade.pt/home" target="_blank">
-        <div class="card-content">
-          <div class="logo-wrapper">
-            <img class="logo" src="https://raw.githubusercontent.com/Bragatur/transportes/refs/heads/main/ave.jpg" alt="AVE">
-          </div>
-          <span class="card-text" id="label-ave">AVE Mobilidade</span>
-        </div>
-        <i class="fas fa-arrow-right arrow-icon"></i>
-      </a>
-    </div>
-  </main>
-
-  <footer id="footer">
-    © Município de Braga. Dados públicos das entidades de transporte
-  </footer>
+  </div>
 
   <script>
     const translations = {
@@ -381,7 +675,9 @@
         ave: "AVE Mobilidade", 
         trainHeading: "<i class='fas fa-train'></i> Comboios", 
         busHeading: "<i class='fas fa-bus'></i> Autocarros", 
-        footer: "© Município de Braga. Dados públicos das entidades de transporte"
+        footerCopyright: "© 2026 Posto de Turismo - DAET | CM Braga",
+        footerContacts: "CONTACTOS",
+        footerPrivacy: "Política de Privacidade"
       },
       en: { 
         title: "Transport to Braga", 
@@ -395,7 +691,9 @@
         ave: "AVE Mobilidade", 
         trainHeading: "<i class='fas fa-train'></i> Trains", 
         busHeading: "<i class='fas fa-bus'></i> Buses", 
-        footer: "© City of Braga. Public data from transport entities"
+        footerCopyright: "© 2026 Tourist Office - DAET | CM Braga",
+        footerContacts: "CONTACTS",
+        footerPrivacy: "Privacy Policy"
       },
       es: {
         title: "Transportes a Braga",
@@ -409,7 +707,9 @@
         ave: "AVE Mobilidade",
         trainHeading: "<i class='fas fa-train'></i> Trenes",
         busHeading: "<i class='fas fa-bus'></i> Autobuses",
-        footer: "© Ayuntamiento de Braga. Datos públicos de entidades de transporte"
+        footerCopyright: "© 2026 Oficina de Turismo - DAET | CM Braga",
+        footerContacts: "CONTACTOS",
+        footerPrivacy: "Política de Privacidad"
       },
       fr: { 
         title: "Transports vers Braga", 
@@ -423,7 +723,9 @@
         ave: "AVE Mobilidade", 
         trainHeading: "<i class='fas fa-train'></i> Trains", 
         busHeading: "<i class='fas fa-bus'></i> Autocars", 
-        footer: "© Ville de Braga. Données publiques des entités de transport"
+        footerCopyright: "© 2026 Office de Tourisme - DAET | CM Braga",
+        footerContacts: "CONTACTS",
+        footerPrivacy: "Politique de confidentialité"
       }
     };
 
@@ -464,7 +766,9 @@
       document.getElementById("label-ave").textContent = t.ave;
       document.getElementById("train-heading").innerHTML = t.trainHeading;
       document.getElementById("bus-heading").innerHTML = t.busHeading;
-      document.getElementById("footer").textContent = t.footer;
+      document.getElementById("footer-copyright").textContent = t.footerCopyright;
+      document.getElementById("footer-contacts").textContent = t.footerContacts;
+      document.getElementById("footer-privacy").textContent = t.footerPrivacy;
       document.getElementById("current-lang").textContent = shortFlags[effectiveLang];
       document.documentElement.lang = effectiveLang;
       updateLangOptions(effectiveLang);
@@ -488,6 +792,61 @@
     const supported = Object.keys(translations);
     const lang = supported.includes(userLang) ? userLang : "pt";
     setLanguage(lang);
+
+    // Loader e Animação de Fundo
+    const bgImg = new Image();
+
+    function onBgLoaded() {
+      const loader = document.getElementById('loader-wrapper');
+      if (loader) {
+        // 1. Inicia o Fade out do loader
+        loader.classList.add('hidden');
+        
+        // 2. Adiciona a class que dispara todas as animações CSS escalonadas
+        document.body.classList.add("show");
+        
+        // 3. Remove completamente o Loader do DOM após a transição
+        setTimeout(() => {
+          loader.style.display = 'none';
+        }, 600);
+      }
+    }
+
+    // Quando a imagem terminar de carregar, dispara a função
+    bgImg.onload = onBgLoaded;
+
+    // Define a imagem que queres carregar
+    bgImg.src = '/public/landing_page.webp';
+
+    // Prevenção extra caso a imagem venha da cache de forma instantânea
+    if (bgImg.complete) {
+      onBgLoaded();
+    }
+
+    // Lógica do Modal de Privacidade
+    const privacyLink = document.getElementById('footer-privacy');
+    const privacyModal = document.getElementById('privacy-modal');
+    const closePrivacyModal = document.getElementById('close-privacy-modal');
+
+    if (privacyLink && privacyModal && closePrivacyModal) {
+      privacyLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        privacyModal.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Impede o scroll de fundo
+      });
+
+      closePrivacyModal.addEventListener('click', () => {
+        privacyModal.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+
+      privacyModal.addEventListener('click', (e) => {
+        if (e.target === privacyModal) {
+          privacyModal.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+    }
   </script>
 </body>
 </html>

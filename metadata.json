@@ -1,0 +1,8 @@
+{
+  "name": "Transportes para Braga",
+  "description": "Transportes e horários para Braga",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
