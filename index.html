@@ -168,6 +168,11 @@
       transform: translateY(-2px);
     }
 
+    .lang-btn:active {
+      transform: translateY(1px) scale(0.96);
+      transition: all 0.1s ease;
+    }
+
     .lang-options {
       position: absolute;
       bottom: calc(100% + 12px);
@@ -206,6 +211,11 @@
     .lang-option:hover {
       background: rgba(255, 255, 255, 0.1);
       color: var(--text-main);
+    }
+
+    .lang-option:active {
+      background: rgba(255, 255, 255, 0.15);
+      transition: all 0.1s ease;
     }
 
     /* Main Container */
@@ -303,6 +313,12 @@
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
     }
 
+    .home-btn:active {
+      transform: translateY(2px) scale(0.98);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+      transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
     .btn-back {
       width: 100%;
       max-width: 320px;
@@ -327,6 +343,11 @@
     .btn-back:hover {
       background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.04) 100%);
       border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .btn-back:active {
+      transform: translateY(2px) scale(0.98);
+      transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .group-title {
@@ -449,6 +470,13 @@
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
     }
 
+    .card:active {
+      transform: translateY(2px) scale(0.98);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.06) 100%);
+      transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
     /* Accordion / Details */
     details.service-accordion {
       width: 100%;
@@ -496,6 +524,12 @@
       justify-content: space-between;
       list-style: none;
       border: none;
+      transition: background 0.3s ease;
+    }
+
+    details.service-accordion > summary.section-title:active {
+      background: rgba(255, 255, 255, 0.05);
+      transition: background 0.1s ease;
     }
 
     details.service-accordion > summary.section-title::-webkit-details-marker {
@@ -699,6 +733,11 @@
 
     .btn-primary:hover {
       background: #1d4ed8;
+    }
+
+    .btn-primary:active {
+      transform: translateY(1px) scale(0.98);
+      transition: all 0.1s ease;
     }
     
     @media (max-width: 680px) {
