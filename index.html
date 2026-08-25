@@ -824,7 +824,19 @@
                   <div class="icon-wrapper">
                     <i class="fa-solid fa-road-circle-check"></i>
                   </div>
-                  <span class="card-text" id="label-tolls">Portagens</span>
+                  <span class="card-text" id="label-tolls">PT Tolls</span>
+                </a>
+                <a class="card" href="https://visitors.viaverde.pt/pt?_gl=1%2A7faw46%2A_gcl_au%2AMTU3MDMxMDc5My4xNzg3NjY2MzEz&s=identificador" target="_blank">
+                  <div class="icon-wrapper">
+                    <i class="fa-solid fa-rss"></i>
+                  </div>
+                  <span class="card-text" id="label-viaverde">Via Verde Go Toll</span>
+                </a>
+                <a class="card" href="https://www.pagamentodeportagens.pt/" target="_blank">
+                  <div class="icon-wrapper">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                  </div>
+                  <span class="card-text" id="label-tolls-fines">Portagens em Falta</span>
                 </a>
               </div>
             </div>
@@ -1147,7 +1159,9 @@
         get: "GetBus (Aeroporto)", 
         cavado: "Cávado Mobilidade", 
         ave: "AVE Mobilidade", 
-        tolls: "Portagens",
+        tolls: "PT Tolls",
+        viaverde: "Via Verde Go Toll",
+        tollsFines: "Portagens em Falta",
         tub: "TUB (Autocarros Urbanos)",
         bragataxis: "Braga Táxis",
         taxisbraga: "Táxis Braga",
@@ -1201,7 +1215,9 @@
         get: "GetBus (Airport)", 
         cavado: "Cávado Mobilidade", 
         ave: "AVE Mobilidade", 
-        tolls: "Tolls",
+        tolls: "PT Tolls",
+        viaverde: "Via Verde Go Toll",
+        tollsFines: "Unpaid Tolls",
         tub: "TUB (Urban Buses)",
         bragataxis: "Braga Táxis",
         taxisbraga: "Táxis Braga",
@@ -1255,7 +1271,9 @@
         get: "GetBus (Aeropuerto)",
         cavado: "Cávado Mobilidade",
         ave: "AVE Mobilidade",
-        tolls: "Peajes",
+        tolls: "PT Tolls",
+        viaverde: "Via Verde Go Toll",
+        tollsFines: "Peajes Pendientes",
         tub: "TUB (Autobuses Urbanos)",
         bragataxis: "Braga Táxis",
         taxisbraga: "Táxis Braga",
@@ -1309,7 +1327,9 @@
         get: "GetBus (Aéroport)", 
         cavado: "Cávado Mobilidade", 
         ave: "AVE Mobilidade", 
-        tolls: "Péages",
+        tolls: "PT Tolls",
+        viaverde: "Via Verde Go Toll",
+        tollsFines: "Péages Impayés",
         tub: "TUB (Bus Urbains)",
         bragataxis: "Braga Táxis",
         taxisbraga: "Táxis Braga",
@@ -1392,6 +1412,8 @@
       document.getElementById("label-cavado").textContent = t.cavado;
       document.getElementById("label-ave").textContent = t.ave;
       document.getElementById("label-tolls").textContent = t.tolls;
+      document.getElementById("label-viaverde").textContent = t.viaverde;
+      document.getElementById("label-tolls-fines").textContent = t.tollsFines;
       document.getElementById("label-ana").textContent = t.ana;
       document.getElementById("label-skyscanner").textContent = t.skyscanner;
       document.getElementById("label-google-flights").textContent = t.googleFlights;
