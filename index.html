@@ -3,25 +3,39 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Transportes para Braga</title>
+  <title>Mobilidade em Braga — Visit Braga</title>
+  <meta name="description" content="Planeie a sua viagem para Braga e desloque-se facilmente na cidade: comboios, autocarros, portagens, aeroporto, TUB, táxis, estacionamento e Bom Jesus." />
+  <meta property="og:title" content="Mobilidade em Braga — Visit Braga" />
+  <meta property="og:description" content="Planeie a sua viagem para Braga e desloque-se facilmente na cidade: comboios, autocarros, portagens, aeroporto, TUB, táxis, estacionamento e Bom Jesus." />
   <link rel="icon" type="image/svg+xml" href="/public/braga-icon.svg" />
-  
+
   <!-- Google Fonts: Plus Jakarta Sans -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
 
   <style>
     :root {
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
-      --bg-glass: rgba(255, 255, 255, 0.05);
-      --border-glass: rgba(255, 255, 255, 0.15);
+      /* Paleta institucional inspirada no granito escuro e na luz dourada de Braga */
+      --accent: #e2b866;
+      --accent-solid: #d4a64f;
+      --accent-solid-hover: #e3b967;
+      --accent-ink: #111318;
+      --accent-soft: rgba(226, 184, 102, 0.14);
+      --accent-border: rgba(226, 184, 102, 0.38);
+
+      --surface-panel: linear-gradient(150deg, rgba(22, 24, 30, 0.72) 0%, rgba(12, 14, 19, 0.82) 100%);
+      --surface-card: rgba(255, 255, 255, 0.045);
+      --surface-card-hover: rgba(255, 255, 255, 0.09);
+      --hairline: rgba(255, 255, 255, 0.09);
+      --hairline-strong: rgba(255, 255, 255, 0.18);
+
       --text-main: #ffffff;
       --text-muted: #cbd5e1;
+      --text-subtle: #94a3b8;
     }
 
     * {
@@ -32,9 +46,19 @@
 
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      background: #0f1115;
+      background: #0e1015;
       color: var(--text-main);
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .is-hidden {
+      display: none !important;
     }
 
     /* --- FUNDO E OVERLAY --- */
@@ -45,21 +69,20 @@
       background: url('/public/Braga_em_Fotos_018.jpg') no-repeat center center;
       background-size: cover;
       z-index: 0;
-      /* Animação subtil "Ken Burns" */
-      animation: kenBurns 30s infinite alternate ease-in-out;
+      animation: kenBurns 32s infinite alternate ease-in-out;
     }
 
     @keyframes kenBurns {
       0% { transform: scale(1) translateZ(0); }
-      100% { transform: scale(1.08) translateZ(0); }
+      100% { transform: scale(1.07) translateZ(0); }
     }
 
     .overlay {
       position: relative;
       z-index: 1;
-      background: linear-gradient(to bottom, rgba(15,17,21,0.3) 0%, rgba(15,17,21,0.85) 100%);
+      background: linear-gradient(to bottom, rgba(12,14,19,0.42) 0%, rgba(12,14,19,0.9) 100%);
       min-height: 100vh;
-      width: 100vw;
+      width: 100%;
     }
 
     .overlay-inner {
@@ -72,13 +95,122 @@
       padding: 0 24px;
     }
 
+    /* --- FAIXA SUPERIOR (IDIOMA NO CANTO SUPERIOR DIREITO) --- */
+    .top-utility-bar {
+      width: 100%;
+      max-width: 920px;
+      padding-top: 20px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      position: relative;
+      z-index: 120;
+    }
+
+    .lang-dropdown {
+      position: relative;
+    }
+
+    .lang-btn {
+      background: rgba(18, 21, 28, 0.72);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--hairline-strong);
+      color: var(--text-main);
+      height: 40px;
+      padding: 0 14px;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+    }
+
+    .lang-btn .lang-globe {
+      color: var(--accent);
+      font-size: 0.85rem;
+    }
+
+    .lang-btn .lang-caret {
+      font-size: 0.68rem;
+      color: var(--text-subtle);
+      transition: transform 0.18s ease;
+    }
+
+    .lang-btn[aria-expanded="true"] .lang-caret {
+      transform: rotate(180deg);
+    }
+
+    .lang-btn:hover {
+      background: rgba(32, 37, 48, 0.86);
+      border-color: var(--accent-border);
+    }
+
+    .lang-btn:active {
+      transform: scale(0.98);
+    }
+
+    .lang-options {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      background: rgba(16, 19, 26, 0.96);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--hairline-strong);
+      border-radius: 12px;
+      overflow: hidden;
+      display: none;
+      flex-direction: column;
+      min-width: 140px;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.45);
+      animation: dropdownFadeDown 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .lang-options.show {
+      display: flex;
+    }
+
+    @keyframes dropdownFadeDown {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .lang-option {
+      width: 100%;
+      background: transparent;
+      border: none;
+      font-family: inherit;
+      padding: 11px 16px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .lang-option:hover,
+    .lang-option:focus-visible {
+      background: rgba(226, 184, 102, 0.12);
+      color: #ffffff;
+    }
+
     .main-wrapper {
       flex-grow: 1;
       display: flex;
       align-items: center;
       justify-content: center;
       width: 100%;
-      padding: 40px 0;
+      padding: 20px 0 36px;
     }
 
     /* --- LOADER --- */
@@ -86,7 +218,7 @@
       position: fixed;
       top: 0; left: 0;
       width: 100vw; height: 100vh;
-      background: #0f1115;
+      background: #0e1015;
       z-index: 99999;
       display: flex;
       flex-direction: column;
@@ -101,530 +233,791 @@
       pointer-events: none;
     }
 
-    .loader-logo { width: 180px; margin-bottom: 30px; animation: pulseLogo 2s infinite ease-in-out; }
-    .loader-spinner {
-      width: 40px; height: 40px;
-      border: 3px solid rgba(255, 255, 255, 0.1);
-      border-radius: 50%;
-      border-top-color: #3b82f6;
-      animation: loaderSpin 1s ease-in-out infinite;
+    .loader-logo {
+      width: 180px;
+      margin-bottom: 28px;
+      animation: pulseLogo 2s infinite ease-in-out;
     }
 
-    @keyframes pulseLogo { 0%, 100% { opacity: 0.7; transform: scale(0.98); } 50% { opacity: 1; transform: scale(1); } }
-    @keyframes loaderSpin { to { transform: rotate(360deg); } }
+    .loader-spinner {
+      width: 38px; height: 38px;
+      border: 2.5px solid rgba(255, 255, 255, 0.12);
+      border-radius: 50%;
+      border-top-color: var(--accent);
+      animation: loaderSpin 0.95s ease-in-out infinite;
+    }
 
-    /* --- ANIMAÇÕES DE ENTRADA (Mecânica "body.show") --- */
+    @keyframes pulseLogo {
+      0%, 100% { opacity: 0.72; transform: scale(0.98); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes loaderSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* --- ANIMAÇÕES DE ENTRADA --- */
     @keyframes containerPop {
-      0% { opacity: 0; transform: scale(0.96) translateY(20px); }
+      0% { opacity: 0; transform: scale(0.98) translateY(14px); }
       100% { opacity: 1; transform: scale(1) translateY(0); }
     }
 
     @keyframes slideUpFade {
-      0% { opacity: 0; transform: translateY(15px); }
+      0% { opacity: 0; transform: translateY(10px); }
       100% { opacity: 1; transform: translateY(0); }
     }
 
-    /* Preparação invisível dos elementos */
-    main { opacity: 0; transform: scale(0.96) translateY(20px); }
-    #title, .site-footer { opacity: 0; transform: translateY(15px); }
+    main { opacity: 0; transform: scale(0.98) translateY(14px); }
+    #title, .site-footer { opacity: 0; transform: translateY(10px); }
 
-    /* Disparo das animações ao adicionar a classe "show" ao body via Javascript */
-    body.show main { animation: containerPop 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-    body.show #title { animation: slideUpFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.25s; }
-    body.show .site-footer { animation: slideUpFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.95s; }
+    body.show main { animation: containerPop 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    body.show #title { animation: slideUpFade 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.16s; }
+    body.show .site-footer { animation: slideUpFade 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.5s; }
 
-    /* Selector de Idiomas no Topo */
-    .lang-container {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      z-index: 100;
+    /* Transição suave entre ecrãs */
+    #view-stage {
+      width: 100%;
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.18s cubic-bezier(0.16, 1, 0.3, 1), transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .lang-dropdown {
-      position: relative;
+    #view-stage.view-leaving {
+      opacity: 0;
+      transform: translateY(5px);
     }
 
-    .lang-btn {
-      background: rgba(30, 30, 30, 0.7);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--border-glass);
-      color: var(--text-main);
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    #view-stage.view-entering {
+      opacity: 0;
+      transform: translateY(7px);
+      transition: none;
     }
 
-    .lang-btn:hover {
-      background: rgba(60, 60, 60, 0.8);
-      transform: translateY(-2px);
-    }
-
-    .lang-btn:active {
-      transform: translateY(0) scale(0.98);
-      transition: all 0.15s ease-out;
-    }
-
-    .lang-options {
-      position: absolute;
-      bottom: calc(100% + 12px);
-      right: 0;
-      background: rgba(20, 25, 35, 0.95);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--border-glass);
-      border-radius: 12px;
-      overflow: hidden;
-      display: none;
-      flex-direction: column;
-      min-width: 120px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-      animation: dropdownFadeUp 0.2s ease;
-    }
-
-    .lang-options.show {
-      display: flex;
-    }
-
-    @keyframes dropdownFadeUp {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .lang-option {
-      padding: 12px 16px;
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-align: right;
-    }
-
-    .lang-option:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: var(--text-main);
-    }
-
-    .lang-option:active {
-      background: rgba(255, 255, 255, 0.15);
-      transition: all 0.15s ease-out;
-    }
-
-    /* Main Container */
+    /* --- CONTENTOR PRINCIPAL --- */
     main {
       width: 100%;
-      max-width: 860px;
-      padding: 40px 32px;
+      max-width: 920px;
+      padding: 40px 36px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      background: linear-gradient(145deg, rgba(30, 30, 30, 0.5) 0%, rgba(15, 15, 15, 0.6) 100%);
+      background: var(--surface-panel);
       backdrop-filter: blur(28px);
       -webkit-backdrop-filter: blur(28px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 32px;
-      box-shadow: 0 32px 64px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+      border: 1px solid var(--hairline);
+      border-radius: 28px;
+      box-shadow: 0 32px 64px rgba(0,0,0,0.44), inset 0 1px 0 rgba(255,255,255,0.09);
+      transition: padding 0.25s ease;
+    }
+
+    main.in-section {
+      padding-top: 28px;
     }
 
     header {
       text-align: center;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      transition: margin-bottom 0.22s ease;
+    }
+
+    main.in-section header {
+      margin-bottom: 20px;
+    }
+
+    .brand-home-btn {
+      background: transparent;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 10px;
+      cursor: default;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+      transition: opacity 0.2s ease, transform 0.2s ease, margin-bottom 0.2s ease;
+    }
+
+    main.in-section .brand-home-btn {
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    main.in-section .brand-home-btn:hover {
+      opacity: 0.85;
+      transform: translateY(-1px);
     }
 
     .main-visit-logo {
-      height: 36px;
-      margin-bottom: 24px;
+      height: 38px;
+      display: block;
+      transition: height 0.22s ease;
+    }
+
+    main.in-section .main-visit-logo {
+      height: 28px;
     }
 
     h1 {
-      font-size: 2rem;
+      font-size: 2.05rem;
       font-weight: 700;
-      letter-spacing: -0.03em;
-      margin-bottom: 12px;
+      letter-spacing: -0.025em;
+      margin-bottom: 8px;
       color: #ffffff;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      text-wrap: balance;
+      transition: font-size 0.22s ease, margin-bottom 0.22s ease;
+    }
+
+    main.in-section h1 {
+      font-size: 1.45rem;
+      margin-bottom: 0;
     }
 
     header p {
-      font-size: 1rem;
+      font-size: 0.98rem;
       color: var(--text-muted);
       font-weight: 400;
-      opacity: 0.9;
+      opacity: 0.92;
+      transition: opacity 0.2s ease;
     }
 
-    /* Menu Inicial (Landing) */
+    main.in-section header p {
+      display: none;
+    }
+
+    /* --- MENU INICIAL (LANDING) --- */
     .home-menu-grid {
       display: flex;
       flex-direction: row;
       justify-content: center;
       gap: 16px;
       width: 100%;
-      margin-top: 24px;
-      margin-bottom: 24px;
+      margin: 12px 0 10px;
     }
-    
+
     .home-btn {
       width: 100%;
-      max-width: 320px;
-      background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
-      padding: 16px 20px;
+      max-width: 390px;
+      background: var(--surface-card);
+      border: 1px solid var(--hairline);
+      border-radius: 16px;
+      padding: 20px 22px;
       color: var(--text-main);
-      font-size: 1.1rem;
-      font-weight: 600;
+      font-family: inherit;
+      text-align: left;
       display: flex;
       align-items: center;
       justify-content: flex-start;
       gap: 16px;
       cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     }
-    
+
     .home-btn i {
-      font-size: 1.4rem;
-      width: 40px;
-      height: 40px;
-      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 8px;
+      font-size: 1.3rem;
+      width: 46px;
+      height: 46px;
+      flex-shrink: 0;
+      background: var(--accent-soft);
+      border-radius: 11px;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      color: var(--accent);
     }
-    
+
+    .home-btn-body {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .home-btn-title {
+      font-size: 1.08rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+    }
+
+    .home-btn-sub {
+      font-size: 0.83rem;
+      font-weight: 400;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .home-btn-arrow {
+      color: var(--text-subtle);
+      font-size: 0.85rem;
+      flex-shrink: 0;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
     .home-btn:hover {
-      background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.04) 100%);
-      border-color: rgba(255, 255, 255, 0.3);
-      transform: translateY(-4px);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+      background: var(--surface-card-hover);
+      border-color: var(--accent-border);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.25);
+    }
+
+    .home-btn:hover .home-btn-arrow {
+      color: var(--accent);
+      transform: translateX(3px);
     }
 
     .home-btn:active {
       transform: translateY(1px) scale(0.99);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
       transition: all 0.15s ease-out;
+    }
+
+    /* --- BARRA INTERNA: BOTÃO INÍCIO + ABAS SEGMENTADAS --- */
+    .section-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+      margin-bottom: 16px;
     }
 
     .btn-back {
-      width: 100%;
-      max-width: 320px;
-      margin-left: auto;
-      margin-right: auto;
-      background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
-      padding: 12px 20px;
-      color: var(--text-main);
-      font-size: 0.95rem;
+      background: transparent;
+      border: 1px solid var(--hairline);
+      border-radius: 10px;
+      padding: 0 14px;
+      height: 42px;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.86rem;
       font-weight: 600;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
+      gap: 8px;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      margin-bottom: 24px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.15s ease-out;
     }
 
     .btn-back:hover {
-      background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.04) 100%);
-      border-color: rgba(255, 255, 255, 0.25);
-    }
-
-    .btn-back:active {
-      transform: translateY(1px) scale(0.99);
-      transition: all 0.15s ease-out;
-    }
-
-    .group-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: rgba(255, 255, 255, 0.85);
-      margin: 40px 0 24px;
-      text-align: center;
-      width: 100%;
-      background: transparent;
-      padding: 0;
-      border-radius: 0;
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-    }
-    
-    .group-title::before,
-    .group-title::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
-    }
-
-    .section-title {
-      font-size: 1rem;
-      font-weight: 600;
-      margin: 12px 0 12px;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: rgba(255, 255, 255, 0.9);
-      padding-bottom: 0;
-      border-bottom: none;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .section-title i {
-      color: #60a5fa;
-    }
-
-    /* Cards Grid */
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 12px;
-      width: 100%;
-      margin-bottom: 24px;
-    }
-
-    .card {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 12px 16px;
-      background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
-      text-decoration: none;
-      color: var(--text-main);
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      gap: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    }
-
-    .logo-wrapper {
-      width: 40px;
-      height: 40px;
-      background: transparent;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-
-    .icon-wrapper {
-      width: 40px;
-      height: 40px;
-      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-
-    .icon-wrapper i {
-      font-size: 18px;
+      background: rgba(255, 255, 255, 0.06);
+      border-color: var(--hairline-strong);
       color: #ffffff;
     }
 
-    .card img.logo {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      padding: 0;
+    .btn-back:active {
+      transform: scale(0.98);
     }
 
-    .card-text {
-      font-size: 0.95rem;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-    }
-
-    .card:hover {
-      background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.04) 100%);
-      border-color: rgba(255, 255, 255, 0.3);
-      transform: translateY(-4px);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
-    }
-
-    .card:active {
-      transform: translateY(1px) scale(0.99);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-      background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.05) 100%);
-      transition: all 0.15s ease-out;
-    }
-
-    /* Accordion / Details */
-    details.service-accordion {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+    .segmented-tabs {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--hairline);
       border-radius: 12px;
-      margin-bottom: 24px;
-      overflow: hidden;
-      transition: all 0.3s ease;
+      flex: 1;
+      max-width: 440px;
     }
 
+    .tab-btn {
+      flex: 1;
+      height: 36px;
+      padding: 0 14px;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.86rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .tab-btn i {
+      font-size: 0.82rem;
+      opacity: 0.8;
+    }
+
+    .tab-btn:hover:not(.active) {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .tab-btn.active {
+      background: var(--accent-solid);
+      color: var(--accent-ink);
+      box-shadow: 0 2px 10px rgba(212, 166, 79, 0.25);
+    }
+
+    .tab-btn.active i {
+      opacity: 1;
+    }
+
+    /* --- PESQUISA RÁPIDA INSTANTÂNEA --- */
+    .search-bar-wrap {
+      width: 100%;
+      margin-bottom: 18px;
+    }
+
+    .search-input-box {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 15px;
+      color: var(--text-subtle);
+      font-size: 0.86rem;
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 44px;
+      padding: 0 42px 0 40px;
+      border-radius: 12px;
+      border: 1px solid var(--hairline);
+      background: rgba(255, 255, 255, 0.04);
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 0.9rem;
+      transition: border-color 0.18s ease, background 0.18s ease;
+    }
+
+    .search-input::placeholder {
+      color: var(--text-subtle);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--accent-border);
+      background: rgba(255, 255, 255, 0.065);
+    }
+
+    .search-clear-btn {
+      position: absolute;
+      right: 8px;
+      width: 30px;
+      height: 30px;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .search-clear-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+
+    .search-empty-state {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
+      padding: 32px 16px;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+
+    .search-switch-btn {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--accent-border);
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.18s ease, transform 0.15s ease;
+    }
+
+    .search-switch-btn:hover {
+      background: rgba(226, 184, 102, 0.22);
+    }
+
+    /* --- ACORDEÕES EDITORIAIS COM DIVISÓRIAS FINAS (SEM CAIXAS ANINHADAS) --- */
     .accordion-group {
       display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
+      flex-direction: column;
       width: 100%;
+      border-top: 1px solid var(--hairline);
     }
 
-    .accordion-group > details.service-accordion {
-      flex: 1 1 calc(50% - 16px);
-      margin-bottom: 0;
-    }
-
-    .accordion-group > details.service-accordion[open] {
-      flex: 1 1 100%;
-    }
-
-    @media (max-width: 768px) {
-      .accordion-group > details.service-accordion {
-        flex: 1 1 100%;
-      }
+    details.service-accordion {
+      width: 100%;
+      border-bottom: 1px solid var(--hairline);
+      background: transparent;
+      transition: background 0.2s ease;
     }
 
     details.service-accordion[open] {
-      background: rgba(255, 255, 255, 0.04);
-      border-color: rgba(255, 255, 255, 0.15);
+      padding-bottom: 18px;
     }
 
     details.service-accordion > summary.section-title {
       cursor: pointer;
       margin: 0;
-      padding: 16px;
+      padding: 16px 6px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       list-style: none;
       border: none;
-      transition: background 0.3s ease;
+      font-size: 0.96rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.94);
+      letter-spacing: 0.01em;
+      transition: color 0.18s ease;
     }
 
-    details.service-accordion > summary.section-title:active {
-      background: rgba(255, 255, 255, 0.03);
-      transition: background 0.15s ease-out;
+    details.service-accordion > summary.section-title:hover {
+      color: #ffffff;
     }
 
     details.service-accordion > summary.section-title::-webkit-details-marker {
       display: none;
     }
 
-    details.service-accordion > summary.section-title .summary-left {
+    .summary-left-wrap {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .summary-left {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    .summary-left i {
+      color: var(--accent);
+      width: 20px;
+      text-align: center;
+      font-size: 0.98rem;
+    }
+
+    /* Metadado discreto sem caixa (zero-pill) */
+    .accordion-count {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-subtle);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
     }
 
     details.service-accordion > summary.section-title::after {
       content: '\f078';
       font-family: 'Font Awesome 6 Free';
       font-weight: 900;
-      font-size: 0.85rem;
-      transition: transform 0.3s ease;
-      color: rgba(255,255,255,0.5);
+      font-size: 0.78rem;
+      transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease;
+      color: var(--text-subtle);
+      margin-left: 12px;
     }
 
     details.service-accordion[open] > summary.section-title::after {
       transform: rotate(180deg);
+      color: var(--accent);
     }
 
     details.service-accordion .accordion-content {
-      padding: 0 16px 16px 16px;
-    }
-    
-    details.service-accordion .accordion-content .card-grid {
-      margin-bottom: 0;
+      padding: 4px 2px 4px 2px;
+      animation: slideUpFade 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* --- ESTILOS DO FOOTER --- */
-    .site-footer {
-      width: 100%; max-width: 960px;
-      margin: 0 auto 24px auto;
-      display: flex; justify-content: space-between; align-items: flex-end;
-      text-align: left;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      padding-top: 24px;
-      color: #94a3b8;
+    /* Nota contextual discreta */
+    .section-tip {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      padding: 2px 4px 14px 4px;
+      color: var(--text-muted);
+      font-size: 0.84rem;
+      line-height: 1.5;
     }
+
+    .section-tip i {
+      color: var(--accent);
+      margin-top: 3px;
+      flex-shrink: 0;
+      font-size: 0.84rem;
+    }
+
+    /* --- CARTÕES DE SERVIÇO (ÚNICO NÍVEL DE ELEVAÇÃO) --- */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(252px, 1fr));
+      gap: 12px;
+      width: 100%;
+    }
+
+    .card {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 13px 15px;
+      background: var(--surface-card);
+      border: 1px solid var(--hairline);
+      border-radius: 13px;
+      text-decoration: none;
+      color: var(--text-main);
+      gap: 13px;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      background: var(--surface-card-hover);
+      border-color: var(--accent-border);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+    }
+
+    .card:active {
+      transform: translateY(1px) scale(0.99);
+      transition: all 0.15s ease-out;
+    }
+
+    /* Enquadramento para logótipos reais de operadores */
+    .logo-wrapper {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+      padding: 3px;
+    }
+
+    .logo-wrapper img.operator-logo {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .logo-wrapper .logo-fallback-icon {
+      display: none;
+      color: var(--accent);
+      font-size: 17px;
+    }
+
+    .logo-wrapper.logo-fallback-active {
+      background: var(--accent-soft);
+      padding: 0;
+    }
+
+    .logo-wrapper.logo-fallback-active img.operator-logo {
+      display: none;
+    }
+
+    .logo-wrapper.logo-fallback-active .logo-fallback-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Ícones sem bordas pesadas, com tonalidade subtil por categoria */
+    .icon-wrapper {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+    }
+
+    .icon-wrapper i {
+      font-size: 17px;
+    }
+
+    .icon-wrapper.tone-gold {
+      background: rgba(226, 184, 102, 0.15);
+      color: #e9c57a;
+    }
+
+    .icon-wrapper.tone-emerald {
+      background: rgba(52, 211, 153, 0.14);
+      color: #6ee7b7;
+    }
+
+    .icon-wrapper.tone-sky {
+      background: rgba(125, 211, 252, 0.14);
+      color: #bae6fd;
+    }
+
+    .icon-wrapper.tone-amber {
+      background: rgba(251, 191, 36, 0.14);
+      color: #fcd34d;
+    }
+
+    .card-body {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .card-text {
+      font-size: 0.94rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+      line-height: 1.25;
+    }
+
+    .card-subtitle {
+      font-size: 0.77rem;
+      font-weight: 400;
+      color: var(--text-muted);
+      line-height: 1.35;
+      opacity: 0.88;
+    }
+
+    .card-ext-icon {
+      font-size: 0.72rem;
+      color: rgba(255, 255, 255, 0.34);
+      flex-shrink: 0;
+      align-self: flex-start;
+      margin-top: 3px;
+      transition: color 0.18s ease, transform 0.18s ease;
+    }
+
+    .card:hover .card-ext-icon {
+      color: var(--accent);
+      transform: translate(1px, -1px);
+    }
+
+    /* --- RODAPÉ --- */
+    .site-footer {
+      width: 100%;
+      max-width: 920px;
+      margin: 0 auto 24px auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      text-align: left;
+      border-top: 1px solid var(--hairline);
+      padding-top: 22px;
+      color: var(--text-subtle);
+    }
+
     .footer-left { display: flex; flex-direction: column; gap: 8px; }
-    .footer-logo { height: 64px; max-width: 220px; margin-bottom: 4px; object-fit: contain; object-position: left; }
+    .footer-logo { height: 60px; max-width: 220px; margin-bottom: 4px; object-fit: contain; object-position: left; }
     .footer-copyright { font-size: 0.8rem; }
-    
+
     .footer-right { display: flex; flex-direction: column; gap: 8px; text-align: right; align-items: flex-end; }
-    .footer-contactos-title { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; color: #fff; margin-bottom: 4px; }
-    
+    .footer-contactos-title { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; color: var(--accent); margin-bottom: 2px; }
+
     .footer-contact-row {
       display: flex; gap: 16px; align-items: center; flex-wrap: wrap; justify-content: flex-end;
     }
-    
-    .footer-contact-item { 
-      display: flex; align-items: center; gap: 8px; 
-      color: #cbd5e1; text-decoration: none; transition: color 0.2s ease; font-size: 0.85rem;
-    }
-    .footer-contact-item:hover { color: #fff; }
-    
-    .footer-privacy { color: #64748b; text-decoration: none; font-size: 0.8rem; margin-top: 4px; transition: color 0.2s; }
-    .footer-privacy:hover { color: #fff; text-decoration: underline; }
 
-    /* Mobile CSS */
+    .footer-contact-item {
+      display: flex; align-items: center; gap: 8px;
+      color: var(--text-muted); text-decoration: none; transition: color 0.18s ease; font-size: 0.84rem;
+    }
+    .footer-contact-item:hover { color: #ffffff; }
+
+    .footer-privacy { color: var(--text-subtle); text-decoration: none; font-size: 0.8rem; margin-top: 2px; transition: color 0.18s ease; }
+    .footer-privacy:hover { color: var(--accent); text-decoration: underline; }
+
+    /* --- MOBILE RESPONSIVO --- */
     @media (max-width: 680px) {
+      .overlay-inner { padding: 0 16px; }
+      .top-utility-bar { padding-top: 14px; }
+      .main-wrapper { padding: 14px 0 28px; }
+
+      main { padding: 26px 18px; border-radius: 22px; }
+      main.in-section { padding: 20px 16px; }
+
+      h1 { font-size: 1.55rem; }
+      main.in-section h1 { font-size: 1.25rem; }
+
       .home-menu-grid {
         flex-direction: column;
         align-items: center;
         gap: 12px;
       }
-      .main-wrapper { padding: 24px 0; }
-      main { padding: 32px 20px; border-radius: 20px; }
-      h1 { font-size: 1.6rem; }
-      .group-title { font-size: 1.1rem; margin: 32px 0 16px; }
-      .lang-container { bottom: 16px; right: 16px; }
-      
-      .site-footer { flex-direction: column; align-items: flex-start; gap: 32px; padding-bottom: 80px; }
+
+      .section-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+
+      .btn-back {
+        align-self: flex-start;
+        height: 38px;
+      }
+
+      .segmented-tabs {
+        max-width: 100%;
+        width: 100%;
+      }
+
+      .tab-btn {
+        font-size: 0.82rem;
+        padding: 0 10px;
+      }
+
+      .site-footer { flex-direction: column; align-items: flex-start; gap: 24px; padding-bottom: 28px; }
       .footer-right { align-items: flex-start; text-align: left; }
-      .footer-contact-row { justify-content: flex-start; flex-direction: column; align-items: flex-start; gap: 12px; }
+      .footer-contact-row { justify-content: flex-start; flex-direction: column; align-items: flex-start; gap: 10px; }
       .footer-logo { object-position: left; }
     }
 
-    /* Modal de Privacidade */
+    /* --- MODAL DE PRIVACIDADE --- */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(0, 0, 0, 0.75);
+      background: rgba(0, 0, 0, 0.78);
       backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       z-index: 100000;
       display: flex;
       align-items: center;
       justify-content: center;
       opacity: 0;
       visibility: hidden;
-      transition: all 0.3s ease;
+      transition: opacity 0.24s ease, visibility 0.24s ease;
     }
 
     .modal-overlay.active {
@@ -633,17 +1026,17 @@
     }
 
     .modal-content {
-      background: #111827;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: #13161e;
+      border: 1px solid var(--hairline-strong);
       border-radius: 16px;
       width: 90%;
       max-width: 800px;
       max-height: 85vh;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-      transform: translateY(20px);
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+      transform: translateY(14px);
+      transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .modal-overlay.active .modal-content {
@@ -651,474 +1044,766 @@
     }
 
     .modal-header {
-      padding: 24px 32px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 22px 28px;
+      border-bottom: 1px solid var(--hairline);
     }
-    
+
     .modal-header h2 {
-      font-size: 1.25rem;
+      font-size: 1.18rem;
       font-weight: 600;
-      color: #fff;
+      color: #ffffff;
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
-    .modal-body {
-      padding: 32px;
-      overflow-y: auto;
-      color: #94a3b8;
-      font-size: 0.95rem;
-      line-height: 1.6;
+    .modal-header h2 i {
+      color: var(--accent);
     }
-    
-    /* Scrollbar styling for modal body */
+
+    .modal-body {
+      padding: 26px 28px;
+      overflow-y: auto;
+      color: var(--text-muted);
+      font-size: 0.93rem;
+      line-height: 1.65;
+    }
+
     .modal-body::-webkit-scrollbar { width: 8px; }
     .modal-body::-webkit-scrollbar-track { background: transparent; }
     .modal-body::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 4px; }
     .modal-body::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.3); }
 
     .modal-body h3 {
-      font-size: 1.05rem;
-      color: #fff;
-      margin: 24px 0 12px 0;
+      font-size: 1.01rem;
+      color: #ffffff;
+      margin: 22px 0 10px 0;
       display: flex;
       align-items: center;
       gap: 10px;
     }
-    
-    .modal-body h3:first-child {
-      margin-top: 0;
-    }
 
-    .modal-body p {
-      margin-bottom: 16px;
-    }
-
-    .modal-body ul {
-      margin-bottom: 16px;
-      padding-left: 24px;
-      list-style-type: disc;
-    }
-    
-    .modal-body li {
-      margin-bottom: 8px;
-    }
-    
-    .modal-body li strong {
-      color: #cbd5e1;
-    }
+    .modal-body h3:first-child { margin-top: 0; }
+    .modal-body h3 i { color: var(--accent); font-size: 0.9em; }
+    .modal-body p { margin-bottom: 14px; }
+    .modal-body ul { margin-bottom: 14px; padding-left: 22px; list-style-type: disc; }
+    .modal-body li { margin-bottom: 8px; }
+    .modal-body li strong { color: #f1f5f9; }
+    .modal-body a { color: var(--accent); text-decoration: underline; }
 
     .modal-footer {
-      padding: 20px 32px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 16px 28px;
+      border-top: 1px solid var(--hairline);
       display: flex;
       justify-content: flex-end;
-      background: rgba(17, 24, 39, 0.95);
+      background: rgba(19, 22, 30, 0.98);
       border-bottom-left-radius: 16px;
       border-bottom-right-radius: 16px;
     }
 
     .btn-primary {
-      background: #2563eb;
-      color: #fff;
+      background: var(--accent-solid);
+      color: var(--accent-ink);
       border: none;
       padding: 10px 24px;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      font-weight: 600;
+      border-radius: 9px;
+      font-family: inherit;
+      font-size: 0.92rem;
+      font-weight: 700;
       cursor: pointer;
-      transition: background 0.2s ease;
+      transition: background 0.18s ease, transform 0.15s ease-out;
     }
 
     .btn-primary:hover {
-      background: #1d4ed8;
+      background: var(--accent-solid-hover);
     }
 
     .btn-primary:active {
-      transform: translateY(0) scale(0.99);
-      transition: all 0.15s ease-out;
+      transform: scale(0.99);
     }
-    
+
     @media (max-width: 680px) {
       .modal-content { width: 95%; max-height: 90vh; }
-      .modal-header { padding: 20px; }
-      .modal-body { padding: 20px; }
-      .modal-footer { padding: 16px 20px; }
+      .modal-header { padding: 18px 20px; }
+      .modal-body { padding: 18px 20px; }
+      .modal-footer { padding: 14px 20px; }
+    }
+
+    /* Respeito pela preferência de movimento reduzido */
+    @media (prefers-reduced-motion: reduce) {
+      .bg-image,
+      .loader-logo,
+      .loader-spinner,
+      details.service-accordion .accordion-content,
+      .lang-options {
+        animation: none !important;
+      }
+
+      main,
+      #title,
+      .site-footer {
+        opacity: 1 !important;
+        transform: none !important;
+        animation: none !important;
+      }
+
+      *,
+      *::before,
+      *::after {
+        transition-duration: 0.01ms !important;
+      }
     }
   </style>
 </head>
 <body>
   <!-- 1. Ecrã de Carregamento (Loader) -->
-  <div id="loader-wrapper">
-    <img src="/public/MarcaVisitBraga_white.svg" alt="Logo" class="loader-logo" />
+  <div id="loader-wrapper" aria-hidden="true">
+    <img src="/public/MarcaVisitBraga_white.svg" alt="Visit Braga" class="loader-logo" />
     <div class="loader-spinner"></div>
   </div>
 
-  <!-- 2. Imagem de Fundo (Animada) -->
-  <div class="bg-image" id="bgImage"></div>
-  
-  <!-- 3. Conteúdo Principal e Rodapé (Escurecidos por cima do fundo) -->
+  <!-- 2. Imagem de Fundo -->
+  <div class="bg-image" id="bgImage" aria-hidden="true"></div>
+
+  <!-- 3. Conteúdo Principal e Rodapé -->
   <div class="overlay">
     <div class="overlay-inner">
-      
+
+      <!-- Barra superior discreta com seletor de idiomas visível no canto superior direito -->
+      <div class="top-utility-bar">
+        <div class="lang-dropdown">
+          <button type="button" class="lang-btn" id="lang-btn" aria-label="Alterar idioma (Português)" aria-haspopup="listbox" aria-expanded="false" aria-controls="lang-options">
+            <i class="fa-solid fa-globe lang-globe" aria-hidden="true"></i>
+            <span id="current-lang">PT</span>
+            <i class="fa-solid fa-chevron-down lang-caret" aria-hidden="true"></i>
+          </button>
+          <div class="lang-options" id="lang-options" role="listbox"></div>
+        </div>
+      </div>
+
       <div class="main-wrapper">
         <main>
           <header>
-            <img src="/public/MarcaVisitBraga_white.svg" alt="Visit Braga" class="main-visit-logo" />
+            <button type="button" id="brand-home-btn" class="brand-home-btn" aria-label="Voltar ao ecrã inicial — Visit Braga">
+              <img src="/public/MarcaVisitBraga_white.svg" alt="Visit Braga" class="main-visit-logo" />
+            </button>
             <h1 id="title">Mobilidade em Braga</h1>
             <p id="description">Planeie a sua viagem e desloque-se na cidade:</p>
           </header>
 
-          <!-- MENU INICIAL -->
-          <div id="home-menu" class="home-menu-grid">
-            <button class="home-btn" onclick="showSection('arrive')">
-              <i class="fa-solid fa-map-location-dot"></i>
-              <span id="btn-arrive">Como Chegar</span>
-            </button>
-            <button class="home-btn" onclick="showSection('around')">
-              <i class="fa-solid fa-city"></i>
-              <span id="btn-around">Na Cidade</span>
-            </button>
+          <!-- Palco de Navegação com Transição Suave -->
+          <div id="view-stage">
+
+            <!-- MENU INICIAL -->
+            <div id="home-menu" class="home-menu-grid">
+              <button type="button" id="home-btn-arrive" class="home-btn">
+                <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i>
+                <span class="home-btn-body">
+                  <span class="home-btn-title" id="btn-arrive">Viajar para Braga</span>
+                  <span class="home-btn-sub" id="btn-arrive-sub">Comboios, autocarros, carro e aeroporto</span>
+                </span>
+                <i class="fa-solid fa-chevron-right home-btn-arrow" aria-hidden="true"></i>
+              </button>
+              <button type="button" id="home-btn-around" class="home-btn">
+                <i class="fa-solid fa-city" aria-hidden="true"></i>
+                <span class="home-btn-body">
+                  <span class="home-btn-title" id="btn-around">Na Cidade</span>
+                  <span class="home-btn-sub" id="btn-around-sub">TUB, táxis, estacionamento e Bom Jesus</span>
+                </span>
+                <i class="fa-solid fa-chevron-right home-btn-arrow" aria-hidden="true"></i>
+              </button>
+            </div>
+
+            <!-- BARRA INTERNA: INÍCIO + TROCA DIRETA ENTRE SECÇÕES -->
+            <div id="section-toolbar" class="section-toolbar" style="display: none;">
+              <button type="button" id="btn-back" class="btn-back">
+                <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+                <span id="label-back">Início</span>
+              </button>
+
+              <div class="segmented-tabs" role="tablist">
+                <button type="button" id="tab-arrive" class="tab-btn" role="tab" aria-selected="false" aria-controls="section-arrive">
+                  <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i>
+                  <span id="tab-arrive-label">Viajar para Braga</span>
+                </button>
+                <button type="button" id="tab-around" class="tab-btn" role="tab" aria-selected="false" aria-controls="section-around">
+                  <i class="fa-solid fa-city" aria-hidden="true"></i>
+                  <span id="tab-around-label">Na Cidade</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- PESQUISA RÁPIDA INSTANTÂNEA -->
+            <div id="search-bar-wrap" class="search-bar-wrap" style="display: none;">
+              <div class="search-input-box">
+                <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
+                <input
+                  type="search"
+                  id="service-search"
+                  class="search-input"
+                  placeholder="Procurar: portagens, aeroporto, Bom Jesus, táxi..."
+                  aria-label="Procurar serviços de mobilidade"
+                  autocomplete="off"
+                />
+                <button type="button" id="search-clear-btn" class="search-clear-btn" aria-label="Limpar pesquisa">
+                  <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- ESTADO VAZIO DA PESQUISA COM SUGESTÃO PARA A OUTRA SECÇÃO -->
+            <div id="search-empty-state" class="search-empty-state" role="status" aria-live="polite">
+              <span id="search-empty-text">Nenhum serviço encontrado nesta secção.</span>
+              <button type="button" id="search-switch-hint" class="search-switch-btn">
+                <span id="search-switch-label">Ver resultados na outra secção</span>
+                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              </button>
+            </div>
+
+            <!-- GRUPO 1: Viajar para Braga -->
+            <section id="section-arrive" aria-labelledby="tab-arrive-label" style="display: none; width: 100%;">
+              <div class="accordion-group">
+
+                <details class="service-accordion" open>
+                  <summary class="section-title">
+                    <span class="summary-left-wrap">
+                      <span class="summary-left" id="train-heading"><i class="fas fa-train" aria-hidden="true"></i> Comboios</span>
+                      <span class="accordion-count" aria-hidden="true">· 1</span>
+                    </span>
+                  </summary>
+                  <div class="accordion-content">
+                    <div class="card-grid">
+                      <a class="card" id="link-cp" data-keywords="comboio comboios train trains trenes porto alfa pendular ferroviario rail cp" href="https://www.cp.pt/passageiros/pt" target="_blank" rel="noopener noreferrer">
+                        <div class="logo-wrapper">
+                          <img src="/public/logos/cp.webp" alt="CP" class="operator-logo" referrerpolicy="no-referrer" />
+                          <span class="logo-fallback-icon"><i class="fa-solid fa-train" aria-hidden="true"></i></span>
+                        </div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-cp">CP - Comboios</span>
+                          <span class="card-subtitle" id="sub-cp">Comboios urbanos (Porto) e Alfa Pendular</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+                    </div>
+                  </div>
+                </details>
+
+                <details class="service-accordion">
+                  <summary class="section-title">
+                    <span class="summary-left-wrap">
+                      <span class="summary-left" id="bus-heading"><i class="fas fa-bus" aria-hidden="true"></i> Autocarros</span>
+                      <span class="accordion-count" aria-hidden="true">· 6</span>
+                    </span>
+                  </summary>
+                  <div class="accordion-content">
+                    <div class="card-grid">
+                      <a class="card" data-keywords="autocarro autocarros bus terminal central estacao rodoviaria cctb" href="https://cctb.cm-braga.pt/" target="_blank" rel="noopener noreferrer">
+                        <div class="logo-wrapper">
+                          <img src="/public/logos/cctb.webp" alt="CCTB" class="operator-logo" referrerpolicy="no-referrer" />
+                          <span class="logo-fallback-icon"><i class="fa-solid fa-bus" aria-hidden="true"></i></span>
+                        </div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-cctb">Centro Coordenador</span>
+                          <span class="card-subtitle" id="sub-cctb">Terminal rodoviário central de Braga</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" data-keywords="autocarro bus expressos lisboa porto nacional coach" href="https://rede-expressos.pt" target="_blank" rel="noopener noreferrer">
+                        <div class="logo-wrapper">
+                          <img src="/public/logos/redeexpressos.webp" alt="Rede Expressos" class="operator-logo" referrerpolicy="no-referrer" />
+                          <span class="logo-fallback-icon"><i class="fa-solid fa-bus" aria-hidden="true"></i></span>
+                        </div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-re">Rede Expressos</span>
+                          <span class="card-subtitle" id="sub-re">Ligações nacionais de longo curso</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" id="link-flix" data-keywords="autocarro bus flixbus internacional europa espanha vigo" href="https://www.flixbus.pt/" target="_blank" rel="noopener noreferrer">
+                        <div class="logo-wrapper">
+                          <img src="/public/logos/flixbus.webp" alt="FlixBus" class="operator-logo" referrerpolicy="no-referrer" />
+                          <span class="logo-fallback-icon"><i class="fa-solid fa-bus" aria-hidden="true"></i></span>
+                        </div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-flix">FlixBus</span>
+                          <span class="card-subtitle" id="sub-flix">Rotas nacionais e internacionais</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" id="link-get" data-keywords="aeroporto airport aeroport opo porto shuttle transfer getbus autocarro" href="https://www.getbus.eu/pt/" target="_blank" rel="noopener noreferrer">
+                        <div class="logo-wrapper">
+                          <img src="/public/logos/getbus.webp" alt="GetBus" class="operator-logo" referrerpolicy="no-referrer" />
+                          <span class="logo-fallback-icon"><i class="fa-solid fa-plane" aria-hidden="true"></i></span>
+                        </div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-get">GetBus (Aeroporto)</span>
+                          <span class="card-subtitle" id="sub-get">Ligação direta Aeroporto do Porto ↔ Braga</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" data-keywords="cavado barcelos esposende vila verde amares terras de bouro geres autocarro regional" href="https://aitc.cimcavado.pt/horarios" target="_blank" rel="noopener noreferrer">
+                        <div class="logo-wrapper">
+                          <img src="/public/logos/cavado.jpg" alt="Cávado Mobilidade" class="operator-logo" referrerpolicy="no-referrer" />
+                          <span class="logo-fallback-icon"><i class="fa-solid fa-bus" aria-hidden="true"></i></span>
+                        </div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-cavado">Cávado Mobilidade</span>
+                          <span class="card-subtitle" id="sub-cavado">Autocarros intermunicipais da região do Cávado</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" data-keywords="ave guimaraes famalicao fafe vizela autocarro regional" href="https://avemobilidade.pt/home" target="_blank" rel="noopener noreferrer">
+                        <div class="logo-wrapper">
+                          <img src="/public/logos/ave.jpg" alt="AVE Mobilidade" class="operator-logo" referrerpolicy="no-referrer" />
+                          <span class="logo-fallback-icon"><i class="fa-solid fa-bus" aria-hidden="true"></i></span>
+                        </div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-ave">AVE Mobilidade</span>
+                          <span class="card-subtitle" id="sub-ave">Autocarros intermunicipais da região do Ave</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+                    </div>
+                  </div>
+                </details>
+
+                <details class="service-accordion">
+                  <summary class="section-title">
+                    <span class="summary-left-wrap">
+                      <span class="summary-left" id="tolls-heading"><i class="fas fa-road" aria-hidden="true"></i> Automóvel</span>
+                      <span class="accordion-count" aria-hidden="true">· 4</span>
+                    </span>
+                  </summary>
+                  <div class="accordion-content">
+                    <p class="section-tip">
+                      <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+                      <span id="tip-car">As autoestradas de acesso a Braga (A3/A11) incluem portagens manuais e eletrónicas. Registe a matrícula se conduzir um veículo estrangeiro.</span>
+                    </p>
+                    <div class="card-grid">
+                      <a class="card" data-keywords="portagens portagem tolls peajes peages scuts autoestrada a3 a11 matricula carro" href="https://www.pttolls.com/" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-gold"><i class="fa-solid fa-road-circle-check" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-tolls">PT Tolls</span>
+                          <span class="card-subtitle" id="sub-tolls">Guia e adesão a portagens eletrónicas</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" id="link-viaverde" data-keywords="via verde portagens tolls peajes peages identificador carro visitors" href="https://visitors.viaverde.pt/pt" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-emerald"><i class="fa-solid fa-rss" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-viaverde">Via Verde Go Toll</span>
+                          <span class="card-subtitle" id="sub-viaverde">Pagamento de portagens para visitantes</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" data-keywords="portagens multa divida pagamento tolls unpaid peajes peages" href="https://www.pagamentodeportagens.pt/" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-amber"><i class="fa-solid fa-file-invoice-dollar" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-tolls-fines">Portagens em Falta</span>
+                          <span class="card-subtitle" id="sub-tolls-fines">Consulta e regularização de portagens</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" data-keywords="direcoes rota gps google maps carro conduzir directions route" href="https://www.google.com/maps/dir/?api=1&destination=Braga" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-sky"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-directions-braga">Direções para Braga</span>
+                          <span class="card-subtitle" id="sub-directions-braga">Traçar rota de carro no Google Maps</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+                    </div>
+                  </div>
+                </details>
+
+                <details class="service-accordion">
+                  <summary class="section-title">
+                    <span class="summary-left-wrap">
+                      <span class="summary-left" id="plane-heading"><i class="fas fa-plane-departure" aria-hidden="true"></i> Avião</span>
+                      <span class="accordion-count" aria-hidden="true">· 3</span>
+                    </span>
+                  </summary>
+                  <div class="accordion-content">
+                    <p class="section-tip">
+                      <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+                      <span id="tip-plane">O Aeroporto do Porto (OPO) fica a cerca de 45 min de Braga, com ligação direta de autocarro (GetBus) ou comboio (CP).</span>
+                    </p>
+                    <div class="card-grid">
+                      <a class="card" id="link-ana" data-keywords="aeroporto airport aeroport opo porto voos flights aviao ana" href="https://www.aeroportoporto.pt/pt/opo/home" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-sky"><i class="fa-solid fa-plane" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-ana">Aeroporto do Porto</span>
+                          <span class="card-subtitle" id="sub-ana">Informações de voos e acessos (OPO)</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" id="link-skyscanner" data-keywords="voos flights skyscanner aviao bilhetes aeroporto" href="https://www.skyscanner.pt/" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-sky"><i class="fa-solid fa-plane-up" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-skyscanner">Skyscanner</span>
+                          <span class="card-subtitle" id="sub-skyscanner">Comparador de voos para o Porto</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" data-keywords="voos flights google aviao tarifas aeroporto" href="https://www.google.com/travel/flights" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-sky"><i class="fa-solid fa-plane-up" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-google-flights">Google Flights</span>
+                          <span class="card-subtitle" id="sub-google-flights">Pesquisa de tarifas e horários de voos</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+                    </div>
+                  </div>
+                </details>
+
+                <details class="service-accordion">
+                  <summary class="section-title">
+                    <span class="summary-left-wrap">
+                      <span class="summary-left" id="rentacar-heading"><i class="fas fa-car" aria-hidden="true"></i> Rent-a-Car</span>
+                      <span class="accordion-count" aria-hidden="true">· 2</span>
+                    </span>
+                  </summary>
+                  <div class="accordion-content">
+                    <div class="card-grid">
+                      <a class="card" data-keywords="rent a car aluguer carro rentalcars alquiler location voitures" href="https://www.rentalcars.com/" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-gold"><i class="fa-solid fa-key" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-rentalcars">Rentalcars</span>
+                          <span class="card-subtitle" id="sub-rentalcars">Comparador de aluguer de automóveis</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" id="link-kayak" data-keywords="rent a car aluguer carro kayak alquiler location voitures" href="https://www.kayak.pt/cars" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-gold"><i class="fa-solid fa-key" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-kayak">Kayak (Carros)</span>
+                          <span class="card-subtitle" id="sub-kayak">Pesquisa de rent-a-car em Portugal</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+                    </div>
+                  </div>
+                </details>
+
+                <details class="service-accordion">
+                  <summary class="section-title">
+                    <span class="summary-left-wrap">
+                      <span class="summary-left" id="carpool-heading"><i class="fas fa-car-side" aria-hidden="true"></i> Viagens Partilhadas</span>
+                      <span class="accordion-count" aria-hidden="true">· 1</span>
+                    </span>
+                  </summary>
+                  <div class="accordion-content">
+                    <div class="card-grid">
+                      <a class="card" id="link-blablacar" data-keywords="blablacar boleia carpool covoiturage viagens partilhadas carro" href="https://www.blablacar.pt/" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-sky"><i class="fa-solid fa-car-side" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-blablacar">BlaBlaCar</span>
+                          <span class="card-subtitle" id="sub-blablacar">Boleias partilhadas entre cidades</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+                    </div>
+                  </div>
+                </details>
+              </div>
+            </section>
+
+            <!-- GRUPO 2: Na Cidade -->
+            <section id="section-around" aria-labelledby="tab-around-label" style="display: none; width: 100%;">
+              <div class="accordion-group">
+
+                <details class="service-accordion" open>
+                  <summary class="section-title">
+                    <span class="summary-left-wrap">
+                      <span class="summary-left" id="urban-heading"><i class="fas fa-city" aria-hidden="true"></i> Transportes Públicos</span>
+                      <span class="accordion-count" aria-hidden="true">· 1</span>
+                    </span>
+                  </summary>
+                  <div class="accordion-content">
+                    <div class="card-grid">
+                      <a class="card" data-keywords="tub autocarros urbanos bus cidade horarios bilhetes public transport" href="https://tub.pt/" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-gold"><i class="fa-solid fa-bus-simple" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-tub">TUB (Autocarros Urbanos)</span>
+                          <span class="card-subtitle" id="sub-tub">Rede municipal de autocarros de Braga</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+                    </div>
+                  </div>
+                </details>
+
+                <details class="service-accordion">
+                  <summary class="section-title">
+                    <span class="summary-left-wrap">
+                      <span class="summary-left" id="sanctuaries-heading"><i class="fas fa-mountain" aria-hidden="true"></i> Bom Jesus & Sameiro</span>
+                      <span class="accordion-count" aria-hidden="true">· 3</span>
+                    </span>
+                  </summary>
+                  <div class="accordion-content">
+                    <p class="section-tip">
+                      <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+                      <span id="tip-sanctuaries">A Linha 2 dos TUB liga o centro ao Elevador do Bom Jesus; a Linha 88 continua até ao Santuário do Sameiro.</span>
+                    </p>
+                    <div class="card-grid">
+                      <a class="card" data-keywords="bom jesus elevador funicular agua santuario monte turismo" href="https://bomjesus.pt/elevador/" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-gold"><i class="fa-solid fa-cable-car" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-bom-jesus-elevator">Elevador do Bom Jesus</span>
+                          <span class="card-subtitle" id="sub-bom-jesus-elevator">Funicular histórico movido a água</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" data-keywords="bom jesus autocarro bus tub linha 2 direcoes transporte" href="https://www.google.com/maps/dir/?api=1&destination=Bom+Jesus+do+Monte,+Braga&travelmode=transit" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-sky"><i class="fa-solid fa-bus-simple" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-bom-jesus-transit">Autocarro para o Bom Jesus</span>
+                          <span class="card-subtitle" id="sub-bom-jesus-transit">TUB Linha 2 · Rotas em tempo real</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" data-keywords="sameiro santuario autocarro bus tub linha 88 direcoes transporte" href="https://www.google.com/maps/dir/?api=1&destination=Santu%C3%A1rio+do+Sameiro,+Braga&travelmode=transit" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-sky"><i class="fa-solid fa-bus-simple" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-sameiro-transit">Autocarro para o Sameiro</span>
+                          <span class="card-subtitle" id="sub-sameiro-transit">TUB Linha 88 · Rotas em tempo real</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+                    </div>
+                  </div>
+                </details>
+
+                <details class="service-accordion">
+                  <summary class="section-title">
+                    <span class="summary-left-wrap">
+                      <span class="summary-left" id="taxis-heading"><i class="fas fa-taxi" aria-hidden="true"></i> Táxis e TVDE</span>
+                      <span class="accordion-count" aria-hidden="true">· 5</span>
+                    </span>
+                  </summary>
+                  <div class="accordion-content">
+                    <div class="card-grid">
+                      <a class="card" data-keywords="taxi taxis braga 24h transfer" href="https://www.bragataxis.pt/" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-amber"><i class="fa-solid fa-taxi" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-bragataxis">Braga Táxis</span>
+                          <span class="card-subtitle" id="sub-bragataxis">Central de táxis 24h em Braga</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" data-keywords="taxi taxis braga transfer privado" href="https://www.taxisbraga.pt/" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-amber"><i class="fa-solid fa-taxi" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-taxisbraga">Táxis Braga</span>
+                          <span class="card-subtitle" id="sub-taxisbraga">Serviço local de táxis e transfers</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" data-keywords="taxi taxis economico aeroporto transfer" href="https://economicotaxis.pt/" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-amber"><i class="fa-solid fa-taxi" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-economicotaxis">Económico Táxis</span>
+                          <span class="card-subtitle" id="sub-economicotaxis">Táxis em Braga e transfer aeroporto</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" id="link-uber" data-keywords="uber tvde vtc ride app taxi" href="https://www.uber.com/pt/pt/" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper"><i class="fa-brands fa-uber" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-uber">Uber</span>
+                          <span class="card-subtitle" id="sub-uber">Transporte privado via aplicação</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" id="link-bolt" data-keywords="bolt tvde vtc ride app taxi" href="https://bolt.eu/pt-pt/" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-emerald"><i class="fa-solid fa-bolt" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-bolt">Bolt</span>
+                          <span class="card-subtitle" id="sub-bolt">Transporte privado via aplicação</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+                    </div>
+                  </div>
+                </details>
+
+                <details class="service-accordion">
+                  <summary class="section-title">
+                    <span class="summary-left-wrap">
+                      <span class="summary-left" id="parking-heading"><i class="fas fa-square-parking" aria-hidden="true"></i> Estacionamento</span>
+                      <span class="accordion-count" aria-hidden="true">· 2</span>
+                    </span>
+                  </summary>
+                  <div class="accordion-content">
+                    <div class="card-grid">
+                      <a class="card" data-keywords="estacionamento parque parking aparcamiento carro automovel" href="https://parkingbraga.vercel.app/" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-sky"><i class="fa-solid fa-square-parking" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-parking-car">Estacionamento (Automóvel)</span>
+                          <span class="card-subtitle" id="sub-parking-car">Parques de estacionamento em Braga</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" data-keywords="estacionamento bicicleta bicicletas bike velo cycling mubi" href="https://cidadeciclavel.mubi.pt/s/41.551397577287304,-8.421276538676473" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-emerald"><i class="fa-solid fa-bicycle" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-parking-bike">Estacionamento (Bicicletas)</span>
+                          <span class="card-subtitle" id="sub-parking-bike">Mapa de estacionamento ciclável</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+                    </div>
+                  </div>
+                </details>
+
+                <details class="service-accordion">
+                  <summary class="section-title">
+                    <span class="summary-left-wrap">
+                      <span class="summary-left" id="ev-heading"><i class="fas fa-charging-station" aria-hidden="true"></i> Postos de Carregamento</span>
+                      <span class="accordion-count" aria-hidden="true">· 6</span>
+                    </span>
+                  </summary>
+                  <div class="accordion-content">
+                    <div class="card-grid">
+                      <a class="card" id="link-mobie" data-keywords="ev eletrico electric carregamento charger mobie mobi.e" href="https://www.mobie.pt/carregarveiculo/encontrarpostodecarregamento" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-emerald"><i class="fa-solid fa-charging-station" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-mobie">Rede Mobi.e</span>
+                          <span class="card-subtitle" id="sub-mobie">Rede pública nacional de carregamento</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" id="link-electromaps" data-keywords="ev eletrico electric carregamento charger electromaps" href="https://www.electromaps.com/pt" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-emerald"><i class="fa-solid fa-charging-station" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-electromaps">Electromaps</span>
+                          <span class="card-subtitle" id="sub-electromaps">Mapa de carregadores e estado em direto</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" data-keywords="ev eletrico electric carregamento charger tesla supercharger" href="https://www.tesla.com/findus" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-emerald"><i class="fa-solid fa-charging-station" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-tesla">Tesla</span>
+                          <span class="card-subtitle" id="sub-tesla">Superchargers e carregadores Tesla</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" data-keywords="ev eletrico electric carregamento charger plugshare" href="https://www.plugshare.com/" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-emerald"><i class="fa-solid fa-charging-station" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-plugshare">PlugShare</span>
+                          <span class="card-subtitle" id="sub-plugshare">Comunidade e mapa global de carregadores</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" data-keywords="ev eletrico electric carregamento charger chargemap" href="https://chargemap.com/map" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-emerald"><i class="fa-solid fa-charging-station" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-chargemap">Charge Map</span>
+                          <span class="card-subtitle" id="sub-chargemap">Planeador de rotas para veículos elétricos</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" data-keywords="ev eletrico electric carregamento charger opencharge" href="https://openchargemap.org/app/" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-emerald"><i class="fa-solid fa-charging-station" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-opencharge">Open Charge</span>
+                          <span class="card-subtitle" id="sub-opencharge">Diretório aberto de pontos de carga</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+                    </div>
+                  </div>
+                </details>
+
+                <details class="service-accordion">
+                  <summary class="section-title">
+                    <span class="summary-left-wrap">
+                      <span class="summary-left" id="fuel-heading"><i class="fas fa-gas-pump" aria-hidden="true"></i> Postos de Combustível</span>
+                      <span class="accordion-count" aria-hidden="true">· 3</span>
+                    </span>
+                  </summary>
+                  <div class="accordion-content">
+                    <div class="card-grid">
+                      <a class="card" data-keywords="combustivel gasolina gasoleo fuel gas dgeg precos" href="https://precoscombustiveis.dgeg.gov.pt/" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-amber"><i class="fa-solid fa-gas-pump" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-dgeg">DGEG (Combustível)</span>
+                          <span class="card-subtitle" id="sub-dgeg">Comparador oficial de preços de combustível</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" data-keywords="combustivel gasolina gasoleo fuel gas maisgasolina" href="https://www.maisgasolina.com/" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-amber"><i class="fa-solid fa-gas-pump" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-maisgasolina">Mais Gasolina</span>
+                          <span class="card-subtitle" id="sub-maisgasolina">Postos e preços atualizados em Portugal</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" data-keywords="combustivel gasolina gasoleo fuel gas google maps braga bomba" href="https://www.google.com/maps/search/gas+station+Braga" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-amber"><i class="fa-solid fa-gas-pump" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-google-gas">Google Maps (Braga)</span>
+                          <span class="card-subtitle" id="sub-google-gas">Postos de combustível mais próximos em Braga</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+                    </div>
+                  </div>
+                </details>
+              </div>
+            </section>
           </div>
-
-          <!-- BOTÃO VOLTAR GLOBAL (Oculto inicialmente) -->
-          <button id="btn-back" class="btn-back" onclick="showHome()" style="display: none;">
-            <i class="fa-solid fa-arrow-left"></i> <span id="label-back">Voltar</span>
-          </button>
-
-          <!-- GRUPO 1: Como Chegar -->
-          <div id="section-arrive" style="display: none; width: 100%;">
-            <h2 class="group-title" id="group-arrive">Como Chegar</h2>
-            <div class="accordion-group">
-
-          <details class="service-accordion" open>
-            <summary class="section-title"><div class="summary-left" id="train-heading"><i class="fas fa-train"></i> Comboios</div></summary>
-            <div class="accordion-content">
-              <div class="card-grid">
-                <a class="card" href="https://www.cp.pt/passageiros/pt" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-train"></i>
-                  </div>
-                  <span class="card-text" id="label-cp">CP - Comboios</span>
-                </a>
-              </div>
-            </div>
-          </details>
-
-          <details class="service-accordion">
-            <summary class="section-title"><div class="summary-left" id="bus-heading"><i class="fas fa-bus"></i> Autocarros</div></summary>
-            <div class="accordion-content">
-              <div class="card-grid">
-                <a class="card" href="https://cctb.cm-braga.pt/" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-bus"></i>
-                  </div>
-                  <span class="card-text" id="label-cctb">Centro Coordenador</span>
-                </a>
-
-                <a class="card" href="https://rede-expressos.pt" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-bus"></i>
-                  </div>
-                  <span class="card-text" id="label-re">Rede Expressos</span>
-                </a>
-
-                <a class="card" href="https://www.flixbus.pt/" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-bus"></i>
-                  </div>
-                  <span class="card-text" id="label-flix">FlixBus</span>
-                </a>
-
-                <a class="card" href="https://www.getbus.eu/pt/" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-plane"></i>
-                  </div>
-                  <span class="card-text" id="label-get">GetBus (Aeroporto)</span>
-                </a>
-
-                <a class="card" href="https://aitc.cimcavado.pt/horarios" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-bus"></i>
-                  </div>
-                  <span class="card-text" id="label-cavado">Cávado Mobilidade</span>
-                </a>
-
-                <a class="card" href="https://avemobilidade.pt/home" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-bus"></i>
-                  </div>
-                  <span class="card-text" id="label-ave">AVE Mobilidade</span>
-                </a>
-              </div>
-            </div>
-          </details>
-
-          <details class="service-accordion">
-            <summary class="section-title"><div class="summary-left" id="tolls-heading"><i class="fas fa-road"></i> Automóvel</div></summary>
-            <div class="accordion-content">
-              <div class="card-grid">
-                <a class="card" href="https://www.pttolls.com/" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-road-circle-check"></i>
-                  </div>
-                  <span class="card-text" id="label-tolls">PT Tolls</span>
-                </a>
-                <a class="card" href="https://visitors.viaverde.pt/pt?_gl=1%2A7faw46%2A_gcl_au%2AMTU3MDMxMDc5My4xNzg3NjY2MzEz&s=identificador" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-rss"></i>
-                  </div>
-                  <span class="card-text" id="label-viaverde">Via Verde Go Toll</span>
-                </a>
-                <a class="card" href="https://www.pagamentodeportagens.pt/" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-file-invoice-dollar"></i>
-                  </div>
-                  <span class="card-text" id="label-tolls-fines">Portagens em Falta</span>
-                </a>
-                <a class="card" href="https://www.google.com/maps/dir/?api=1&destination=Braga" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-map-location-dot"></i>
-                  </div>
-                  <span class="card-text" id="label-directions-braga">Direções para Braga</span>
-                </a>
-              </div>
-            </div>
-          </details>
-
-          <details class="service-accordion">
-            <summary class="section-title"><div class="summary-left" id="plane-heading"><i class="fas fa-plane-departure"></i> Avião</div></summary>
-            <div class="accordion-content">
-              <div class="card-grid">
-                <a class="card" href="https://www.aeroportoporto.pt/pt/opo/home" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-plane"></i>
-                  </div>
-                  <span class="card-text" id="label-ana">Aeroporto do Porto</span>
-                </a>
-                <a class="card" href="https://www.skyscanner.pt/" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-plane-up"></i>
-                  </div>
-                  <span class="card-text" id="label-skyscanner">Skyscanner</span>
-                </a>
-                <a class="card" href="https://www.google.com/travel/flights" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-plane-up"></i>
-                  </div>
-                  <span class="card-text" id="label-google-flights">Google Flights</span>
-                </a>
-              </div>
-            </div>
-          </details>
-
-          <details class="service-accordion">
-            <summary class="section-title"><div class="summary-left" id="rentacar-heading"><i class="fas fa-car"></i> Rent-a-Car</div></summary>
-            <div class="accordion-content">
-              <div class="card-grid">
-                <a class="card" href="https://www.rentalcars.com/" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-key"></i>
-                  </div>
-                  <span class="card-text" id="label-rentalcars">Rentalcars</span>
-                </a>
-                <a class="card" href="https://www.kayak.pt/cars" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-key"></i>
-                  </div>
-                  <span class="card-text" id="label-kayak">Kayak (Carros)</span>
-                </a>
-              </div>
-            </div>
-          </details>
-
-          <details class="service-accordion">
-            <summary class="section-title"><div class="summary-left" id="carpool-heading"><i class="fas fa-car-side"></i> Viagens Partilhadas</div></summary>
-            <div class="accordion-content">
-              <div class="card-grid">
-                <a class="card" href="https://www.blablacar.pt/" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-car-side"></i>
-                  </div>
-                  <span class="card-text" id="label-blablacar">BlaBlaCar</span>
-                </a>
-              </div>
-            </div>
-          </details>
-            </div>
-          </div> <!-- Fim de section-arrive -->
-
-          <!-- GRUPO 2: Na Cidade -->
-          <div id="section-around" style="display: none; width: 100%;">
-            <h2 class="group-title" id="group-around">Na Cidade</h2>
-            <div class="accordion-group">
-
-          <details class="service-accordion" open>
-            <summary class="section-title"><div class="summary-left" id="urban-heading"><i class="fas fa-city"></i> Transportes Públicos</div></summary>
-            <div class="accordion-content">
-              <div class="card-grid">
-                <a class="card" href="https://tub.pt/" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-bus-simple"></i>
-                  </div>
-                  <span class="card-text" id="label-tub">TUB (Autocarros Urbanos)</span>
-                </a>
-              </div>
-            </div>
-          </details>
-
-          <details class="service-accordion">
-            <summary class="section-title"><div class="summary-left" id="taxis-heading"><i class="fas fa-taxi"></i> Táxis e TVDE</div></summary>
-            <div class="accordion-content">
-              <div class="card-grid">
-                <a class="card" href="https://www.bragataxis.pt/" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-taxi"></i>
-                  </div>
-                  <span class="card-text" id="label-bragataxis">Braga Táxis</span>
-                </a>
-                <a class="card" href="https://www.taxisbraga.pt/" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-taxi"></i>
-                  </div>
-                  <span class="card-text" id="label-taxisbraga">Táxis Braga</span>
-                </a>
-                <a class="card" href="https://economicotaxis.pt/" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-taxi"></i>
-                  </div>
-                  <span class="card-text" id="label-economicotaxis">Económico Táxis</span>
-                </a>
-                <a class="card" href="https://www.uber.com/pt/pt/" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-brands fa-uber"></i>
-                  </div>
-                  <span class="card-text" id="label-uber">Uber</span>
-                </a>
-                <a class="card" href="https://bolt.eu/pt-pt/" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-bolt"></i>
-                  </div>
-                  <span class="card-text" id="label-bolt">Bolt</span>
-                </a>
-              </div>
-            </div>
-          </details>
-
-          <details class="service-accordion">
-            <summary class="section-title"><div class="summary-left" id="parking-heading"><i class="fas fa-square-parking"></i> Estacionamento</div></summary>
-            <div class="accordion-content">
-              <div class="card-grid">
-                <a class="card" href="https://parkingbraga.vercel.app/" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-square-parking"></i>
-                  </div>
-                  <span class="card-text" id="label-parking-car">Estacionamento (Automóvel)</span>
-                </a>
-                <a class="card" href="https://cidadeciclavel.mubi.pt/s/41.551397577287304,-8.421276538676473" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-bicycle"></i>
-                  </div>
-                  <span class="card-text" id="label-parking-bike">Estacionamento (Bicicletas)</span>
-                </a>
-              </div>
-            </div>
-          </details>
-
-          <details class="service-accordion">
-            <summary class="section-title"><div class="summary-left" id="ev-heading"><i class="fas fa-charging-station"></i> Postos de Carregamento</div></summary>
-            <div class="accordion-content">
-              <div class="card-grid">
-                <a class="card" href="https://www.mobie.pt/en/chargevehicle/findachargingstation" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-charging-station"></i>
-                  </div>
-                  <span class="card-text" id="label-mobie">Rede Mobi.e</span>
-                </a>
-                <a class="card" href="https://www.electromaps.com/pt" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-charging-station"></i>
-                  </div>
-                  <span class="card-text" id="label-electromaps">Electromaps</span>
-                </a>
-                <a class="card" href="https://www.tesla.com/findus" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-charging-station"></i>
-                  </div>
-                  <span class="card-text" id="label-tesla">Tesla</span>
-                </a>
-                <a class="card" href="https://www.plugshare.com/" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-charging-station"></i>
-                  </div>
-                  <span class="card-text" id="label-plugshare">PlugShare</span>
-                </a>
-                <a class="card" href="https://chargemap.com/map" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-charging-station"></i>
-                  </div>
-                  <span class="card-text" id="label-chargemap">Charge Map</span>
-                </a>
-                <a class="card" href="https://openchargemap.org/app/" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-charging-station"></i>
-                  </div>
-                  <span class="card-text" id="label-opencharge">Open Charge</span>
-                </a>
-              </div>
-            </div>
-          </details>
-
-          <details class="service-accordion">
-            <summary class="section-title"><div class="summary-left" id="fuel-heading"><i class="fas fa-gas-pump"></i> Postos de Combustível</div></summary>
-            <div class="accordion-content">
-              <div class="card-grid">
-                <a class="card" href="https://precoscombustiveis.dgeg.gov.pt/" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-gas-pump"></i>
-                  </div>
-                  <span class="card-text" id="label-dgeg">DGEG (Combustível)</span>
-                </a>
-                <a class="card" href="https://www.maisgasolina.com/" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-gas-pump"></i>
-                  </div>
-                  <span class="card-text" id="label-maisgasolina">Mais Gasolina</span>
-                </a>
-                <a class="card" href="https://www.google.com/maps/search/gas+station/" target="_blank">
-                  <div class="icon-wrapper">
-                    <i class="fa-solid fa-gas-pump"></i>
-                  </div>
-                  <span class="card-text" id="label-google-gas">Google Maps</span>
-                </a>
-              </div>
-            </div>
-          </details>
-            </div>
-          </div> <!-- Fim de section-around -->
         </main>
       </div>
 
-      <!-- 4. O Rodapé -->
+      <!-- 4. Rodapé -->
       <footer class="site-footer">
         <div class="footer-left">
-          <img id="footer-logo" src="/public/braga-brand-pt.svg" alt="Logo" class="footer-logo" />
+          <img id="footer-logo" src="/public/braga-brand-pt.svg" alt="Município de Braga" class="footer-logo" />
           <span class="footer-copyright" id="footer-copyright">© 2026 Posto de Turismo - DAET | CM Braga</span>
         </div>
         <div class="footer-right">
           <div class="footer-contactos-title" id="footer-contacts">CONTACTOS</div>
           <div class="footer-contact-item">
-            <i class="fa-solid fa-location-dot"></i>
-            <span>Posto de Turismo de Braga | Avenida da Liberdade, nº 1 - 4710-305 Braga</span>
+            <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+            <span id="footer-address">Posto de Turismo de Braga | Avenida da Liberdade, nº 1 - 4710-305 Braga</span>
           </div>
           <div class="footer-contact-row">
             <a href="tel:+351253262550" class="footer-contact-item">
-              <i class="fa-solid fa-phone"></i>
+              <i class="fa-solid fa-phone" aria-hidden="true"></i>
               <span>+351 253 262 550</span>
             </a>
             <a href="mailto:turismo@cm-braga.pt" class="footer-contact-item">
-              <i class="fa-solid fa-envelope"></i>
+              <i class="fa-solid fa-envelope" aria-hidden="true"></i>
               <span>turismo@cm-braga.pt</span>
             </a>
           </div>
@@ -1129,487 +1814,19 @@
     </div>
   </div>
 
-  <!-- Selector de idiomas no fundo -->
-  <div class="lang-container">
-    <div class="lang-dropdown">
-      <button class="lang-btn" id="lang-btn">
-        <span id="current-lang">PT</span>
-      </button>
-      <div class="lang-options" id="lang-options"></div>
-    </div>
-  </div>
-
   <!-- Modal de Privacidade -->
-  <div id="privacy-modal" class="modal-overlay">
+  <div id="privacy-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
     <div class="modal-content">
       <div class="modal-header">
-        <h2><i class="fa-solid fa-circle-info" style="color: #60a5fa;"></i> <span id="modal-title">Avisos Legais e Política de Privacidade</span></h2>
+        <h2><i class="fa-solid fa-circle-info" aria-hidden="true"></i> <span id="modal-title">Avisos Legais e Política de Privacidade</span></h2>
       </div>
-      <div class="modal-body">
-        <h3><i class="fa-solid fa-landmark" style="color: #60a5fa; font-size: 0.9em;"></i> 1. Titularidade e Identificação da Entidade</h3>
-        <p>Este portal digital de divulgação turística e mapas é disponibilizado e gerido pelo Município de Braga, pessoa coletiva de direito público com NIF 506 901 495 e sede na Praça do Município, 4700-435 Braga, através da Divisão de Turismo (DAET) com Posto de Turismo sito na Avenida da Liberdade, nº 1, 4710-305 Braga.</p>
-        
-        <h3><i class="fa-solid fa-copyright" style="color: #60a5fa; font-size: 0.9em;"></i> 2. Propriedade Intelectual e Direitos de Autor</h3>
-        <p>Todos os conteúdos disponibilizados nesta plataforma — incluindo textos, imagens, mapas, guias em PDF, marcas (“Visit Braga”), logótipos e elementos gráficos — encontram-se protegidos pela legislação de Direitos de Autor e Direitos Conexos e de Propriedade Industrial.</p>
-        <p>O download e visualização dos materiais são autorizados exclusivamente para fins pessoais, educativos ou turísticos não comerciais. É estritamente proibida qualquer reprodução total ou parcial, alteração, redistribuição ou exploração comercial sem prévia autorização escrita do Município de Braga.</p>
-
-        <h3><i class="fa-solid fa-user-shield" style="color: #60a5fa; font-size: 0.9em;"></i> 3. Tratamento de Dados Pessoais (RGPD)</h3>
-        <p>O Município de Braga assegura o rigoroso cumprimento do Regulamento Geral sobre a Proteção de Dados (Regulamento UE 2016/679) e da Lei n.º 58/2019, de 8 de agosto:</p>
-        <ul>
-          <li><strong>Finalidade e Minimização:</strong> O presente website tem cariz estritamente informativo e de promoção cultural/turística, não requerendo registo de utilizador nem recolhendo dados pessoais de identificação direta (como nome, telefone ou morada).</li>
-          <li><strong>Dados de Acesso Técnico:</strong> Os dados técnicos de navegação (endereço IP e registos de servidor) são tratados sob o fundamento do interesse legítimo na garantia da segurança e integridade do serviço.</li>
-          <li><strong>Segurança:</strong> Não partilhamos, vendemos ou cedemos dados a terceiros para efeitos de publicidade ou marketing.</li>
-        </ul>
-
-        <h3><i class="fa-solid fa-cookie-bite" style="color: #60a5fa; font-size: 0.9em;"></i> 4. Lei dos Cookies e Armazenamento Local</h3>
-        <p>Nos termos da Lei n.º 41/2004, com as alterações introduzidas pela Lei n.º 46/2012 (transposição da Diretiva de Privacidade Eletrónica da UE):</p>
-        <ul>
-          <li><strong>Cookies e Armazenamento Estritamente Necessários:</strong> Utilizamos apenas armazenamento local essencial no seu dispositivo (LocalStorage) para reter preferências de navegação imediatas, como a seleção do idioma de consulta.</li>
-          <li><strong>Sem Rastreio ou Cookies de Terceiros:</strong> Não utilizamos cookies analíticos invasivos, píxeis de conversão de redes sociais nem cookies de publicidade comportamental.</li>
-          <li><strong>Gestão de Preferências:</strong> Pode a qualquer momento bloquear ou eliminar dados de navegação armazenados através das definições do seu navegador.</li>
-        </ul>
-
-        <h3><i class="fa-solid fa-scale-balanced" style="color: #60a5fa; font-size: 0.9em;"></i> 5. Direitos dos Titulares dos Dados</h3>
-        <p>O titular dos dados tem o direito de solicitar o acesso, retificação, oposição, limitação e apagamento de dados, nos termos legais aplicáveis. Tem igualmente o direito de apresentar reclamação junto da autoridade de controlo nacional: CNPD – Comissão Nacional de Proteção de Dados (<a href="https://www.cnpd.pt" target="_blank" style="color: #60a5fa; text-decoration: underline;">www.cnpd.pt</a>).</p>
-
-        <h3><i class="fa-solid fa-address-card" style="color: #60a5fa; font-size: 0.9em;"></i> 6. Contactos Oficiais e Encarregado de Proteção de Dados</h3>
-        <p>Para dúvidas, esclarecimentos ou exercício dos seus direitos de privacidade:</p>
-        <ul>
-          <li><strong>Encarregado de Proteção de Dados (DPO):</strong> <a href="mailto:dpo@cm-braga.pt" style="color: #60a5fa; text-decoration: underline;">dpo@cm-braga.pt</a></li>
-          <li><strong>Posto de Turismo de Braga:</strong> Av. da Liberdade, nº 1, 4710-305 Braga | Tel: +351 253 262 550 | <a href="mailto:turismo@cm-braga.pt" style="color: #60a5fa; text-decoration: underline;">turismo@cm-braga.pt</a></li>
-          <li><strong>Câmara Municipal de Braga (Sede):</strong> Praça do Município, 4700-435 Braga | Tel: +351 253 616 060 | <a href="mailto:municipe@cm-braga.pt" style="color: #60a5fa; text-decoration: underline;">municipe@cm-braga.pt</a></li>
-        </ul>
-        <p>Consulte a versão integral dos avisos legais do Município em: <a href="https://cm-braga.pt/pt/0107/avisos-legais" target="_blank" style="color: #60a5fa; text-decoration: underline;">cm-braga.pt/pt/0107/avisos-legais</a></p>
-      </div>
+      <div class="modal-body" id="privacy-modal-body"></div>
       <div class="modal-footer">
-        <button id="close-privacy-modal" class="btn-primary">Compreendi e Fechar</button>
+        <button type="button" id="close-privacy-modal" class="btn-primary">Compreendi e Fechar</button>
       </div>
     </div>
   </div>
 
-  <script>
-    const translations = {
-      pt: { 
-        title: "Mobilidade em Braga", 
-        description: "Planeie a sua viagem e desloque-se na cidade:", 
-        btnArrive: "Viajar para Braga",
-        btnAround: "Na Cidade",
-        labelBack: "Voltar",
-        groupArrive: "Viajar para Braga",
-        groupAround: "Na Cidade",
-        cp: "CP - Comboios", 
-        cctb: "Centro Coordenador", 
-        re: "Rede Expressos", 
-        flix: "FlixBus", 
-        get: "GetBus (Aeroporto)", 
-        cavado: "Cávado Mobilidade", 
-        ave: "AVE Mobilidade", 
-        tolls: "PT Tolls",
-        viaverde: "Via Verde Go Toll",
-        tollsFines: "Portagens em Falta",
-        directionsBraga: "Direções para Braga",
-        tub: "TUB (Autocarros Urbanos)",
-        bragataxis: "Braga Táxis",
-        taxisbraga: "Táxis Braga",
-        economicotaxis: "Económico Táxis",
-        uber: "Uber",
-        bolt: "Bolt",
-        parkingCar: "Estacionamento (Automóvel)",
-        parkingBike: "Estacionamento (Bicicletas)",
-        mobie: "Rede Mobi.e",
-        electromaps: "Electromaps",
-        tesla: "Tesla",
-        plugshare: "PlugShare",
-        chargemap: "Charge Map",
-        opencharge: "Open Charge",
-        dgeg: "DGEG (Combustível)",
-        maisgasolina: "Mais Gasolina",
-        googleGas: "Google Maps",
-        trainHeading: "<i class='fas fa-train'></i> Comboios", 
-        busHeading: "<i class='fas fa-bus'></i> Autocarros", 
-        tollsHeading: "<i class='fas fa-road'></i> Automóvel",
-        urbanHeading: "<i class='fas fa-city'></i> Transportes Públicos",
-        taxisHeading: "<i class='fas fa-taxi'></i> Táxis e TVDE",
-        parkingHeading: "<i class='fas fa-square-parking'></i> Estacionamento",
-        evHeading: "<i class='fas fa-charging-station'></i> Postos de Carregamento",
-        fuelHeading: "<i class='fas fa-gas-pump'></i> Postos de Combustível",
-        planeHeading: "<i class='fas fa-plane-departure'></i> Avião",
-        rentacarHeading: "<i class='fas fa-car'></i> Rent-a-Car",
-        carpoolHeading: "<i class='fas fa-car-side'></i> Viagens Partilhadas",
-        ana: "Aeroporto do Porto",
-        skyscanner: "Skyscanner",
-        googleFlights: "Google Flights",
-        rentalcars: "Rentalcars",
-        kayak: "Kayak (Carros)",
-        blablacar: "BlaBlaCar",
-        footerCopyright: "© 2026 Posto de Turismo - DAET | CM Braga",
-        footerContacts: "CONTACTOS",
-        footerPrivacy: "Política de Privacidade"
-      },
-      en: { 
-        title: "Mobility in Braga", 
-        description: "Plan your trip and get around the city:", 
-        btnArrive: "Travel to Braga",
-        btnAround: "Getting Around",
-        labelBack: "Back",
-        groupArrive: "Travel to Braga",
-        groupAround: "Getting Around",
-        cp: "CP - Trains", 
-        cctb: "Bus Terminal", 
-        re: "Rede Expressos", 
-        flix: "FlixBus", 
-        get: "GetBus (Airport)", 
-        cavado: "Cávado Mobilidade", 
-        ave: "AVE Mobilidade", 
-        tolls: "PT Tolls",
-        viaverde: "Via Verde Go Toll",
-        tollsFines: "Unpaid Tolls",
-        directionsBraga: "Directions to Braga",
-        tub: "TUB (Urban Buses)",
-        bragataxis: "Braga Táxis",
-        taxisbraga: "Táxis Braga",
-        economicotaxis: "Económico Táxis",
-        uber: "Uber",
-        bolt: "Bolt",
-        parkingCar: "Car Parking",
-        parkingBike: "Bicycle Parking",
-        mobie: "Rede Mobi.e",
-        electromaps: "Electromaps",
-        tesla: "Tesla",
-        plugshare: "PlugShare",
-        chargemap: "Charge Map",
-        opencharge: "Open Charge",
-        dgeg: "DGEG (Fuel)",
-        maisgasolina: "Mais Gasolina",
-        googleGas: "Google Maps",
-        trainHeading: "<i class='fas fa-train'></i> Trains", 
-        busHeading: "<i class='fas fa-bus'></i> Buses", 
-        tollsHeading: "<i class='fas fa-road'></i> Car",
-        urbanHeading: "<i class='fas fa-city'></i> Public Transport",
-        taxisHeading: "<i class='fas fa-taxi'></i> Taxis & Ride-Hailing",
-        parkingHeading: "<i class='fas fa-square-parking'></i> Parking",
-        evHeading: "<i class='fas fa-charging-station'></i> EV Charging Stations",
-        fuelHeading: "<i class='fas fa-gas-pump'></i> Fuel Stations",
-        planeHeading: "<i class='fas fa-plane-departure'></i> Airplane",
-        rentacarHeading: "<i class='fas fa-car'></i> Rent-a-Car",
-        carpoolHeading: "<i class='fas fa-car-side'></i> Carpooling",
-        ana: "Porto Airport",
-        skyscanner: "Skyscanner",
-        googleFlights: "Google Flights",
-        rentalcars: "Rentalcars",
-        kayak: "Kayak (Cars)",
-        blablacar: "BlaBlaCar",
-        footerCopyright: "© 2026 Tourist Office - DAET | CM Braga",
-        footerContacts: "CONTACTS",
-        footerPrivacy: "Privacy Policy"
-      },
-      es: {
-        title: "Movilidad en Braga",
-        description: "Planifique su viaje y muévase por la ciudad:",
-        btnArrive: "Viajar a Braga",
-        btnAround: "En la Ciudad",
-        labelBack: "Volver",
-        groupArrive: "Viajar a Braga",
-        groupAround: "En la Ciudad",
-        cp: "CP - Trenes",
-        cctb: "Estación Central",
-        re: "Rede Expressos",
-        flix: "FlixBus",
-        get: "GetBus (Aeropuerto)",
-        cavado: "Cávado Mobilidade",
-        ave: "AVE Mobilidade",
-        tolls: "PT Tolls",
-        viaverde: "Via Verde Go Toll",
-        tollsFines: "Peajes Pendientes",
-        directionsBraga: "Direcciones a Braga",
-        tub: "TUB (Autobuses Urbanos)",
-        bragataxis: "Braga Táxis",
-        taxisbraga: "Táxis Braga",
-        economicotaxis: "Económico Táxis",
-        uber: "Uber",
-        bolt: "Bolt",
-        parkingCar: "Aparcamiento (Coches)",
-        parkingBike: "Aparcamiento (Bicicletas)",
-        mobie: "Rede Mobi.e",
-        electromaps: "Electromaps",
-        tesla: "Tesla",
-        plugshare: "PlugShare",
-        chargemap: "Charge Map",
-        opencharge: "Open Charge",
-        dgeg: "DGEG (Combustible)",
-        maisgasolina: "Mais Gasolina",
-        googleGas: "Google Maps",
-        trainHeading: "<i class='fas fa-train'></i> Trenes",
-        busHeading: "<i class='fas fa-bus'></i> Autobuses",
-        tollsHeading: "<i class='fas fa-road'></i> Coche",
-        urbanHeading: "<i class='fas fa-city'></i> Transporte Público",
-        taxisHeading: "<i class='fas fa-taxi'></i> Taxis y VTC",
-        parkingHeading: "<i class='fas fa-square-parking'></i> Aparcamiento",
-        evHeading: "<i class='fas fa-charging-station'></i> Estaciones de Carga",
-        fuelHeading: "<i class='fas fa-gas-pump'></i> Estaciones de Servicio",
-        planeHeading: "<i class='fas fa-plane-departure'></i> Avión",
-        rentacarHeading: "<i class='fas fa-car'></i> Alquiler de Coches",
-        carpoolHeading: "<i class='fas fa-car-side'></i> Viajes Compartidos",
-        ana: "Aeropuerto de Oporto",
-        skyscanner: "Skyscanner",
-        googleFlights: "Google Flights",
-        rentalcars: "Rentalcars",
-        kayak: "Kayak (Coches)",
-        blablacar: "BlaBlaCar",
-        footerCopyright: "© 2026 Oficina de Turismo - DAET | CM Braga",
-        footerContacts: "CONTACTOS",
-        footerPrivacy: "Política de Privacidad"
-      },
-      fr: { 
-        title: "Mobilité à Braga", 
-        description: "Planifiez votre voyage et déplacez-vous en ville :", 
-        btnArrive: "Voyager vers Braga",
-        btnAround: "Se Déplacer",
-        labelBack: "Retour",
-        groupArrive: "Voyager vers Braga",
-        groupAround: "Se Déplacer",
-        cp: "CP - Trains", 
-        cctb: "Gare Routière", 
-        re: "Rede Expressos", 
-        flix: "FlixBus", 
-        get: "GetBus (Aéroport)", 
-        cavado: "Cávado Mobilidade", 
-        ave: "AVE Mobilidade", 
-        tolls: "PT Tolls",
-        viaverde: "Via Verde Go Toll",
-        tollsFines: "Péages Impayés",
-        directionsBraga: "Directions pour Braga",
-        tub: "TUB (Bus Urbains)",
-        bragataxis: "Braga Táxis",
-        taxisbraga: "Táxis Braga",
-        economicotaxis: "Económico Táxis",
-        uber: "Uber",
-        bolt: "Bolt",
-        parkingCar: "Parking (Voitures)",
-        parkingBike: "Parking (Vélos)",
-        mobie: "Rede Mobi.e",
-        electromaps: "Electromaps",
-        tesla: "Tesla",
-        plugshare: "PlugShare",
-        chargemap: "Charge Map",
-        opencharge: "Open Charge",
-        dgeg: "DGEG (Carburant)",
-        maisgasolina: "Mais Gasolina",
-        googleGas: "Google Maps",
-        trainHeading: "<i class='fas fa-train'></i> Trains", 
-        busHeading: "<i class='fas fa-bus'></i> Autocars",
-        tollsHeading: "<i class='fas fa-road'></i> Voiture",
-        urbanHeading: "<i class='fas fa-city'></i> Transports Publics",
-        taxisHeading: "<i class='fas fa-taxi'></i> Taxis & VTC",
-        parkingHeading: "<i class='fas fa-square-parking'></i> Parking",
-        evHeading: "<i class='fas fa-charging-station'></i> Bornes de Recharge",
-        fuelHeading: "<i class='fas fa-gas-pump'></i> Stations-Service",
-        planeHeading: "<i class='fas fa-plane-departure'></i> Avion",
-        rentacarHeading: "<i class='fas fa-car'></i> Location de Voitures",
-        carpoolHeading: "<i class='fas fa-car-side'></i> Covoiturage",
-        ana: "Aéroport de Porto",
-        skyscanner: "Skyscanner",
-        googleFlights: "Google Flights",
-        rentalcars: "Rentalcars",
-        kayak: "Kayak (Voitures)",
-        blablacar: "BlaBlaCar",
-        footerCopyright: "© 2026 Office de Tourisme - DAET | CM Braga",
-        footerContacts: "CONTACTS",
-        footerPrivacy: "Politique de confidentialité"
-      }
-    };
-
-    const flags = { pt: "Português", en: "English", es: "Español", fr: "Français" };
-    const shortFlags = { pt: "PT", en: "EN", es: "ES", fr: "FR" };
-
-    function updateLangOptions(currentLang) {
-      const optionsDiv = document.getElementById("lang-options");
-      optionsDiv.innerHTML = '';
-      for (const l in flags) {
-        if (l !== currentLang) {
-          const div = document.createElement("div");
-          div.className = "lang-option";
-          div.textContent = flags[l];
-          div.addEventListener('click', (e) => {
-            e.stopPropagation();
-            setLanguage(l);
-            optionsDiv.classList.remove("show");
-          });
-          optionsDiv.appendChild(div);
-        }
-      }
-    }
-
-    function setLanguage(lang) {
-      const supported = Object.keys(translations);
-      const effectiveLang = supported.includes(lang) ? lang : "pt";
-      const t = translations[effectiveLang];
-
-      document.getElementById("title").textContent = t.title;
-      document.getElementById("description").textContent = t.description;
-      document.getElementById("btn-arrive").textContent = t.btnArrive;
-      document.getElementById("btn-around").textContent = t.btnAround;
-      document.getElementById("label-back").textContent = t.labelBack;
-      document.getElementById("group-arrive").textContent = t.groupArrive;
-      document.getElementById("group-around").textContent = t.groupAround;
-      
-      document.getElementById("label-cp").textContent = t.cp;
-      document.getElementById("label-cctb").textContent = t.cctb;
-      document.getElementById("label-re").textContent = t.re;
-      document.getElementById("label-flix").textContent = t.flix;
-      document.getElementById("label-get").textContent = t.get;
-      document.getElementById("label-cavado").textContent = t.cavado;
-      document.getElementById("label-ave").textContent = t.ave;
-      document.getElementById("label-tolls").textContent = t.tolls;
-      document.getElementById("label-viaverde").textContent = t.viaverde;
-      document.getElementById("label-tolls-fines").textContent = t.tollsFines;
-      document.getElementById("label-directions-braga").textContent = t.directionsBraga;
-      document.getElementById("label-ana").textContent = t.ana;
-      document.getElementById("label-skyscanner").textContent = t.skyscanner;
-      document.getElementById("label-google-flights").textContent = t.googleFlights;
-      document.getElementById("label-rentalcars").textContent = t.rentalcars;
-      document.getElementById("label-kayak").textContent = t.kayak;
-      document.getElementById("label-blablacar").textContent = t.blablacar;
-      
-      document.getElementById("label-tub").textContent = t.tub;
-      document.getElementById("label-bragataxis").textContent = t.bragataxis;
-      document.getElementById("label-taxisbraga").textContent = t.taxisbraga;
-      document.getElementById("label-economicotaxis").textContent = t.economicotaxis;
-      document.getElementById("label-uber").textContent = t.uber;
-      document.getElementById("label-bolt").textContent = t.bolt;
-      
-      document.getElementById("label-parking-car").textContent = t.parkingCar;
-      document.getElementById("label-parking-bike").textContent = t.parkingBike;
-      document.getElementById("label-mobie").textContent = t.mobie;
-      document.getElementById("label-electromaps").textContent = t.electromaps;
-      document.getElementById("label-tesla").textContent = t.tesla;
-      document.getElementById("label-plugshare").textContent = t.plugshare;
-      document.getElementById("label-chargemap").textContent = t.chargemap;
-      document.getElementById("label-opencharge").textContent = t.opencharge;
-      document.getElementById("label-dgeg").textContent = t.dgeg;
-      document.getElementById("label-maisgasolina").textContent = t.maisgasolina;
-      document.getElementById("label-google-gas").textContent = t.googleGas;
-
-      document.getElementById("train-heading").innerHTML = t.trainHeading;
-      document.getElementById("bus-heading").innerHTML = t.busHeading;
-      document.getElementById("tolls-heading").innerHTML = t.tollsHeading;
-      document.getElementById("plane-heading").innerHTML = t.planeHeading;
-      document.getElementById("rentacar-heading").innerHTML = t.rentacarHeading;
-      document.getElementById("carpool-heading").innerHTML = t.carpoolHeading;
-      document.getElementById("urban-heading").innerHTML = t.urbanHeading;
-      document.getElementById("taxis-heading").innerHTML = t.taxisHeading;
-      document.getElementById("parking-heading").innerHTML = t.parkingHeading;
-      document.getElementById("ev-heading").innerHTML = t.evHeading;
-      document.getElementById("fuel-heading").innerHTML = t.fuelHeading;
-
-      document.getElementById("footer-copyright").textContent = t.footerCopyright;
-      document.getElementById("footer-contacts").textContent = t.footerContacts;
-      document.getElementById("footer-privacy").textContent = t.footerPrivacy;
-      
-      const footerLogo = document.getElementById("footer-logo");
-      if (effectiveLang === "pt") {
-        footerLogo.src = "/public/braga-brand-pt.svg";
-      } else {
-        footerLogo.src = "/public/braga-brand.svg";
-      }
-
-      document.getElementById("current-lang").textContent = shortFlags[effectiveLang];
-      document.documentElement.lang = effectiveLang;
-      updateLangOptions(effectiveLang);
-    }
-
-    // Toggle Dropdown
-    const langBtn = document.getElementById("lang-btn");
-    const langOptions = document.getElementById("lang-options");
-
-    langBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      langOptions.classList.toggle("show");
-    });
-
-    document.addEventListener("click", () => {
-      langOptions.classList.remove("show");
-    });
-
-    // Detectar idioma inicial
-    const userLang = navigator.language.slice(0, 2);
-    const supported = Object.keys(translations);
-    const lang = supported.includes(userLang) ? userLang : "pt";
-    setLanguage(lang);
-
-    // Navegação (Landing Page)
-    function showSection(sectionId) {
-      document.getElementById("home-menu").style.display = "none";
-      document.getElementById("btn-back").style.display = "flex";
-      
-      document.getElementById("section-arrive").style.display = "none";
-      document.getElementById("section-around").style.display = "none";
-      
-      document.getElementById("section-" + sectionId).style.display = "block";
-    }
-
-    function showHome() {
-      document.getElementById("home-menu").style.display = "flex";
-      document.getElementById("btn-back").style.display = "none";
-      
-      document.getElementById("section-arrive").style.display = "none";
-      document.getElementById("section-around").style.display = "none";
-    }
-
-    // Loader e Animação de Fundo
-    const bgImg = new Image();
-
-    function onBgLoaded() {
-      const loader = document.getElementById('loader-wrapper');
-      if (loader) {
-        // 1. Inicia o Fade out do loader
-        loader.classList.add('hidden');
-        
-        // 2. Adiciona a class que dispara todas as animações CSS escalonadas
-        document.body.classList.add("show");
-        
-        // 3. Remove completamente o Loader do DOM após a transição
-        setTimeout(() => {
-          loader.style.display = 'none';
-        }, 600);
-      }
-    }
-
-    // Quando a imagem terminar de carregar, dispara a função
-    bgImg.onload = onBgLoaded;
-
-    // Define a imagem que queres carregar
-    bgImg.src = '/public/Braga_em_Fotos_018.jpg';
-
-    // Prevenção extra caso a imagem venha da cache de forma instantânea
-    if (bgImg.complete) {
-      onBgLoaded();
-    }
-
-    // Lógica do Modal de Privacidade
-    const privacyLink = document.getElementById('footer-privacy');
-    const privacyModal = document.getElementById('privacy-modal');
-    const closePrivacyModal = document.getElementById('close-privacy-modal');
-
-    if (privacyLink && privacyModal && closePrivacyModal) {
-      privacyLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        privacyModal.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Impede o scroll de fundo
-      });
-
-      closePrivacyModal.addEventListener('click', () => {
-        privacyModal.classList.remove('active');
-        document.body.style.overflow = '';
-      });
-
-      privacyModal.addEventListener('click', (e) => {
-        if (e.target === privacyModal) {
-          privacyModal.classList.remove('active');
-          document.body.style.overflow = '';
-        }
-      });
-    }
-  </script>
+  <script type="module" src="/public/js/main.js"></script>
 </body>
 </html>
