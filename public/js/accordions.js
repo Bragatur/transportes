@@ -48,7 +48,7 @@ export function updateAccordionCounts() {
 }
 
 /**
- * Restores the clean default accordion state inside a section using `data-default-open`.
+ * Restores the clean default accordion state inside a section (all accordions collapsed).
  *
  * @param {string} sectionElementId - DOM id of the section container.
  * @returns {void}
@@ -59,13 +59,9 @@ export function resetSectionAccordions(sectionElementId) {
   if (!section) return;
 
   const accordions = Array.from(section.querySelectorAll('details.service-accordion'));
-  const hasExplicitDefault = accordions.some((acc) => acc.hasAttribute('data-default-open'));
-
-  accordions.forEach((accordion, index) => {
+  accordions.forEach((accordion) => {
     accordion.classList.remove('is-hidden');
-    accordion.open = hasExplicitDefault
-      ? accordion.hasAttribute('data-default-open')
-      : index === 0;
+    accordion.open = false;
   });
   updateAccordionCounts();
 }
