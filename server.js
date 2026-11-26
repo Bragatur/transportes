@@ -19,9 +19,9 @@ const PORT = 3000;
 // Real-time TUB Braga mobility API proxy routes
 app.use('/api/tub', createTubRouter());
 
-// Prevent direct static downloads of server source, scripts, or config manifests
+// Prevent direct static downloads of server/serverless source, scripts, or config manifests
 app.use((req, res, next) => {
-  if (/^\/(server|scripts|node_modules|dist)(\/|$)|^\/(package(-lock)?\.json|server\.js|Design\.md)$/i.test(req.path)) {
+  if (/^\/(api|server|scripts|node_modules|dist)(\/|$)|^\/(vercel\.json|package(-lock)?\.json|server\.js|Design\.md)$/i.test(req.path)) {
     return res.status(404).end();
   }
   return next();

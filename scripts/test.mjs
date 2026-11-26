@@ -250,6 +250,15 @@ function testPwaCompliance(html) {
  */
 function testTubMobilityService() {
   assert.ok(fs.existsSync(path.join(rootDir, '.env.example')), 'Missing .env.example');
+  assert.ok(fs.existsSync(path.join(rootDir, 'api/tub.js')), 'Missing Vercel serverless function /api/tub.js');
+  assert.ok(fs.existsSync(path.join(rootDir, 'vercel.json')), 'Missing /vercel.json');
+  const vercelCfg = JSON.parse(fs.readFileSync(path.join(rootDir, 'vercel.json'), 'utf8'));
+  assert.equal(vercelCfg.outputDirectory, 'dist');
+  assert.ok(
+    Array.isArray(vercelCfg.rewrites) &&
+      vercelCfg.rewrites.some((r) => r.source === '/api/tub/:path*' && r.destination === '/api/tub'),
+    'vercel.json must rewrite /api/tub/:path* to /api/tub'
+  );
   assert.ok(resolveApiBaseUrl().startsWith('https://'), 'Resolved mobility API base URL must be HTTPS');
 
   assert.equal(isValidTubStopId('pt-Transportes-Urbanos-de-Braga_146'), true);
