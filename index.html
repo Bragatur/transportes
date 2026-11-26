@@ -1444,9 +1444,182 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
+      min-width: 0;
     }
 
     .tub-selected-stop-name i {
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .tub-selected-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .tub-fav-toggle-btn {
+      height: 30px;
+      padding: 0 10px;
+      border-radius: 8px;
+      border: 1px solid var(--hairline-strong);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: background 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+    }
+
+    .tub-fav-toggle-btn:hover {
+      border-color: var(--accent-border);
+      color: #ffffff;
+      background: rgba(226, 184, 102, 0.12);
+    }
+
+    .tub-fav-toggle-btn.is-favorited {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .tub-favorites-section {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--accent-border);
+      background: rgba(226, 184, 102, 0.06);
+    }
+
+    .tub-favorites-header {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .tub-favorites-list {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: thin;
+    }
+
+    .tub-fav-chip {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 8px;
+      border: 1px solid var(--hairline-strong);
+      background: rgba(15, 23, 42, 0.55);
+      flex-shrink: 0;
+      overflow: hidden;
+      transition: border-color 0.16s ease, background 0.16s ease;
+    }
+
+    .tub-fav-chip:hover {
+      border-color: var(--accent-border);
+    }
+
+    .tub-fav-chip.active {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .tub-fav-chip-main {
+      height: 30px;
+      padding: 0 8px 0 10px;
+      border: none;
+      background: transparent;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .tub-fav-chip-main i {
+      color: var(--accent);
+      font-size: 0.72rem;
+    }
+
+    .tub-fav-chip.active .tub-fav-chip-main {
+      color: var(--accent);
+    }
+
+    .tub-fav-chip-remove {
+      width: 26px;
+      height: 30px;
+      border: none;
+      border-left: 1px solid var(--hairline);
+      background: transparent;
+      color: var(--text-subtle);
+      font-size: 0.7rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s ease, background 0.15s ease;
+    }
+
+    .tub-fav-chip-remove:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .tub-result-row-wrap {
+      display: flex;
+      align-items: stretch;
+      border-bottom: 1px solid var(--hairline);
+    }
+
+    .tub-result-row-wrap:last-child {
+      border-bottom: none;
+    }
+
+    .tub-result-row-wrap .tub-result-item {
+      border-bottom: none;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .tub-result-fav-btn {
+      width: 38px;
+      border: none;
+      border-left: 1px solid var(--hairline);
+      background: transparent;
+      color: var(--text-subtle);
+      font-size: 0.84rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .tub-result-fav-btn:hover {
+      background: rgba(226, 184, 102, 0.12);
+      color: var(--accent);
+    }
+
+    .tub-result-fav-btn.is-favorited {
       color: var(--accent);
     }
 
@@ -2680,6 +2853,15 @@
                         </div>
                       </div>
 
+                      <!-- Acesso rápido: Paragens TUB Favoritas -->
+                      <div id="tub-favorites-section" class="tub-favorites-section" aria-label="Paragens Favoritas">
+                        <div class="tub-favorites-header">
+                          <i class="fa-solid fa-star" aria-hidden="true"></i>
+                          <span id="tub-favorites-label">Paragens Favoritas</span>
+                        </div>
+                        <div id="tub-favorites-list" class="tub-favorites-list"></div>
+                      </div>
+
                       <!-- Painel 1: Consulta por Paragem / GPS -->
                       <div id="tub-panel-stops" role="tabpanel" aria-labelledby="tub-tab-stops">
                         <div class="tub-panel-stack">
@@ -2710,10 +2892,16 @@
                               <i class="fa-solid fa-bus" aria-hidden="true"></i>
                               <span id="tub-selected-stop-name">Central I (Av. Central)</span>
                             </div>
-                            <a id="tub-selected-stop-gps" class="tub-gps-link" href="#" target="_blank" rel="noopener noreferrer">
-                              <i class="fa-solid fa-person-walking" aria-hidden="true"></i>
-                              <span id="tub-stop-gps-label">Rota GPS</span>
-                            </a>
+                            <div class="tub-selected-actions">
+                              <button type="button" id="tub-selected-stop-fav" class="tub-fav-toggle-btn" aria-pressed="false" aria-label="Guardar paragem">
+                                <i class="fa-regular fa-star" aria-hidden="true"></i>
+                                <span>Guardar</span>
+                              </button>
+                              <a id="tub-selected-stop-gps" class="tub-gps-link" href="#" target="_blank" rel="noopener noreferrer">
+                                <i class="fa-solid fa-person-walking" aria-hidden="true"></i>
+                                <span id="tub-stop-gps-label">Rota GPS</span>
+                              </a>
+                            </div>
                           </div>
 
                           <div id="tub-line-filters" class="tub-line-filters"></div>
@@ -3263,6 +3451,6 @@
     </div>
   </div>
 
-  <script type="module" src="/public/js/main.js?v=5"></script>
+  <script type="module" src="/public/js/main.js?v=6"></script>
 </body>
 </html>

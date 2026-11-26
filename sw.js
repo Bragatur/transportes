@@ -20,7 +20,7 @@
  * - Cleaning outdated cache versions automatically on activation.
  */
 
-const CACHE_NAME = 'braga-mobility-v5';
+const CACHE_NAME = 'braga-mobility-v6';
 
 const PRECACHE_URLS = [
   '/',
@@ -52,6 +52,7 @@ const PRECACHE_URLS = [
   '/public/js/privacyModal.js',
   '/public/js/guideModal.js',
   '/public/js/tubApiClient.js',
+  '/public/js/tubFavorites.js',
   '/public/js/tubPlanner.js',
   '/public/js/tubLive.js',
   '/public/js/pwa.js',

@@ -334,7 +334,12 @@ export const TRANSLATIONS = {
     tubPlanBusLinePrefix: 'Linha',
     tubPlanStopsCount: '{n} paragens',
     tubPlanViewBoardingStop: 'Ver paragem',
-    tubPlanShowStops: 'Paragens ({n})'
+    tubPlanShowStops: 'Paragens ({n})',
+    tubFavoritesLabel: 'Paragens Favoritas',
+    tubFavAdd: 'Guardar',
+    tubFavAdded: 'Guardada',
+    tubFavAddAria: 'Guardar {name} nas paragens favoritas',
+    tubFavRemoveAria: 'Remover {name} das paragens favoritas'
   },
 
   en: {
@@ -655,7 +660,12 @@ export const TRANSLATIONS = {
     tubPlanBusLinePrefix: 'Line',
     tubPlanStopsCount: '{n} stops',
     tubPlanViewBoardingStop: 'View stop',
-    tubPlanShowStops: 'Stops ({n})'
+    tubPlanShowStops: 'Stops ({n})',
+    tubFavoritesLabel: 'Favorite Stops',
+    tubFavAdd: 'Save',
+    tubFavAdded: 'Saved',
+    tubFavAddAria: 'Save {name} to favorite stops',
+    tubFavRemoveAria: 'Remove {name} from favorite stops'
   },
 
   es: {
@@ -976,7 +986,12 @@ export const TRANSLATIONS = {
     tubPlanBusLinePrefix: 'Línea',
     tubPlanStopsCount: '{n} paradas',
     tubPlanViewBoardingStop: 'Ver parada',
-    tubPlanShowStops: 'Paradas ({n})'
+    tubPlanShowStops: 'Paradas ({n})',
+    tubFavoritesLabel: 'Paradas Favoritas',
+    tubFavAdd: 'Guardar',
+    tubFavAdded: 'Guardada',
+    tubFavAddAria: 'Guardar {name} en paradas favoritas',
+    tubFavRemoveAria: 'Quitar {name} de paradas favoritas'
   },
 
   fr: {
@@ -1297,7 +1312,12 @@ export const TRANSLATIONS = {
     tubPlanBusLinePrefix: 'Ligne',
     tubPlanStopsCount: '{n} arrêts',
     tubPlanViewBoardingStop: 'Voir l’arrêt',
-    tubPlanShowStops: 'Arrêts ({n})'
+    tubPlanShowStops: 'Arrêts ({n})',
+    tubFavoritesLabel: 'Arrêts Favoris',
+    tubFavAdd: 'Enregistrer',
+    tubFavAdded: 'Enregistré',
+    tubFavAddAria: 'Enregistrer {name} dans les arrêts favoris',
+    tubFavRemoveAria: 'Retirer {name} des arrêts favoris'
   }
 };
 
@@ -1424,6 +1444,7 @@ export const TEXT_BINDINGS = {
   'tub-plan-to-label': 'tubPlanToLabel',
   'tub-plan-submit-label': 'tubPlanSubmitBtn',
   'tub-plan-quick-label': 'tubPlanQuickLabel',
+  'tub-favorites-label': 'tubFavoritesLabel',
   'tub-nearby-label': 'tubNearbyBtn',
   'tub-stop-gps-label': 'tubStopGpsLabel',
   'tub-source-note': 'tubSourceNote',

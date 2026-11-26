@@ -43,6 +43,11 @@ import {
   refreshTubPlanner,
   rerenderTubPlannerLanguage
 } from './tubPlanner.js';
+import {
+  isFavoriteStop,
+  toggleFavoriteStop,
+  renderFavoriteStopsBar
+} from './tubFavorites.js';
 
 const FALLBACK_FEATURED_STOPS = [
   { stopId: 'pt-Transportes-Urbanos-de-Braga_146', name: 'Central I (Av. Central)', tagKey: 'tubSpotCentral' },
@@ -187,6 +192,61 @@ function renderFeaturedStops() {
 }
 
 /**
+ * Updates the selected-stop star button label, icon, active styling, and ARIA state.
+ *
+ * @returns {void}
+ */
+function syncSelectedStopFavoriteButton() {
+  const favBtn = document.getElementById('tub-selected-stop-fav');
+  if (!favBtn) return;
+
+  const dict = getDict();
+  const stopName = state.selectedStopName || '';
+  const isFav = isFavoriteStop(state.selectedStopId);
+
+  favBtn.classList.toggle('is-favorited', isFav);
+  favBtn.setAttribute('aria-pressed', String(isFav));
+
+  const ariaTemplate = isFav ? dict.tubFavRemoveAria : dict.tubFavAddAria;
+  const ariaLabel = (ariaTemplate || dict.tubFavAdd).replace('{name}', stopName);
+  favBtn.setAttribute('aria-label', ariaLabel);
+  favBtn.title = ariaLabel;
+
+  const iconEl = favBtn.querySelector('i');
+  if (iconEl) {
+    iconEl.className = isFav ? 'fa-solid fa-star' : 'fa-regular fa-star';
+  }
+  const labelEl = favBtn.querySelector('span');
+  if (labelEl) {
+    labelEl.textContent = isFav ? dict.tubFavAdded : dict.tubFavAdd;
+  }
+}
+
+/**
+ * Re-renders the top quick-access favorite stops bar and synchronizes star button states.
+ *
+ * @returns {void}
+ */
+function refreshFavoritesUi() {
+  renderFavoriteStopsBar({
+    section: document.getElementById('tub-favorites-section'),
+    container: document.getElementById('tub-favorites-list'),
+    selectedStopId: state.selectedStopId,
+    dict: getDict(),
+    onSelectStop: (stopId, stopName) => {
+      if (state.activeTab !== 'stops') {
+        switchTubTab('stops');
+      }
+      selectStop(stopId, stopName);
+    },
+    onFavoritesChanged: () => {
+      refreshFavoritesUi();
+    }
+  });
+  syncSelectedStopFavoriteButton();
+}
+
+/**
  * Renders the search / GPS nearby stop results list safely.
  *
  * @param {Array<object>} stops - Matching stops returned by `/api/tub/stops`.
@@ -216,6 +276,9 @@ function renderStopSearchResults(stops, mode) {
   list.className = 'tub-results-list';
 
   for (const stop of stops) {
+    const rowWrap = document.createElement('div');
+    rowWrap.className = 'tub-result-row-wrap';
+
     const item = document.createElement('button');
     item.type = 'button';
     item.className = 'tub-result-item';
@@ -251,7 +314,35 @@ function renderStopSearchResults(stops, mode) {
       selectStop(stop.stopId, stop.name);
     });
 
-    list.appendChild(item);
+    const starBtn = document.createElement('button');
+    starBtn.type = 'button';
+    const isFav = isFavoriteStop(stop.stopId);
+    starBtn.className = `tub-result-fav-btn${isFav ? ' is-favorited' : ''}`;
+    starBtn.setAttribute('aria-pressed', String(isFav));
+    const starAria = (isFav ? dict.tubFavRemoveAria : dict.tubFavAddAria).replace('{name}', stop.name);
+    starBtn.setAttribute('aria-label', starAria);
+    starBtn.title = starAria;
+
+    const starIcon = document.createElement('i');
+    starIcon.className = isFav ? 'fa-solid fa-star' : 'fa-regular fa-star';
+    starIcon.setAttribute('aria-hidden', 'true');
+    starBtn.appendChild(starIcon);
+
+    starBtn.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const { favorited } = toggleFavoriteStop({ stopId: stop.stopId, name: stop.name });
+      starBtn.classList.toggle('is-favorited', favorited);
+      starBtn.setAttribute('aria-pressed', String(favorited));
+      starIcon.className = favorited ? 'fa-solid fa-star' : 'fa-regular fa-star';
+      const updatedAria = (favorited ? dict.tubFavRemoveAria : dict.tubFavAddAria).replace('{name}', stop.name);
+      starBtn.setAttribute('aria-label', updatedAria);
+      starBtn.title = updatedAria;
+      refreshFavoritesUi();
+    });
+
+    rowWrap.appendChild(item);
+    rowWrap.appendChild(starBtn);
+    list.appendChild(rowWrap);
   }
 
   resultsEl.appendChild(list);
@@ -374,9 +465,11 @@ function renderDeparturesBoard(data) {
   const listEl = document.getElementById('tub-departures-list');
 
   const resolvedStopName = data.stopName || state.selectedStopName;
+  state.selectedStopName = resolvedStopName;
   if (stopNameEl) {
     stopNameEl.textContent = resolvedStopName;
   }
+  syncSelectedStopFavoriteButton();
 
   if (clockEl && data.serverClock) {
     clockEl.textContent = data.serverClock;
@@ -763,6 +856,7 @@ export function selectStop(stopId, stopName) {
   state.selectedLineFilter = '';
   state.expandedTripId = null;
   renderFeaturedStops();
+  refreshFavoritesUi();
   loadDeparturesForSelectedStop(false);
 }
 
@@ -1023,9 +1117,21 @@ export function initTubLive({ onNavigateToCity } = {}) {
 
   if (!accordion) return;
 
-  // Render curated Braga stop chips immediately so UI is populated before first fetch completes
+  // Render curated Braga stop chips & saved favorites bar immediately
   state.featuredStops = FALLBACK_FEATURED_STOPS;
   renderFeaturedStops();
+  refreshFavoritesUi();
+
+  const selectedFavBtn = document.getElementById('tub-selected-stop-fav');
+  if (selectedFavBtn) {
+    selectedFavBtn.addEventListener('click', () => {
+      toggleFavoriteStop({
+        stopId: state.selectedStopId,
+        name: state.selectedStopName
+      });
+      refreshFavoritesUi();
+    });
+  }
 
   initTubPlanner({
     onSelectStop: (stopId, stopName) => {
@@ -1115,6 +1221,7 @@ export function initTubLive({ onNavigateToCity } = {}) {
   // Re-render dynamic labels when user switches language
   window.addEventListener('braga:langchange', () => {
     renderFeaturedStops();
+    refreshFavoritesUi();
     if (state.lastDeparturesPayload) {
       renderDeparturesBoard(state.lastDeparturesPayload);
     }

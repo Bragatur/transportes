@@ -38,9 +38,10 @@ export const APP_CONFIG = {
     fr: 'FR'
   },
 
-  /** LocalStorage key used to persist the user's selected language */
+  /** LocalStorage keys used to persist user preferences */
   storageKeys: {
-    language: 'braga_mobility_lang'
+    language: 'braga_mobility_lang',
+    favoriteTubStops: 'braga_tub_favorite_stops'
   },
 
   /** Background hero photo path and loader safety timeout (ms) */
@@ -101,7 +102,8 @@ export const APP_CONFIG = {
     defaultStopId: 'pt-Transportes-Urbanos-de-Braga_146',
     refreshIntervalMs: 30000,
     searchDebounceMs: 280,
-    defaultDepartureLimit: 16
+    defaultDepartureLimit: 16,
+    maxFavoriteStops: 10
   },
 
   /**

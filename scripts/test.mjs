@@ -28,6 +28,7 @@ import { APP_CONFIG, getLocalizedUrl } from '../public/js/config.js';
 import { sanitizeLogParam } from '../public/js/logger.js';
 import { normalizeSearchText } from '../public/js/search.js';
 import { TRANSLATIONS, TEXT_BINDINGS, HTML_BINDINGS } from '../public/js/translations.js';
+import { isValidFavoriteStopRecord, normalizeFavoriteStopsList } from '../public/js/tubFavorites.js';
 import {
   isValidTubStopId,
   isValidTubTripId,
@@ -127,7 +128,11 @@ function testDomBindingsExist(html) {
     'tub-nearby-btn',
     'tub-stop-results',
     'tub-featured-stops',
+    'tub-favorites-section',
+    'tub-favorites-label',
+    'tub-favorites-list',
     'tub-selected-stop-name',
+    'tub-selected-stop-fav',
     'tub-selected-stop-gps',
     'tub-line-filters',
     'tub-departures-list',
@@ -209,7 +214,7 @@ function testPwaCompliance(html) {
   const swContent = fs.readFileSync(swPath, 'utf8');
   assert.ok(swContent.includes("startsWith('/api/')"), 'sw.js must bypass /api/* from caching');
   assert.ok(swContent.includes('isCodeAsset'), 'sw.js must use network-first for JS/CSS/JSON code assets');
-  assert.ok(html.includes('/public/js/main.js?v=5'), 'index.html should load versioned main.js to bypass stale SW caches');
+  assert.ok(html.includes('/public/js/main.js?v=6'), 'index.html should load versioned main.js to bypass stale SW caches');
 
   const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
   assert.equal(manifest.id, '/');
@@ -259,6 +264,20 @@ function testTubMobilityService() {
   assert.equal(isValidLineFilter('2; DROP TABLE'), false);
 
   assert.equal(normalizeTubSearchText('Av. da Liberdade — São Lázaro'), 'av da liberdade sao lazaro');
+  assert.equal(
+    isValidFavoriteStopRecord({ stopId: 'pt-Transportes-Urbanos-de-Braga_146', name: 'Central I (Av. Central)' }),
+    true
+  );
+  assert.equal(isValidFavoriteStopRecord({ stopId: 'evil-stop', name: '<script>' }), false);
+  const cleanedFavs = normalizeFavoriteStopsList([
+    { stopId: 'pt-Transportes-Urbanos-de-Braga_146', name: 'Central I' },
+    { stopId: 'pt-Transportes-Urbanos-de-Braga_146', name: 'Duplicate Central I' },
+    { stopId: 'invalid', name: 'Bad' },
+    { stopId: 'pt-Transportes-Urbanos-de-Braga_1', name: 'Bom Jesus' }
+  ]);
+  assert.equal(cleanedFavs.length, 2);
+  assert.equal(cleanedFavs[0].stopId, 'pt-Transportes-Urbanos-de-Braga_146');
+  assert.equal(cleanedFavs[1].stopId, 'pt-Transportes-Urbanos-de-Braga_1');
   assert.equal(isWithinBragaBounds(41.5518, -8.4198), true);
   assert.equal(isWithinBragaBounds(38.7223, -9.1393), false);
 
