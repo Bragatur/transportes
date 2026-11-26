@@ -49,7 +49,14 @@ function countMatchesInSection(sectionId, normalizedQuery) {
   const accordions = section.querySelectorAll('details.service-accordion');
   accordions.forEach((accordion) => {
     const headingText = normalizeSearchText(accordion.querySelector('.summary-left')?.textContent || '');
-    const cards = accordion.querySelectorAll('a.card');
+    const cards = accordion.querySelectorAll('.card');
+    if (cards.length === 0 && accordion.dataset.searchKeywords) {
+      const searchable = normalizeSearchText(`${headingText} ${accordion.dataset.searchKeywords}`);
+      if (searchable.includes(normalizedQuery)) {
+        count += 1;
+      }
+      return;
+    }
     cards.forEach((card) => {
       const searchable = normalizeSearchText(
         `${headingText} ${card.textContent || ''} ${card.dataset.keywords || ''}`
@@ -91,7 +98,7 @@ export function applyServiceSearch() {
 
   if (!query) {
     setAccordionSearchMode(false);
-    const allCards = document.querySelectorAll('a.card.is-hidden');
+    const allCards = document.querySelectorAll('.card.is-hidden');
     allCards.forEach((card) => card.classList.remove('is-hidden'));
     resetSectionAccordions(`section-${activeSectionId}`);
     if (emptyState) emptyState.style.display = 'none';
@@ -106,17 +113,24 @@ export function applyServiceSearch() {
 
   accordions.forEach((accordion) => {
     const headingText = normalizeSearchText(accordion.querySelector('.summary-left')?.textContent || '');
-    const cards = accordion.querySelectorAll('a.card');
+    const cards = accordion.querySelectorAll('.card');
     let accordionMatches = 0;
 
-    cards.forEach((card) => {
-      const searchable = normalizeSearchText(
-        `${headingText} ${card.textContent || ''} ${card.dataset.keywords || ''}`
-      );
-      const isMatch = searchable.includes(query);
-      card.classList.toggle('is-hidden', !isMatch);
-      if (isMatch) accordionMatches += 1;
-    });
+    if (cards.length === 0 && accordion.dataset.searchKeywords) {
+      const searchable = normalizeSearchText(`${headingText} ${accordion.dataset.searchKeywords}`);
+      if (searchable.includes(query)) {
+        accordionMatches = 1;
+      }
+    } else {
+      cards.forEach((card) => {
+        const searchable = normalizeSearchText(
+          `${headingText} ${card.textContent || ''} ${card.dataset.keywords || ''}`
+        );
+        const isMatch = searchable.includes(query);
+        card.classList.toggle('is-hidden', !isMatch);
+        if (isMatch) accordionMatches += 1;
+      });
+    }
 
     const hasMatches = accordionMatches > 0;
     accordion.classList.toggle('is-hidden', !hasMatches);

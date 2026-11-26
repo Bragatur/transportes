@@ -18,6 +18,9 @@ import { initAccordions } from './accordions.js';
 import { initNavigation, getActiveView, showSection } from './navigation.js';
 import { initSearch, applyServiceSearch, clearServiceSearch } from './search.js';
 import { initPrivacyModal } from './privacyModal.js';
+import { initGuideModal } from './guideModal.js';
+import { initTubLive, activateTubLive, deactivateTubLive } from './tubLive.js';
+import { initPwa } from './pwa.js';
 import { initLoader } from './loader.js';
 
 /**
@@ -60,17 +63,31 @@ export function bootstrapApp() {
     }
   });
 
+  initTubLive({
+    onNavigateToCity: () => {
+      showSection('around', true);
+    }
+  });
+
   initNavigation({
     onViewChanged: (viewId) => {
       if (viewId === 'home') {
         clearServiceSearch(false);
+        deactivateTubLive();
       } else {
         applyServiceSearch();
+        if (viewId === 'around') {
+          activateTubLive();
+        } else {
+          deactivateTubLive();
+        }
       }
     }
   });
 
   initPrivacyModal();
+  initGuideModal();
+  initPwa();
   initLoader();
 }
 

@@ -195,6 +195,48 @@ export function setLanguage(lang, persist = false) {
     brandHomeBtn.setAttribute('aria-label', dict.brandHomeAria);
   }
 
+  const tubStopSearch = document.getElementById('tub-stop-search');
+  if (tubStopSearch) {
+    tubStopSearch.placeholder = dict.tubStopSearchPlaceholder;
+    tubStopSearch.setAttribute('aria-label', dict.tubStopSearchPlaceholder);
+  }
+
+  const tubLineSearch = document.getElementById('tub-line-search');
+  if (tubLineSearch) {
+    tubLineSearch.placeholder = dict.tubLineSearchPlaceholder;
+    tubLineSearch.setAttribute('aria-label', dict.tubLineSearchPlaceholder);
+  }
+
+  const tubRefreshBtn = document.getElementById('tub-live-refresh');
+  if (tubRefreshBtn) {
+    tubRefreshBtn.setAttribute('aria-label', dict.tubRefreshAria);
+    tubRefreshBtn.setAttribute('title', dict.tubRefreshAria);
+  }
+
+  const tubPlanFrom = document.getElementById('tub-plan-from');
+  if (tubPlanFrom) {
+    tubPlanFrom.placeholder = dict.tubPlanFromPlaceholder;
+    tubPlanFrom.setAttribute('aria-label', dict.tubPlanFromPlaceholder);
+  }
+
+  const tubPlanTo = document.getElementById('tub-plan-to');
+  if (tubPlanTo) {
+    tubPlanTo.placeholder = dict.tubPlanToPlaceholder;
+    tubPlanTo.setAttribute('aria-label', dict.tubPlanToPlaceholder);
+  }
+
+  const tubPlanGpsBtn = document.getElementById('tub-plan-gps-btn');
+  if (tubPlanGpsBtn) {
+    tubPlanGpsBtn.setAttribute('aria-label', dict.tubPlanGpsAria);
+    tubPlanGpsBtn.setAttribute('title', dict.tubPlanGpsAria);
+  }
+
+  const tubPlanSwapBtn = document.getElementById('tub-plan-swap-btn');
+  if (tubPlanSwapBtn) {
+    tubPlanSwapBtn.setAttribute('aria-label', dict.tubPlanSwapAria);
+    tubPlanSwapBtn.setAttribute('title', dict.tubPlanSwapAria);
+  }
+
   // Update footer municipal brand logo
   const footerLogo = document.getElementById('footer-logo');
   if (footerLogo) {
@@ -213,6 +255,10 @@ export function setLanguage(lang, persist = false) {
 
   updateLocalizedLinks(effectiveLang, dict.externalLinkTitle);
   renderLanguageOptions(effectiveLang);
+
+  if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function') {
+    window.dispatchEvent(new CustomEvent('braga:langchange', { detail: { lang: effectiveLang } }));
+  }
 
   return effectiveLang;
 }

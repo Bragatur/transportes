@@ -4,10 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Mobilidade em Braga — Visit Braga</title>
-  <meta name="description" content="Planeie a sua viagem para Braga e desloque-se facilmente na cidade: comboios, autocarros, portagens, aeroporto, TUB, táxis, estacionamento e Bom Jesus." />
+  <meta name="description" content="Planeie a sua viagem para Braga e desloque-se facilmente na cidade: comboios, autocarros, portagens, aeroporto, TUB, táxis, estacionamento, autocaravanas e Bom Jesus." />
   <meta property="og:title" content="Mobilidade em Braga — Visit Braga" />
-  <meta property="og:description" content="Planeie a sua viagem para Braga e desloque-se facilmente na cidade: comboios, autocarros, portagens, aeroporto, TUB, táxis, estacionamento e Bom Jesus." />
+  <meta property="og:description" content="Planeie a sua viagem para Braga e desloque-se facilmente na cidade: comboios, autocarros, portagens, aeroporto, TUB, táxis, estacionamento, autocaravanas e Bom Jesus." />
   <link rel="icon" type="image/svg+xml" href="/public/braga-icon.svg" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#0e1015" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Braga Mov" />
+  <link rel="apple-touch-icon" href="/public/apple-touch-icon.png" />
 
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -95,7 +102,7 @@
       padding: 0 24px;
     }
 
-    /* --- FAIXA SUPERIOR (IDIOMA NO CANTO SUPERIOR DIREITO) --- */
+    /* --- FAIXA SUPERIOR (GUIA RÁPIDO, INSTALAÇÃO PWA E IDIOMA) --- */
     .top-utility-bar {
       width: 100%;
       max-width: 920px;
@@ -103,14 +110,12 @@
       display: flex;
       justify-content: flex-end;
       align-items: center;
+      gap: 8px;
       position: relative;
       z-index: 120;
     }
 
-    .lang-dropdown {
-      position: relative;
-    }
-
+    .utility-btn,
     .lang-btn {
       background: rgba(18, 21, 28, 0.72);
       backdrop-filter: blur(14px);
@@ -123,7 +128,7 @@
       font-family: inherit;
       font-size: 0.82rem;
       font-weight: 600;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.02em;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -133,9 +138,24 @@
       transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
     }
 
+    .utility-btn i,
     .lang-btn .lang-globe {
       color: var(--accent);
       font-size: 0.85rem;
+    }
+
+    .utility-btn--install {
+      border-color: var(--accent-border);
+      background: rgba(226, 184, 102, 0.12);
+    }
+
+    .utility-btn--install:hover {
+      background: rgba(226, 184, 102, 0.22);
+      border-color: var(--accent);
+    }
+
+    .lang-dropdown {
+      position: relative;
     }
 
     .lang-btn .lang-caret {
@@ -148,13 +168,39 @@
       transform: rotate(180deg);
     }
 
+    .utility-btn:hover,
     .lang-btn:hover {
       background: rgba(32, 37, 48, 0.86);
       border-color: var(--accent-border);
     }
 
+    .utility-btn:active,
     .lang-btn:active {
       transform: scale(0.98);
+    }
+
+    /* Banner discreto de estado offline (controlado por pwa.js) */
+    .offline-banner {
+      width: 100%;
+      max-width: 920px;
+      margin-top: 10px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      background: rgba(24, 28, 36, 0.88);
+      border: 1px solid var(--accent-border);
+      color: var(--text-main);
+      font-size: 0.82rem;
+      font-weight: 500;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .offline-banner i {
+      color: var(--accent);
+      flex-shrink: 0;
     }
 
     .lang-options {
@@ -962,7 +1008,8 @@
     /* --- MOBILE RESPONSIVO --- */
     @media (max-width: 680px) {
       .overlay-inner { padding: 0 16px; }
-      .top-utility-bar { padding-top: 14px; }
+      .top-utility-bar { padding-top: 14px; gap: 6px; }
+      .utility-btn, .lang-btn { height: 38px; padding: 0 11px; font-size: 0.78rem; gap: 6px; }
       .main-wrapper { padding: 14px 0 28px; }
 
       main { padding: 26px 18px; border-radius: 22px; }
@@ -1122,11 +1169,1048 @@
       transform: scale(0.99);
     }
 
+    /* --- HORÁRIOS TUB EM TEMPO REAL (PAINEL NA CIDADE) --- */
+    .home-menu-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      margin: 12px 0 10px;
+    }
+
+    .home-menu-wrap .home-menu-grid {
+      margin: 0;
+    }
+
+    .tub-live-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding: 6px 2px 4px;
+    }
+
+    .tub-panel-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .tub-widget-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .tub-header-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .tub-live-clock {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.02em;
+    }
+
+    .tub-icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      border: 1px solid var(--hairline-strong);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.18s ease, border-color 0.18s ease;
+    }
+
+    .tub-icon-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--accent-border);
+    }
+
+    .tub-icon-btn.is-spinning i {
+      animation: loaderSpin 0.85s linear infinite;
+    }
+
+    .tub-tabs {
+      display: inline-flex;
+      gap: 4px;
+      padding: 4px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--hairline);
+      border-radius: 10px;
+      flex: 1;
+      max-width: 520px;
+    }
+
+    .tub-tab-btn {
+      flex: 1;
+      height: 36px;
+      border: none;
+      border-radius: 7px;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      white-space: nowrap;
+      transition: background 0.18s ease, color 0.18s ease;
+    }
+
+    .tub-tab-btn.active {
+      background: var(--accent-solid);
+      color: var(--accent-ink);
+    }
+
+    .tub-search-row {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .tub-search-row .search-input-box {
+      flex: 1;
+    }
+
+    .tub-search-row .search-input {
+      height: 40px;
+      padding: 0 14px 0 38px;
+      font-size: 0.86rem;
+    }
+
+    .tub-nearby-btn {
+      height: 40px;
+      padding: 0 13px;
+      border-radius: 10px;
+      border: 1px solid var(--accent-border);
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background 0.18s ease, border-color 0.18s ease;
+    }
+
+    .tub-nearby-btn:hover:not(:disabled) {
+      background: rgba(226, 184, 102, 0.22);
+      border-color: var(--accent);
+    }
+
+    .tub-nearby-btn:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    .tub-stop-results {
+      display: none;
+      border: 1px solid var(--hairline-strong);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      overflow: hidden;
+    }
+
+    .tub-results-header {
+      padding: 8px 12px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border-bottom: 1px solid var(--hairline);
+    }
+
+    .tub-results-list {
+      max-height: 200px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tub-result-item {
+      width: 100%;
+      padding: 10px 12px;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--hairline);
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      text-align: left;
+      transition: background 0.15s ease;
+    }
+
+    .tub-result-item:last-child {
+      border-bottom: none;
+    }
+
+    .tub-result-item:hover {
+      background: rgba(226, 184, 102, 0.12);
+    }
+
+    .tub-result-name {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .tub-result-name i {
+      color: var(--accent);
+      font-size: 0.8rem;
+    }
+
+    .tub-result-dist {
+      font-size: 0.78rem;
+      color: var(--text-subtle);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .tub-featured-stops {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: thin;
+    }
+
+    .tub-stop-chip {
+      height: 32px;
+      padding: 0 11px;
+      border-radius: 8px;
+      border: 1px solid var(--hairline);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+    }
+
+    .tub-stop-chip:hover {
+      border-color: var(--accent-border);
+      color: #ffffff;
+    }
+
+    .tub-stop-chip.active {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .tub-selected-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 0 8px;
+      border-top: 1px solid var(--hairline);
+      border-bottom: 1px solid var(--hairline);
+    }
+
+    .tub-selected-stop-name {
+      font-size: 0.96rem;
+      font-weight: 700;
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tub-selected-stop-name i {
+      color: var(--accent);
+    }
+
+    .tub-gps-link {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .tub-gps-link:hover {
+      text-decoration: underline;
+    }
+
+    .tub-line-filters {
+      display: none;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tub-filter-btn {
+      min-width: 34px;
+      height: 28px;
+      padding: 0 9px;
+      border-radius: 6px;
+      border: 1px solid var(--hairline);
+      background: transparent;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.76rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .tub-filter-btn.active {
+      background: var(--accent-solid);
+      border-color: var(--accent-solid);
+      color: var(--accent-ink);
+    }
+
+    .tub-departures-list {
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid var(--hairline);
+    }
+
+    .tub-departure-wrap {
+      border-bottom: 1px solid var(--hairline);
+    }
+
+    .tub-departure-row {
+      width: 100%;
+      padding: 12px 6px;
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      font-family: inherit;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: background 0.15s ease;
+    }
+
+    .tub-departure-row:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .tub-line-code {
+      min-width: 42px;
+      height: 36px;
+      padding: 0 8px;
+      border-radius: 8px;
+      background: var(--accent-soft);
+      border: 1px solid var(--accent-border);
+      color: var(--accent);
+      font-size: 0.92rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .tub-dep-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .tub-dep-headsign {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tub-dep-meta {
+      font-size: 0.76rem;
+      color: var(--text-subtle);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tub-dep-meta.is-live {
+      color: #6ee7b7;
+    }
+
+    .tub-dep-meta.is-cancelled {
+      color: #fca5a5;
+    }
+
+    .tub-dep-timing {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+      flex-shrink: 0;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .tub-dep-eta {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #ffffff;
+      white-space: nowrap;
+    }
+
+    .tub-dep-eta.is-imminent {
+      color: var(--accent);
+    }
+
+    .tub-dep-clock {
+      font-size: 0.75rem;
+      color: var(--text-subtle);
+    }
+
+    .tub-dep-chevron {
+      font-size: 0.72rem;
+      color: var(--text-subtle);
+      transition: transform 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .tub-dep-chevron.is-open {
+      transform: rotate(180deg);
+      color: var(--accent);
+    }
+
+    .tub-itinerary-box {
+      padding: 8px 12px 14px 54px;
+      background: rgba(255, 255, 255, 0.02);
+      border-top: 1px dashed var(--hairline);
+    }
+
+    .tub-timeline {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .tub-timeline-item {
+      margin: 0;
+    }
+
+    .tub-timeline-btn {
+      width: 100%;
+      padding: 5px 6px;
+      background: transparent;
+      border: none;
+      border-radius: 6px;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.81rem;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.14s ease, color 0.14s ease;
+    }
+
+    .tub-timeline-btn:hover {
+      background: rgba(226, 184, 102, 0.1);
+      color: #ffffff;
+    }
+
+    .tub-timeline-time {
+      width: 42px;
+      flex-shrink: 0;
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+      color: var(--text-subtle);
+    }
+
+    .tub-timeline-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--hairline-strong);
+      flex-shrink: 0;
+    }
+
+    .tub-timeline-item.is-passed .tub-timeline-btn {
+      opacity: 0.5;
+    }
+
+    .tub-timeline-item.is-current .tub-timeline-btn {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .tub-timeline-item.is-current .tub-timeline-dot {
+      background: var(--accent);
+    }
+
+    .tub-timeline-item.is-current .tub-timeline-time {
+      color: var(--accent);
+    }
+
+    .tub-lines-meta {
+      font-size: 0.8rem;
+      color: var(--text-subtle);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .tub-lines-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 10px;
+    }
+
+    .tub-line-card {
+      width: 100%;
+      padding: 11px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--hairline);
+      background: rgba(255, 255, 255, 0.035);
+      color: var(--text-main);
+      font-family: inherit;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      transition: background 0.16s ease, border-color 0.16s ease;
+    }
+
+    .tub-line-card:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--accent-border);
+    }
+
+    .tub-line-card-body {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .tub-line-card-route {
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tub-line-card-meta {
+      font-size: 0.74rem;
+      color: var(--text-subtle);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .tub-line-card-arrow {
+      font-size: 0.72rem;
+      color: var(--text-subtle);
+      flex-shrink: 0;
+    }
+
+    .tub-line-detail-header {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-bottom: 12px;
+      margin-bottom: 8px;
+      border-bottom: 1px solid var(--hairline);
+    }
+
+    .tub-inline-back {
+      align-self: flex-start;
+      padding: 6px 11px;
+      border-radius: 8px;
+      border: 1px solid var(--hairline);
+      background: transparent;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .tub-inline-back:hover {
+      color: #ffffff;
+      border-color: var(--hairline-strong);
+    }
+
+    .tub-line-detail-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.94rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .tub-empty-state {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 26px 16px;
+      color: var(--text-muted);
+      font-size: 0.86rem;
+      text-align: center;
+    }
+
+    .tub-empty-state i {
+      color: var(--accent);
+    }
+
+    .tub-empty-state--error i {
+      color: #fbbf24;
+    }
+
+    .tub-widget-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding-top: 12px;
+      border-top: 1px solid var(--hairline);
+    }
+
+    .tub-source-note {
+      font-size: 0.76rem;
+      color: var(--text-subtle);
+    }
+
+    .tub-map-link {
+      height: 36px;
+      padding: 0 13px;
+      border-radius: 9px;
+      border: 1px solid var(--hairline-strong);
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      white-space: nowrap;
+      transition: border-color 0.18s ease, background 0.18s ease;
+    }
+
+    .tub-map-link:hover {
+      border-color: var(--accent-border);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    /* Planeador de Destino TUB ("Qual o autocarro a apanhar") */
+    .tub-plan-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--hairline);
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .tub-plan-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+    }
+
+    .tub-plan-field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .tub-plan-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-subtle);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tub-plan-label i {
+      color: var(--accent);
+      font-size: 0.72rem;
+    }
+
+    .tub-plan-input-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tub-plan-input-row .search-input-box {
+      flex: 1;
+    }
+
+    .tub-plan-input-row .search-input {
+      height: 40px;
+      padding: 0 12px 0 36px;
+      font-size: 0.86rem;
+    }
+
+    .tub-plan-icon-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      border: 1px solid var(--accent-border);
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.18s ease, border-color 0.18s ease, transform 0.16s ease;
+    }
+
+    .tub-plan-icon-btn:hover:not(:disabled) {
+      background: rgba(226, 184, 102, 0.22);
+      border-color: var(--accent);
+    }
+
+    .tub-plan-icon-btn:disabled {
+      opacity: 0.55;
+      cursor: wait;
+    }
+
+    .tub-plan-icon-btn--swap {
+      border-color: var(--hairline-strong);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
+    }
+
+    .tub-plan-icon-btn--swap:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.11);
+      border-color: var(--accent-border);
+      color: var(--accent);
+    }
+
+    .tub-plan-submit-btn {
+      height: 42px;
+      padding: 0 18px;
+      border-radius: 10px;
+      border: 1px solid var(--accent-solid);
+      background: var(--accent-solid);
+      color: var(--accent-ink);
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: filter 0.16s ease, transform 0.14s ease;
+    }
+
+    .tub-plan-submit-btn:hover {
+      filter: brightness(1.06);
+    }
+
+    .tub-plan-submit-btn:active {
+      transform: translateY(1px);
+    }
+
+    .tub-plan-quick-section {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .tub-plan-quick-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-subtle);
+    }
+
+    .tub-plan-results {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .tub-plan-walk-hint {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 12px;
+      border-radius: 9px;
+      border: 1px solid var(--hairline);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    .tub-plan-walk-hint i {
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .tub-route-card {
+      border-radius: 12px;
+      border: 1px solid var(--hairline-strong);
+      background: rgba(255, 255, 255, 0.03);
+      overflow: hidden;
+      transition: border-color 0.18s ease;
+    }
+
+    .tub-route-card:hover {
+      border-color: var(--accent-border);
+    }
+
+    .tub-route-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      background: rgba(226, 184, 102, 0.06);
+      border-bottom: 1px solid var(--hairline);
+    }
+
+    .tub-route-buses {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .tub-route-catch-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .tub-route-badges {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tub-route-transfer-arrow {
+      font-size: 0.7rem;
+      color: var(--text-subtle);
+    }
+
+    .tub-route-timing {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+      text-align: right;
+      flex-shrink: 0;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .tub-route-duration {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .tub-route-clock-range {
+      font-size: 0.79rem;
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .tub-route-transfer-meta {
+      font-size: 0.73rem;
+      color: var(--text-subtle);
+    }
+
+    .tub-route-legs {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 12px 14px;
+    }
+
+    .tub-leg-walk {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      padding: 2px 4px;
+    }
+
+    .tub-leg-walk i {
+      color: var(--text-subtle);
+      width: 16px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .tub-leg-bus {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--hairline);
+      border-left: 3px solid var(--accent);
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .tub-leg-bus-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .tub-line-code--sm {
+      min-width: 34px;
+      height: 30px;
+      font-size: 0.82rem;
+      border-radius: 7px;
+      padding: 0 6px;
+    }
+
+    .tub-leg-bus-title {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .tub-leg-bus-headline {
+      font-size: 0.87rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .tub-leg-bus-stops {
+      font-size: 0.8rem;
+      color: var(--text-main);
+      font-variant-numeric: tabular-nums;
+      line-height: 1.4;
+    }
+
+    .tub-leg-bus-meta {
+      font-size: 0.74rem;
+      color: var(--text-subtle);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .tub-leg-bus-meta.is-live {
+      color: #6ee7b7;
+    }
+
+    .tub-leg-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding-top: 2px;
+    }
+
+    .tub-leg-action-btn {
+      height: 28px;
+      padding: 0 10px;
+      border-radius: 7px;
+      border: 1px solid var(--hairline);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.74rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .tub-leg-action-btn:hover {
+      background: rgba(226, 184, 102, 0.12);
+      border-color: var(--accent-border);
+      color: var(--accent);
+    }
+
+    .tub-leg-inter-stops {
+      padding-top: 8px;
+      margin-top: 2px;
+      border-top: 1px dashed var(--hairline);
+    }
+
+    .tub-timeline-static {
+      padding: 4px 4px;
+      color: var(--text-muted);
+      font-size: 0.79rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
     @media (max-width: 680px) {
       .modal-content { width: 95%; max-height: 90vh; }
-      .modal-header { padding: 18px 20px; }
-      .modal-body { padding: 18px 20px; }
-      .modal-footer { padding: 14px 20px; }
+      .modal-header { padding: 16px 18px; }
+      .modal-body { padding: 16px 18px; }
+      .modal-footer { padding: 14px 18px; }
+      .tub-widget-toolbar { flex-direction: column; align-items: stretch; gap: 10px; }
+      .tub-tabs { max-width: 100%; }
+      .tub-tab-btn { font-size: 0.78rem; gap: 5px; padding: 0 6px; }
+      .tub-header-actions { justify-content: flex-end; }
+      .tub-search-row { flex-direction: column; }
+      .tub-nearby-btn { justify-content: center; }
+      .tub-itinerary-box { padding-left: 14px; }
+      .tub-route-head { flex-direction: column; align-items: flex-start; }
+      .tub-route-timing { align-items: flex-start; text-align: left; }
+      .tub-widget-footer { flex-direction: column; align-items: flex-start; }
     }
 
     /* Respeito pela preferência de movimento reduzido */
@@ -1169,8 +2253,18 @@
   <div class="overlay">
     <div class="overlay-inner">
 
-      <!-- Barra superior discreta com seletor de idiomas visível no canto superior direito -->
+      <!-- Barra superior discreta com Guia Rápido, Instalação PWA e seletor de idiomas -->
       <div class="top-utility-bar">
+        <button type="button" class="utility-btn" id="quick-guide-btn">
+          <i class="fa-solid fa-compass" aria-hidden="true"></i>
+          <span id="quick-guide-label">Guia Rápido</span>
+        </button>
+
+        <button type="button" class="utility-btn utility-btn--install" id="pwa-install-btn" style="display: none;">
+          <i class="fa-solid fa-download" aria-hidden="true"></i>
+          <span id="pwa-install-label">Instalar App</span>
+        </button>
+
         <div class="lang-dropdown">
           <button type="button" class="lang-btn" id="lang-btn" aria-label="Alterar idioma (Português)" aria-haspopup="listbox" aria-expanded="false" aria-controls="lang-options">
             <i class="fa-solid fa-globe lang-globe" aria-hidden="true"></i>
@@ -1179,6 +2273,12 @@
           </button>
           <div class="lang-options" id="lang-options" role="listbox"></div>
         </div>
+      </div>
+
+      <!-- Aviso de conectividade offline -->
+      <div id="offline-banner" class="offline-banner" role="status" aria-live="polite" style="display: none;">
+        <i class="fa-solid fa-wifi" aria-hidden="true"></i>
+        <span id="offline-banner-text">Modo offline — Guia rápido, linhas e contactos disponíveis.</span>
       </div>
 
       <div class="main-wrapper">
@@ -1195,23 +2295,25 @@
           <div id="view-stage">
 
             <!-- MENU INICIAL -->
-            <div id="home-menu" class="home-menu-grid">
-              <button type="button" id="home-btn-arrive" class="home-btn">
-                <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i>
-                <span class="home-btn-body">
-                  <span class="home-btn-title" id="btn-arrive">Viajar para Braga</span>
-                  <span class="home-btn-sub" id="btn-arrive-sub">Comboios, autocarros, carro e aeroporto</span>
-                </span>
-                <i class="fa-solid fa-chevron-right home-btn-arrow" aria-hidden="true"></i>
-              </button>
-              <button type="button" id="home-btn-around" class="home-btn">
-                <i class="fa-solid fa-city" aria-hidden="true"></i>
-                <span class="home-btn-body">
-                  <span class="home-btn-title" id="btn-around">Na Cidade</span>
-                  <span class="home-btn-sub" id="btn-around-sub">TUB, táxis, estacionamento e Bom Jesus</span>
-                </span>
-                <i class="fa-solid fa-chevron-right home-btn-arrow" aria-hidden="true"></i>
-              </button>
+            <div id="home-menu" class="home-menu-wrap">
+              <div class="home-menu-grid">
+                <button type="button" id="home-btn-arrive" class="home-btn">
+                  <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i>
+                  <span class="home-btn-body">
+                    <span class="home-btn-title" id="btn-arrive">Viajar para Braga</span>
+                    <span class="home-btn-sub" id="btn-arrive-sub">Comboios, autocarros, carro, trânsito e aeroporto</span>
+                  </span>
+                  <i class="fa-solid fa-chevron-right home-btn-arrow" aria-hidden="true"></i>
+                </button>
+                <button type="button" id="home-btn-around" class="home-btn">
+                  <i class="fa-solid fa-city" aria-hidden="true"></i>
+                  <span class="home-btn-body">
+                    <span class="home-btn-title" id="btn-around">Na Cidade</span>
+                    <span class="home-btn-sub" id="btn-around-sub">TUB, GPS pontos-chave, Bom Jesus, a pé e estacionamento</span>
+                  </span>
+                  <i class="fa-solid fa-chevron-right home-btn-arrow" aria-hidden="true"></i>
+                </button>
+              </div>
             </div>
 
             <!-- BARRA INTERNA: INÍCIO + TROCA DIRETA ENTRE SECÇÕES -->
@@ -1241,7 +2343,7 @@
                   type="search"
                   id="service-search"
                   class="search-input"
-                  placeholder="Procurar: portagens, aeroporto, Bom Jesus, táxi..."
+                  placeholder="Procurar: portagens, aeroporto, Bom Jesus, autocaravanas..."
                   aria-label="Procurar serviços de mobilidade"
                   autocomplete="off"
                 />
@@ -1264,11 +2366,11 @@
             <section id="section-arrive" aria-labelledby="tab-arrive-label" style="display: none; width: 100%;">
               <div class="accordion-group">
 
-                <details class="service-accordion" open>
+                <details class="service-accordion" open data-default-open="true">
                   <summary class="section-title">
                     <span class="summary-left-wrap">
-                      <span class="summary-left" id="train-heading"><i class="fas fa-train" aria-hidden="true"></i> Comboios</span>
-                      <span class="accordion-count" aria-hidden="true">· 1</span>
+                      <span class="summary-left" id="train-heading"><i class="fas fa-train" aria-hidden="true"></i> Comboios &amp; Planeador</span>
+                      <span class="accordion-count" aria-hidden="true">· 2</span>
                     </span>
                   </summary>
                   <div class="accordion-content">
@@ -1281,6 +2383,15 @@
                         <div class="card-body">
                           <span class="card-text" id="label-cp">CP - Comboios</span>
                           <span class="card-subtitle" id="sub-cp">Comboios urbanos (Porto) e Alfa Pendular</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" data-keywords="rome2rio planeador multimodal planner planificador planificateur voo comboio autocarro rotas" href="https://www.rome2rio.com/" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-sky"><i class="fa-solid fa-route" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-rome2rio">Rome2Rio (Planeador)</span>
+                          <span class="card-subtitle" id="sub-rome2rio">Combinar voo, comboio e autocarro até Braga</span>
                         </div>
                         <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
                       </a>
@@ -1375,8 +2486,8 @@
                 <details class="service-accordion">
                   <summary class="section-title">
                     <span class="summary-left-wrap">
-                      <span class="summary-left" id="tolls-heading"><i class="fas fa-road" aria-hidden="true"></i> Automóvel</span>
-                      <span class="accordion-count" aria-hidden="true">· 4</span>
+                      <span class="summary-left" id="tolls-heading"><i class="fas fa-road" aria-hidden="true"></i> Automóvel &amp; Trânsito</span>
+                      <span class="accordion-count" aria-hidden="true">· 5</span>
                     </span>
                   </summary>
                   <div class="accordion-content">
@@ -1417,6 +2528,15 @@
                         <div class="card-body">
                           <span class="card-text" id="label-directions-braga">Direções para Braga</span>
                           <span class="card-subtitle" id="sub-directions-braga">Traçar rota de carro no Google Maps</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" data-keywords="waze transito trafico traffic trafic tempo real live alertas carro estrada" href="https://www.waze.com/live-map/directions?to=ll.41.5454486%2C-8.426507" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-sky"><i class="fa-solid fa-traffic-light" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-waze-traffic">Waze (Trânsito em Braga)</span>
+                          <span class="card-subtitle" id="sub-waze-traffic">Condições de trânsito e alertas em direto</span>
                         </div>
                         <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
                       </a>
@@ -1524,11 +2644,201 @@
             <section id="section-around" aria-labelledby="tab-around-label" style="display: none; width: 100%;">
               <div class="accordion-group">
 
-                <details class="service-accordion" open>
+                <details
+                  class="service-accordion tub-live-accordion"
+                  id="tub-live-accordion"
+                  data-search-keywords="tub horarios tempo real live departures partidas autocarros bus linhas paragens gps bom jesus sameiro estacao central destino como ir apanhar planeador rota"
+                >
+                  <summary class="section-title">
+                    <span class="summary-left-wrap">
+                      <span class="summary-left" id="tub-live-heading"><i class="fas fa-clock" aria-hidden="true"></i> Horários TUB em Tempo Real</span>
+                    </span>
+                  </summary>
+                  <div class="accordion-content">
+                    <div class="tub-live-panel">
+                      <div class="tub-widget-toolbar">
+                        <div class="tub-tabs" role="tablist">
+                          <button type="button" id="tub-tab-stops" class="tub-tab-btn active" role="tab" aria-selected="true" aria-controls="tub-panel-stops">
+                            <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+                            <span id="tub-tab-stops-label">Por Paragem</span>
+                          </button>
+                          <button type="button" id="tub-tab-planner" class="tub-tab-btn" role="tab" aria-selected="false" aria-controls="tub-panel-planner">
+                            <i class="fa-solid fa-diamond-turn-right" aria-hidden="true"></i>
+                            <span id="tub-tab-planner-label">Destino</span>
+                          </button>
+                          <button type="button" id="tub-tab-lines" class="tub-tab-btn" role="tab" aria-selected="false" aria-controls="tub-panel-lines">
+                            <i class="fa-solid fa-route" aria-hidden="true"></i>
+                            <span id="tub-tab-lines-label">Linhas Ativas</span>
+                          </button>
+                        </div>
+
+                        <div class="tub-header-actions">
+                          <span id="tub-live-clock" class="tub-live-clock" aria-live="off">--:--</span>
+                          <button type="button" id="tub-live-refresh" class="tub-icon-btn" aria-label="Atualizar horários TUB" title="Atualizar horários TUB">
+                            <i class="fa-solid fa-rotate-right" aria-hidden="true"></i>
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- Painel 1: Consulta por Paragem / GPS -->
+                      <div id="tub-panel-stops" role="tabpanel" aria-labelledby="tub-tab-stops">
+                        <div class="tub-panel-stack">
+                          <div class="tub-search-row">
+                            <div class="search-input-box">
+                              <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
+                              <input
+                                type="search"
+                                id="tub-stop-search"
+                                class="search-input"
+                                placeholder="Procurar paragem TUB (ex: Central, Bom Jesus, Estação)..."
+                                aria-label="Procurar paragem TUB"
+                                autocomplete="off"
+                              />
+                            </div>
+                            <button type="button" id="tub-nearby-btn" class="tub-nearby-btn">
+                              <i class="fa-solid fa-location-crosshairs" aria-hidden="true"></i>
+                              <span id="tub-nearby-label">Perto de mim</span>
+                            </button>
+                          </div>
+
+                          <div id="tub-stop-results" class="tub-stop-results" aria-live="polite"></div>
+
+                          <div id="tub-featured-stops" class="tub-featured-stops"></div>
+
+                          <div class="tub-selected-bar">
+                            <div class="tub-selected-stop-name">
+                              <i class="fa-solid fa-bus" aria-hidden="true"></i>
+                              <span id="tub-selected-stop-name">Central I (Av. Central)</span>
+                            </div>
+                            <a id="tub-selected-stop-gps" class="tub-gps-link" href="#" target="_blank" rel="noopener noreferrer">
+                              <i class="fa-solid fa-person-walking" aria-hidden="true"></i>
+                              <span id="tub-stop-gps-label">Rota GPS</span>
+                            </a>
+                          </div>
+
+                          <div id="tub-line-filters" class="tub-line-filters"></div>
+
+                          <div id="tub-departures-list" class="tub-departures-list" aria-live="polite"></div>
+                        </div>
+                      </div>
+
+                      <!-- Painel 2: Planeador de Destino ("Qual o autocarro a apanhar") -->
+                      <div id="tub-panel-planner" role="tabpanel" aria-labelledby="tub-tab-planner" style="display: none;">
+                        <div class="tub-panel-stack">
+                          <form id="tub-plan-form" class="tub-plan-form" autocomplete="off">
+                            <div class="tub-plan-fields">
+                              <div class="tub-plan-field">
+                                <label for="tub-plan-from" class="tub-plan-label">
+                                  <i class="fa-regular fa-circle-dot" aria-hidden="true"></i>
+                                  <span id="tub-plan-from-label">Partida (Origem)</span>
+                                </label>
+                                <div class="tub-plan-input-row">
+                                  <div class="search-input-box">
+                                    <i class="fa-solid fa-location-dot search-icon" aria-hidden="true"></i>
+                                    <input
+                                      type="search"
+                                      id="tub-plan-from"
+                                      class="search-input"
+                                      placeholder="Onde está? (ex: Av. Central, Estação CP)..."
+                                      aria-label="Local de partida em Braga"
+                                      autocomplete="off"
+                                    />
+                                  </div>
+                                  <button
+                                    type="button"
+                                    id="tub-plan-gps-btn"
+                                    class="tub-plan-icon-btn"
+                                    aria-label="Usar a minha localização GPS"
+                                    title="Usar a minha localização GPS"
+                                  >
+                                    <i class="fa-solid fa-location-crosshairs" aria-hidden="true"></i>
+                                  </button>
+                                </div>
+                                <div id="tub-plan-from-results" class="tub-stop-results" aria-live="polite"></div>
+                              </div>
+
+                              <div class="tub-plan-field">
+                                <label for="tub-plan-to" class="tub-plan-label">
+                                  <i class="fa-solid fa-flag-checkered" aria-hidden="true"></i>
+                                  <span id="tub-plan-to-label">Destino</span>
+                                </label>
+                                <div class="tub-plan-input-row">
+                                  <div class="search-input-box">
+                                    <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
+                                    <input
+                                      type="search"
+                                      id="tub-plan-to"
+                                      class="search-input"
+                                      placeholder="Para onde vai? (ex: Bom Jesus, Sameiro, Braga Parque)..."
+                                      aria-label="Destino em Braga"
+                                      autocomplete="off"
+                                    />
+                                  </div>
+                                  <button
+                                    type="button"
+                                    id="tub-plan-swap-btn"
+                                    class="tub-plan-icon-btn tub-plan-icon-btn--swap"
+                                    aria-label="Trocar origem e destino"
+                                    title="Trocar origem e destino"
+                                  >
+                                    <i class="fa-solid fa-right-left" aria-hidden="true"></i>
+                                  </button>
+                                </div>
+                                <div id="tub-plan-to-results" class="tub-stop-results" aria-live="polite"></div>
+                              </div>
+                            </div>
+
+                            <button type="submit" id="tub-plan-submit" class="tub-plan-submit-btn">
+                              <i class="fa-solid fa-bus-simple" aria-hidden="true"></i>
+                              <span id="tub-plan-submit-label">Ver autocarro a apanhar</span>
+                            </button>
+                          </form>
+
+                          <div class="tub-plan-quick-section">
+                            <span id="tub-plan-quick-label" class="tub-plan-quick-label">Destinos rápidos em Braga</span>
+                            <div id="tub-plan-quick-dests" class="tub-featured-stops"></div>
+                          </div>
+
+                          <div id="tub-plan-results" class="tub-plan-results" aria-live="polite"></div>
+                        </div>
+                      </div>
+
+                      <!-- Painel 3: Linhas Ativas em Circulação -->
+                      <div id="tub-panel-lines" role="tabpanel" aria-labelledby="tub-tab-lines" style="display: none;">
+                        <div class="tub-panel-stack">
+                          <div class="search-input-box">
+                            <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
+                            <input
+                              type="search"
+                              id="tub-line-search"
+                              class="search-input"
+                              placeholder="Filtrar linha (ex: 2, 88, 24, Bom Jesus)..."
+                              aria-label="Filtrar linha TUB"
+                              autocomplete="off"
+                            />
+                          </div>
+                          <div id="tub-lines-count" class="tub-lines-meta"></div>
+                          <div id="tub-lines-list" class="tub-lines-grid" aria-live="polite"></div>
+                          <div id="tub-line-detail" style="display: none;"></div>
+                        </div>
+                      </div>
+
+                      <div class="tub-widget-footer">
+                        <span id="tub-source-note" class="tub-source-note">API Mobilidade · TUB Braga · Atualização 30s</span>
+                        <a href="https://www.map.tub.pt/" target="_blank" rel="noopener noreferrer" class="tub-map-link">
+                          <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i>
+                          <span id="tub-open-map-label">Mapa TUB</span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </details>
+
+                <details class="service-accordion" open data-default-open="true">
                   <summary class="section-title">
                     <span class="summary-left-wrap">
                       <span class="summary-left" id="urban-heading"><i class="fas fa-city" aria-hidden="true"></i> Transportes Públicos</span>
-                      <span class="accordion-count" aria-hidden="true">· 1</span>
+                      <span class="accordion-count" aria-hidden="true">· 2</span>
                     </span>
                   </summary>
                   <div class="accordion-content">
@@ -1541,6 +2851,15 @@
                         </div>
                         <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
                       </a>
+
+                      <a class="card" data-keywords="tub mapa map carte interativo linhas paragens stops autocarros tempo real live bus" href="https://www.map.tub.pt/" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-sky"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-tub-map">TUB — Mapa Interativo</span>
+                          <span class="card-subtitle" id="sub-tub-map">Mapa de linhas, paragens e autocarros</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
                     </div>
                   </div>
                 </details>
@@ -1548,7 +2867,55 @@
                 <details class="service-accordion">
                   <summary class="section-title">
                     <span class="summary-left-wrap">
-                      <span class="summary-left" id="sanctuaries-heading"><i class="fas fa-mountain" aria-hidden="true"></i> Bom Jesus & Sameiro</span>
+                      <span class="summary-left" id="key-spots-heading"><i class="fas fa-location-crosshairs" aria-hidden="true"></i> Pontos-Chave (GPS)</span>
+                      <span class="accordion-count" aria-hidden="true">· 4</span>
+                    </span>
+                  </summary>
+                  <div class="accordion-content">
+                    <div class="card-grid">
+                      <a class="card" data-keywords="gps posto turismo tourist office oficina turismo office tourisme avenida liberdade direcoes" href="https://www.google.com/maps/dir/?api=1&destination=Posto+de+Turismo+de+Braga,+Av.+da+Liberdade+1,+Braga&travelmode=walking" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-gold"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-spot-tourist-office">Posto de Turismo</span>
+                          <span class="card-subtitle" id="sub-spot-tourist-office">Av. da Liberdade · Direções GPS a pé</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" data-keywords="gps estacao comboios cp train station gare ferroviaire tren direcoes" href="https://www.google.com/maps/dir/?api=1&destination=Esta%C3%A7%C3%A3o+Ferrovi%C3%A1ria+de+Braga&travelmode=walking" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-sky"><i class="fa-solid fa-train" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-spot-train-station">Estação de Comboios (CP)</span>
+                          <span class="card-subtitle" id="sub-spot-train-station">~10 min a pé do centro · Direções GPS</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" data-keywords="gps central camionagem cctb bus terminal gare routiere estacion autobuses direcoes" href="https://www.google.com/maps/dir/?api=1&destination=Central+de+Camionagem+de+Braga&travelmode=walking" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-sky"><i class="fa-solid fa-bus" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-spot-bus-terminal">Central de Camionagem</span>
+                          <span class="card-subtitle" id="sub-spot-bus-terminal">~8 min a pé do centro · Direções GPS</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" data-keywords="gps centro historico se braga catedral cathedral cathedrale pedonal direcoes" href="https://www.google.com/maps/dir/?api=1&destination=S%C3%A9+de+Braga&travelmode=walking" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-gold"><i class="fa-solid fa-landmark" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-spot-historic-center">Centro Histórico / Sé</span>
+                          <span class="card-subtitle" id="sub-spot-historic-center">Zona pedonal · Direções GPS a pé</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+                    </div>
+                  </div>
+                </details>
+
+                <details class="service-accordion">
+                  <summary class="section-title">
+                    <span class="summary-left-wrap">
+                      <span class="summary-left" id="sanctuaries-heading"><i class="fas fa-mountain" aria-hidden="true"></i> Bom Jesus &amp; Sameiro</span>
                       <span class="accordion-count" aria-hidden="true">· 3</span>
                     </span>
                   </summary>
@@ -1581,6 +2948,40 @@
                         <div class="card-body">
                           <span class="card-text" id="label-sameiro-transit">Autocarro para o Sameiro</span>
                           <span class="card-subtitle" id="sub-sameiro-transit">TUB Linha 88 · Rotas em tempo real</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+                    </div>
+                  </div>
+                </details>
+
+                <details class="service-accordion">
+                  <summary class="section-title">
+                    <span class="summary-left-wrap">
+                      <span class="summary-left" id="soft-mobility-heading"><i class="fas fa-person-walking" aria-hidden="true"></i> A Pé &amp; Bicicleta</span>
+                      <span class="accordion-count" aria-hidden="true">· 2</span>
+                    </span>
+                  </summary>
+                  <div class="accordion-content">
+                    <p class="section-tip">
+                      <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+                      <span id="tip-walking">O Centro Histórico de Braga é amplamente pedonal: a Estação CP fica a ~10 min e a Central de Autocarros a ~8 min a pé do centro.</span>
+                    </p>
+                    <div class="card-grid">
+                      <a class="card" data-keywords="a pe caminhar walking pied centro historico pedonal praca republica mapa" href="https://www.google.com/maps/dir/?api=1&destination=Pra%C3%A7a+da+Rep%C3%BAblica,+Braga&travelmode=walking" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-gold"><i class="fa-solid fa-person-walking" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-walking-map">Centro Histórico a Pé</span>
+                          <span class="card-subtitle" id="sub-walking-map">Navegação pedonal para a Praça da República</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" data-keywords="bicicleta bicicletas ciclovia ciclovias bike cycling velo mubi rede ciclavel" href="https://cidadeciclavel.mubi.pt/s/41.551397577287304,-8.421276538676473" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-emerald"><i class="fa-solid fa-bicycle" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-cycling-network">Rede Ciclável de Braga</span>
+                          <span class="card-subtitle" id="sub-cycling-network">Ciclovias e pontos de apoio ciclável</span>
                         </div>
                         <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
                       </a>
@@ -1648,8 +3049,8 @@
                 <details class="service-accordion">
                   <summary class="section-title">
                     <span class="summary-left-wrap">
-                      <span class="summary-left" id="parking-heading"><i class="fas fa-square-parking" aria-hidden="true"></i> Estacionamento</span>
-                      <span class="accordion-count" aria-hidden="true">· 2</span>
+                      <span class="summary-left" id="parking-heading"><i class="fas fa-square-parking" aria-hidden="true"></i> Estacionamento &amp; Autocaravanas</span>
+                      <span class="accordion-count" aria-hidden="true">· 3</span>
                     </span>
                   </summary>
                   <div class="accordion-content">
@@ -1668,6 +3069,15 @@
                         <div class="card-body">
                           <span class="card-text" id="label-parking-bike">Estacionamento (Bicicletas)</span>
                           <span class="card-subtitle" id="sub-parking-bike">Mapa de estacionamento ciclável</span>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
+                      </a>
+
+                      <a class="card" id="link-park4night" data-keywords="autocaravana autocaravanas campervan campervans camping-car motorhome caravan park4night pernoita" href="https://park4night.com/pt/search?lat=41.5454&lng=-8.4265&z=13" target="_blank" rel="noopener noreferrer">
+                        <div class="icon-wrapper tone-amber"><i class="fa-solid fa-caravan" aria-hidden="true"></i></div>
+                        <div class="card-body">
+                          <span class="card-text" id="label-park4night">Autocaravanas (Park4Night)</span>
+                          <span class="card-subtitle" id="sub-park4night">Áreas de serviço e pernoita em Braga</span>
                         </div>
                         <i class="fa-solid fa-arrow-up-right-from-square card-ext-icon" aria-hidden="true"></i>
                       </a>
@@ -1827,6 +3237,32 @@
     </div>
   </div>
 
-  <script type="module" src="/public/js/main.js"></script>
+  <!-- Modal: Guia Rápido de Mobilidade -->
+  <div id="guide-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="guide-modal-title" aria-hidden="true">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2><i class="fa-solid fa-compass" aria-hidden="true"></i> <span id="guide-modal-title">Guia Rápido de Mobilidade em Braga</span></h2>
+      </div>
+      <div class="modal-body" id="guide-modal-body"></div>
+      <div class="modal-footer">
+        <button type="button" id="close-guide-modal" class="btn-primary">Fechar Guia</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Instalação PWA no iOS Safari -->
+  <div id="ios-install-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="ios-modal-title" aria-hidden="true">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2><i class="fa-solid fa-mobile-screen-button" aria-hidden="true"></i> <span id="ios-modal-title">Instalar no iPhone / iPad</span></h2>
+      </div>
+      <div class="modal-body" id="ios-modal-body"></div>
+      <div class="modal-footer">
+        <button type="button" id="close-ios-modal" class="btn-primary">Compreendi</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/public/js/main.js?v=5"></script>
 </body>
 </html>

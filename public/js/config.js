@@ -83,6 +83,27 @@ export const APP_CONFIG = {
     exclusiveMode: true
   },
 
+  /** Progressive Web App configuration & required icon inventory */
+  pwa: {
+    serviceWorkerUrl: '/sw.js',
+    manifestUrl: '/manifest.json',
+    icons: [
+      '/public/pwa-192x192.png',
+      '/public/pwa-512x512.png',
+      '/public/pwa-maskable-512x512.png',
+      '/public/apple-touch-icon.png'
+    ]
+  },
+
+  /** Real-time TUB Braga urban bus schedule lookup settings */
+  tubLive: {
+    apiBase: '/api/tub',
+    defaultStopId: 'pt-Transportes-Urbanos-de-Braga_146',
+    refreshIntervalMs: 30000,
+    searchDebounceMs: 280,
+    defaultDepartureLimit: 16
+  },
+
   /**
    * Localized external URLs keyed by anchor element ID.
    * Each entry provides a `default` URL and optional language-specific overrides.
@@ -143,6 +164,13 @@ export const APP_CONFIG = {
       es: 'https://www.blablacar.es/',
       fr: 'https://www.blablacar.fr/',
       default: 'https://www.blablacar.pt/'
+    },
+    'link-park4night': {
+      pt: 'https://park4night.com/pt/search?lat=41.5454&lng=-8.4265&z=13',
+      en: 'https://park4night.com/en/search?lat=41.5454&lng=-8.4265&z=13',
+      es: 'https://park4night.com/es/search?lat=41.5454&lng=-8.4265&z=13',
+      fr: 'https://park4night.com/fr/search?lat=41.5454&lng=-8.4265&z=13',
+      default: 'https://park4night.com/en/search?lat=41.5454&lng=-8.4265&z=13'
     },
     'link-uber': {
       pt: 'https://www.uber.com/pt/pt/',

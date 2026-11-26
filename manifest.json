@@ -1,0 +1,33 @@
+{
+  "id": "/",
+  "name": "Mobilidade em Braga — Visit Braga",
+  "short_name": "Braga Mov",
+  "description": "Planeie a sua viagem para Braga e desloque-se facilmente na cidade: comboios, autocarros, portagens, TUB, estacionamento e Bom Jesus.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#0e1015",
+  "background_color": "#0e1015",
+  "lang": "pt",
+  "icons": [
+    {
+      "src": "/public/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/public/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/public/pwa-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
